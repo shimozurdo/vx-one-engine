@@ -1,4 +1,4 @@
-import vx from "../dist/vx.engine.min.js";
+import vx from "../src/index.js";
 import MenuScene from "./menu.scene.js";
 const { Game } = vx;
 
@@ -9,6 +9,10 @@ const game = new Game({
 });
 
 game.scene = new MenuScene(game);
-game.run((dt, t) => {
-    console.log("Hello World");
+game.run((dt, t, fps, ctx) => {
+    // Debug mode
+    ctx.fillStyle = 'red';
+    ctx.fillText("FPS: " + fps, 11, 11);
+    ctx.fillStyle = 'blue';
+    ctx.fillText("FPS: " + fps, 12, 12);
 });
