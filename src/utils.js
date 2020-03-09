@@ -23,7 +23,12 @@ class Vector2 {
 
 const RGBA = (r = 0, g = 0, b = 0, a = 1) => (`rgba(${r * 255 | 0},${g * 255 | 0},${b * 255 | 0},${a})`);
 
+function rand(min, max) {
+    return Math.floor(randf(min, max));
+}
+
 export default {
     Vector2,
-    RGBA
+    RGBA,
+    rand
 };

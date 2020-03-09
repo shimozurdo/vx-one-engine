@@ -1,5 +1,5 @@
-import vx from "../src/index.js";
-import MenuScene from "./menu.scene.js";
+import vx from "../dist/vx.engine.min.js";
+import Level1Scene from "./level1.scene.js";
 const { Game } = vx;
 
 const game = new Game({
@@ -8,7 +8,7 @@ const game = new Game({
     debug: true
 });
 
-game.scene = new MenuScene(game);
+game.scene = new Level1Scene(game);
 game.run((dt, t, fps, ctx) => {
     // Debug mode
     ctx.fillStyle = 'red';

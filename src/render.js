@@ -61,9 +61,10 @@ class Render {
                             child.tileW,
                             child.tileH
                         );
-                    } else {
-                        ctx.drawImage(img, 0, 0);
                     }
+                } else if (child.tileW) {
+                    ctx.fillStyle = "red";
+                    ctx.fillRect(child.pos.x * child.tileW * child.tileH, child.pos.y, child.tileW, child.tileH);
                 }
 
                 // Render any child sub-nodes
