@@ -7,13 +7,13 @@ import Sprite from "./sprite.js";
 import TileMap from "./tile.map.js";
 import math from "./utils.js";
 
-export default {
+export {
     GameObject,
     Render,
     Scene,
     TileMap,
     Game,
     Text,
-    Sprite,    
+    Sprite,
     math
 };

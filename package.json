@@ -1,25 +1,20 @@
 {
-  "name": "vx-engine",
-  "version": "0.0.1",
-  "description": "This is an Html5 Game Engine",
-  "main": "samples/main.js",
+  "name": "vx-one-engine",
+  "version": "0.0.2",
+  "description": "Voxels based Html5 2D Game Engine",
+  "main": "index.js",
   "scripts": {
-    "start": "budo samples/main.js --dir samples --live -- -t [ babelify --presets [ @babel/preset-env ] ]",
-    "build": "webpack"
+    "build": "webpack --display-modules"
   },
   "keywords": [],
   "author": "shimozurdo",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.8.6",
-    "@babel/preset-env": "^7.8.6",
-    "babel-loader": "^8.0.6",
-    "babelify": "^10.0.0",
-    "browserify": "^15.2.0",
-    "budo": "^11.6.3",
-    "eslint": "^4.16.0",
-    "webpack": "^4.41.6",
-    "webpack-cli": "^3.3.11"
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "babel-loader": "^8.1.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }

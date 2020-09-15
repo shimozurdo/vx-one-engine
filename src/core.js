@@ -35,7 +35,7 @@ class Game {
       //
       this.scene.update(dt, t);
       this.render.render(this.scene);
-      if (debug)
+      if (true) // It needs improve
         gameUpdate(dt, t, fps, this.render.ctx);
     };
     requestAnimationFrame(mainloop);

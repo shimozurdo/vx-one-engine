@@ -1,6 +1,6 @@
 class Text {
-    constructor(text = "", style = {}) {
-      this.pos = { x: 0, y: 0 };
+    constructor(text = "", pos = { x: 0, y: 0 }, style = {}) {
+      this.pos = pos;
       this.text = text;
       this.style = style;
     }

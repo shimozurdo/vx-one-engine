@@ -19,8 +19,26 @@
 </head>
 
 <body>
-    <div id="game"></div>
-    <script src="./main.js" type="module"></script>
+    <script src="../dist/vx-one.js"></script>
+    <script>
+
+        var game = new vx.Game({
+            width: 800,
+            height: 600
+        });
+
+        game.scene = new vx.Scene(game.width, game.height);
+
+        var sayHelloTxt = new vx.Text("Hello Gamers!", { x: game.w / 2, y: game.h / 2 }, { font: "30px Arial", fill: "white", align: "center" });
+
+        game.scene.add(sayHelloTxt)
+
+        game.run((dt, t, fps, ctx) => {
+            // Debug mode
+            ctx.fillStyle = 'red';
+            ctx.fillText("FPS: " + fps, 11, 11);
+        });
+    </script>
 </body>
 
 </html>

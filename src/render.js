@@ -22,7 +22,7 @@ class Render {
                     return;
                 }
                 ctx.save();
-                ctx.fillStyle = "white";
+                ctx.fillStyle = "black";
                 ctx.fillRect(0, 0, w, h);
                 // Handle transforms
                 if (child.pos) {

@@ -17,6 +17,10 @@ class GameObject {
   map(f) {
     return this.children.map(f);
   }
+  
+  sayHello() {
+    console.log("Hello")
+  }
 
   update(dt, t) {
     this.children = this.children.filter(child => {
