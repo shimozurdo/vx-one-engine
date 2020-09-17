@@ -24,20 +24,21 @@
 
         var game = new vx.Game({
             width: 800,
-            height: 600
+            height: 600,
+            backgroundColor: "#43BB43",
+            debug: true
         });
 
-        game.scene = new vx.Scene(game.width, game.height);
+        var introScene = new vx.Scene("titleScene");
 
-        var sayHelloTxt = new vx.Text("Hello Gamers!", { x: game.w / 2, y: game.h / 2 }, { font: "30px Arial", fill: "white", align: "center" });
+        var sayHelloTxt = new vx.Text("Hello Gamers!", { x: game.width / 2, y: game.height / 2 }, { font: "30px Arial", fill: "white", align: "center" });
 
-        game.scene.add(sayHelloTxt)
+        introScene.add(sayHelloTxt);
 
-        game.run((dt, t, fps, ctx) => {
-            // Debug mode
-            ctx.fillStyle = 'red';
-            ctx.fillText("FPS: " + fps, 11, 11);
-        });
+        game.addScene(introScene);
+
+        game.run();
+
     </script>
 </body>
 

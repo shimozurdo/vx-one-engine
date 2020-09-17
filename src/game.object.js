@@ -1,7 +1,16 @@
 class GameObject {
-  constructor() {
-    this.pos = { x: 0, y: 0 };
+  constructor(
+    name,
+    pos = { x: 0, y: 0 },
+    size,
+    visible,
+    active) {
+    this.name = name;
+    this.size = size;
+    this.pos = pos;
     this.children = [];
+    this.visible = visible;
+    this.active = active;
   }
 
   add(child) {
@@ -16,11 +25,7 @@ class GameObject {
 
   map(f) {
     return this.children.map(f);
-  }
-  
-  sayHello() {
-    console.log("Hello")
-  }
+  }  
 
   update(dt, t) {
     this.children = this.children.filter(child => {

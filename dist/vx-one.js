@@ -107,7 +107,7 @@ __webpack_require__.d(__webpack_exports__, "GameObject", function() { return /* 
 __webpack_require__.d(__webpack_exports__, "Render", function() { return /* reexport */ render; });
 __webpack_require__.d(__webpack_exports__, "Scene", function() { return /* reexport */ scene; });
 __webpack_require__.d(__webpack_exports__, "TileMap", function() { return /* reexport */ tile_map; });
-__webpack_require__.d(__webpack_exports__, "Game", function() { return /* reexport */ core; });
+__webpack_require__.d(__webpack_exports__, "Game", function() { return /* reexport */ game; });
 __webpack_require__.d(__webpack_exports__, "Text", function() { return /* reexport */ src_text; });
 __webpack_require__.d(__webpack_exports__, "Sprite", function() { return /* reexport */ sprite; });
 __webpack_require__.d(__webpack_exports__, "math", function() { return /* reexport */ utils; });
@@ -120,14 +120,23 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var GameObject = /*#__PURE__*/function () {
-  function GameObject() {
-    _classCallCheck(this, GameObject);
-
-    this.pos = {
+  function GameObject(name) {
+    var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
       x: 0,
       y: 0
     };
+    var size = arguments.length > 2 ? arguments[2] : undefined;
+    var visible = arguments.length > 3 ? arguments[3] : undefined;
+    var active = arguments.length > 4 ? arguments[4] : undefined;
+
+    _classCallCheck(this, GameObject);
+
+    this.name = name;
+    this.size = size;
+    this.pos = pos;
     this.children = [];
+    this.visible = visible;
+    this.active = active;
   }
 
   _createClass(GameObject, [{
@@ -148,11 +157,6 @@ var GameObject = /*#__PURE__*/function () {
     key: "map",
     value: function map(f) {
       return this.children.map(f);
-    }
-  }, {
-    key: "sayHello",
-    value: function sayHello() {
-      console.log("Hello");
     }
   }, {
     key: "update",
@@ -181,41 +185,43 @@ function render_defineProperties(target, props) { for (var i = 0; i < props.leng
 function render_createClass(Constructor, protoProps, staticProps) { if (protoProps) render_defineProperties(Constructor.prototype, protoProps); if (staticProps) render_defineProperties(Constructor, staticProps); return Constructor; }
 
 var Render = /*#__PURE__*/function () {
-  function Render(w, h) {
+  function Render(config) {
     render_classCallCheck(this, Render);
 
     var canvas = document.createElement("canvas");
-    this.w = canvas.width = w;
-    this.h = canvas.height = h;
+    this.width = canvas.width = config.width;
+    this.height = canvas.height = config.height;
     this.view = canvas;
     this.ctx = canvas.getContext("2d");
     this.ctx.imageSmoothingEnabled = false;
     this.ctx.textBaseline = "top";
+    this.backgroundColor = config.backgroundColor;
   }
 
   render_createClass(Render, [{
     key: "render",
-    value: function render(scene) {
-      var clear = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    value: function render(scene, debugObj) {
+      var clear = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
       if (scene.active == false) {
         return;
       }
 
       var ctx = this.ctx,
-          w = this.w,
-          h = this.h;
+          width = this.width,
+          height = this.height,
+          backgroundColor = this.backgroundColor;
+      ctx.save();
+      ctx.fillStyle = backgroundColor || "black";
+      ctx.fillRect(0, 0, width, height);
 
       function renderRec(scene) {
         // Render the container children
         scene.children.forEach(function (child) {
           if (child.visible == false) {
             return;
-          }
+          } // Handle transforms
 
-          ctx.save();
-          ctx.fillStyle = "black";
-          ctx.fillRect(0, 0, w, h); // Handle transforms
 
           if (child.pos) {
             ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y));
@@ -230,6 +236,14 @@ var Render = /*#__PURE__*/function () {
             ctx.translate(px, py);
             ctx.rotate(child.rotation);
             ctx.translate(-px, -py);
+          }
+
+          if (debugObj.debug) {
+            // Debug mode    
+            ctx.textAlign = "left"; // ctx.translate(100, 100);
+
+            ctx.fillStyle = 'black';
+            ctx.fillText("FPS: " + debugObj.fps, -width / 2, -height / 2);
           } // Draw the leaf nodes
 
 
@@ -279,6 +293,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
 
 function scene_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function scene_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function scene_createClass(Constructor, protoProps, staticProps) { if (protoProps) scene_defineProperties(Constructor.prototype, protoProps); if (staticProps) scene_defineProperties(Constructor, staticProps); return Constructor; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -300,39 +318,58 @@ var Scene = /*#__PURE__*/function (_GameObject) {
 
   var _super = _createSuper(Scene);
 
-  function Scene(w, h) {
-    var type = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "vx";
+  function Scene(key) {
+    var _this;
+
+    var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+    var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+    var active = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
 
     scene_classCallCheck(this, Scene);
 
-    return _super.call(this);
+    _this = _super.call(this, "", pos, size, active, active);
+    _this.sleep = !active;
+    _this.key = key;
+    return _this;
   }
+
+  scene_createClass(Scene, [{
+    key: "setSleep",
+    value: function setSleep(v) {
+      this.sleep = v;
+    }
+  }]);
 
   return Scene;
 }(game_object);
 
 /* harmony default export */ var scene = (Scene);
-// CONCATENATED MODULE: ./src/core.js
-function core_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function core_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function core_createClass(Constructor, protoProps, staticProps) { if (protoProps) core_defineProperties(Constructor.prototype, protoProps); if (staticProps) core_defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
+// CONCATENATED MODULE: ./src/constants.js
 var STEP = 1 / 60;
 var MAX_FRAME = STEP * 5;
-var debug = false;
+// CONCATENATED MODULE: ./src/game.js
+function game_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var core_Game = /*#__PURE__*/function () {
+function game_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function game_createClass(Constructor, protoProps, staticProps) { if (protoProps) game_defineProperties(Constructor.prototype, protoProps); if (staticProps) game_defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+var game_Game = /*#__PURE__*/function () {
   function Game(config) {
-    core_classCallCheck(this, Game);
+    game_classCallCheck(this, Game);
 
-    this.w = config.width;
-    this.h = config.height;
-    debug = config.debug;
-    this.render = new render(this.w, this.h);
+    this.width = config.width;
+    this.height = config.height;
+    this.debug = config.debug;
+    this.render = new render({
+      width: this.width,
+      height: this.height,
+      backgroundColor: config.backgroundColor
+    });
     config.parent = config.parent || "game";
     var el = document.querySelector(config.parent);
 
@@ -341,15 +378,22 @@ var core_Game = /*#__PURE__*/function () {
     }
 
     document.getElementById(config.parent).appendChild(this.render.view);
-    this.scene = new scene();
+    this.scenes = [];
+    this.scene;
   }
 
-  core_createClass(Game, [{
+  game_createClass(Game, [{
+    key: "addScene",
+    value: function addScene(scene) {
+      this.scenes.push(scene);
+      this.scene = scene;
+      return scene;
+    }
+  }, {
     key: "run",
     value: function run() {
       var _this = this;
 
-      var gameUpdate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
       var dt = 0;
       var last = 0;
       var fps = 0;
@@ -362,12 +406,14 @@ var core_Game = /*#__PURE__*/function () {
         last = t;
         fps = Math.round(1 / dt); //
 
-        _this.scene.update(dt, t);
+        _this.scenes.forEach(function (scene) {
+          scene.update(dt, t);
 
-        _this.render.render(_this.scene);
-
-        if (true) // It needs improve
-          gameUpdate(dt, t, fps, _this.render.ctx);
+          _this.render.render(scene, {
+            debug: _this.debug,
+            fps: fps
+          });
+        });
       };
 
       requestAnimationFrame(mainloop);
@@ -377,24 +423,54 @@ var core_Game = /*#__PURE__*/function () {
   return Game;
 }();
 
-/* harmony default export */ var core = (core_Game);
+/* harmony default export */ var game = (game_Game);
 // CONCATENATED MODULE: ./src/text.js
+function text_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { text_typeof = function _typeof(obj) { return typeof obj; }; } else { text_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return text_typeof(obj); }
+
 function text_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Text = function Text() {
-  var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-  var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
-    x: 0,
-    y: 0
-  };
-  var style = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+function text_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) text_setPrototypeOf(subClass, superClass); }
 
-  text_classCallCheck(this, Text);
+function text_setPrototypeOf(o, p) { text_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return text_setPrototypeOf(o, p); }
 
-  this.pos = pos;
-  this.text = text;
-  this.style = style;
-};
+function text_createSuper(Derived) { var hasNativeReflectConstruct = text_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = text_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = text_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return text_possibleConstructorReturn(this, result); }; }
+
+function text_possibleConstructorReturn(self, call) { if (call && (text_typeof(call) === "object" || typeof call === "function")) { return call; } return text_assertThisInitialized(self); }
+
+function text_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function text_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function text_getPrototypeOf(o) { text_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return text_getPrototypeOf(o); }
+
+
+
+var Text = /*#__PURE__*/function (_GameObject) {
+  text_inherits(Text, _GameObject);
+
+  var _super = text_createSuper(Text);
+
+  function Text() {
+    var _this;
+
+    var text = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    var pos = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+      x: 0,
+      y: 0
+    };
+    var style = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var active = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
+
+    text_classCallCheck(this, Text);
+
+    _this = _super.call(this, "", pos, null, active, active);
+    _this.text = text;
+    _this.style = style;
+    return _this;
+  }
+
+  return Text;
+}(game_object);
 
 /* harmony default export */ var src_text = (Text);
 // CONCATENATED MODULE: ./src/utils.js

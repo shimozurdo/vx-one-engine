@@ -1,26 +1,30 @@
 import Render from "./render.js";
 import Scene from "./scene.js";
-
-const STEP = 1 / 60;
-const MAX_FRAME = STEP * 5;
-let debug = false;
+import { MAX_FRAME } from './constants.js'
 
 class Game {
   constructor(config) {
-    this.w = config.width;
-    this.h = config.height;
-    debug = config.debug;
-    this.render = new Render(this.w, this.h);
+    this.width = config.width;
+    this.height = config.height;
+    this.debug = config.debug;
+    this.render = new Render({ width: this.width, height: this.height, backgroundColor: config.backgroundColor });
     config.parent = config.parent || "game";
     let el = document.querySelector(config.parent)
     if (!el) {
       document.body.innerHTML = '<div id="' + config.parent + '"' + '></div>';
     }
     document.getElementById(config.parent).appendChild(this.render.view);
-    this.scene = new Scene();
+    this.scenes = [];
+    this.scene;
   }
 
-  run(gameUpdate = () => { }) {
+  addScene(scene) {
+    this.scenes.push(scene);
+    this.scene = scene;
+    return scene;
+  }
+
+  run() {
     let dt = 0;
     let last = 0;
     let fps = 0;
@@ -33,10 +37,10 @@ class Game {
       last = t;
       fps = Math.round(1 / dt);
       //
-      this.scene.update(dt, t);
-      this.render.render(this.scene);
-      if (true) // It needs improve
-        gameUpdate(dt, t, fps, this.render.ctx);
+      this.scenes.forEach(scene => {
+        scene.update(dt, t);
+        this.render.render(scene, { debug: this.debug, fps });
+      });
     };
     requestAnimationFrame(mainloop);
   }

@@ -1,29 +1,32 @@
 class Render {
-    constructor(w, h) {
+    constructor(config) {
         const canvas = document.createElement("canvas");
-        this.w = canvas.width = w;
-        this.h = canvas.height = h;
+        this.width = canvas.width = config.width;
+        this.height = canvas.height = config.height;
         this.view = canvas;
         this.ctx = canvas.getContext("2d");
         this.ctx.imageSmoothingEnabled = false;
         this.ctx.textBaseline = "top";
+        this.backgroundColor = config.backgroundColor;
     }
 
-    render(scene, clear = true) {
+    render(scene, debugObj, clear = true) {
         if (scene.active == false) {
             return;
         }
-        const { ctx, w, h } = this;
+        const { ctx, width, height, backgroundColor } = this;
+        ctx.save();
+        ctx.fillStyle = backgroundColor || "black";
+        ctx.fillRect(0, 0, width, height);
 
         function renderRec(scene) {
             // Render the container children
+
             scene.children.forEach(child => {
                 if (child.visible == false) {
                     return;
-                }
-                ctx.save();
-                ctx.fillStyle = "black";
-                ctx.fillRect(0, 0, w, h);
+                }                
+
                 // Handle transforms
                 if (child.pos) {
                     ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y));
@@ -38,6 +41,14 @@ class Render {
                     ctx.translate(px, py);
                     ctx.rotate(child.rotation);
                     ctx.translate(-px, -py);
+                }
+
+                if (debugObj.debug) {
+                    // Debug mode    
+                    ctx.textAlign = "left";
+                    // ctx.translate(100, 100);
+                    ctx.fillStyle = 'black';
+                    ctx.fillText("FPS: " + debugObj.fps, -width / 2, -height / 2);
                 }
 
                 // Draw the leaf nodes
