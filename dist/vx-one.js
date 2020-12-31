@@ -7,112 +7,129 @@
 		exports["vx"] = factory();
 	else
 		root["vx"] = factory();
-})(window, function() {
-return /******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+})(self, function() {
+return /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
 
-"use strict";
-// ESM COMPAT FLAG
+/***/ "./src/constants.js":
+/*!**************************!*\
+  !*** ./src/constants.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
 __webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "STEP": () => /* binding */ STEP,
+/* harmony export */   "MAX_FRAME": () => /* binding */ MAX_FRAME
+/* harmony export */ });
+var STEP = 1 / 60;
+var MAX_FRAME = STEP * 5;
 
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, "GameObject", function() { return /* reexport */ game_object; });
-__webpack_require__.d(__webpack_exports__, "Render", function() { return /* reexport */ render; });
-__webpack_require__.d(__webpack_exports__, "Scene", function() { return /* reexport */ scene; });
-__webpack_require__.d(__webpack_exports__, "TileMap", function() { return /* reexport */ tile_map; });
-__webpack_require__.d(__webpack_exports__, "Game", function() { return /* reexport */ game; });
-__webpack_require__.d(__webpack_exports__, "Text", function() { return /* reexport */ src_text; });
-__webpack_require__.d(__webpack_exports__, "Sprite", function() { return /* reexport */ sprite; });
-__webpack_require__.d(__webpack_exports__, "math", function() { return /* reexport */ utils; });
+/***/ }),
 
-// CONCATENATED MODULE: ./src/game.object.js
+/***/ "./src/game.js":
+/*!*********************!*\
+  !*** ./src/game.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./render.js */ "./src/render.js");
+/* harmony import */ var _scene_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scene.js */ "./src/scene.js");
+/* harmony import */ var _constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants.js */ "./src/constants.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+var Game = /*#__PURE__*/function () {
+  function Game(config) {
+    _classCallCheck(this, Game);
+
+    this.width = config.width;
+    this.height = config.height;
+    this.debug = config.debug;
+    this.render = new _render_js__WEBPACK_IMPORTED_MODULE_0__.default({
+      width: this.width,
+      height: this.height,
+      backgroundColor: config.backgroundColor
+    });
+    config.parent = config.parent || "game";
+    var el = document.querySelector(config.parent);
+
+    if (!el) {
+      document.body.innerHTML = '<div id="' + config.parent + '"' + '></div>';
+    }
+
+    document.getElementById(config.parent).appendChild(this.render.view);
+    this.scenes = [];
+    this.scene;
+  }
+
+  _createClass(Game, [{
+    key: "addScene",
+    value: function addScene(scene) {
+      this.scenes.push(scene);
+      this.scene = scene;
+      return scene;
+    }
+  }, {
+    key: "run",
+    value: function run() {
+      var _this = this;
+
+      var dt = 0;
+      var last = 0;
+      var fps = 0;
+
+      var mainloop = function mainloop(ms) {
+        requestAnimationFrame(mainloop); //create delta
+
+        var t = ms / 1000;
+        dt = Math.min(t - last, _constants_js__WEBPACK_IMPORTED_MODULE_2__.MAX_FRAME);
+        last = t;
+        fps = Math.round(1 / dt); //
+
+        _this.scenes.forEach(function (scene) {
+          scene.update(dt, t);
+
+          _this.render.render(scene, {
+            debug: _this.debug,
+            fps: fps
+          });
+        });
+      };
+
+      requestAnimationFrame(mainloop);
+    }
+  }]);
+
+  return Game;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Game);
+
+/***/ }),
+
+/***/ "./src/game.object.js":
+/*!****************************!*\
+  !*** ./src/game.object.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -176,17 +193,29 @@ var GameObject = /*#__PURE__*/function () {
   return GameObject;
 }();
 
-/* harmony default export */ var game_object = (GameObject);
-// CONCATENATED MODULE: ./src/render.js
-function render_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameObject);
 
-function render_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+/***/ }),
 
-function render_createClass(Constructor, protoProps, staticProps) { if (protoProps) render_defineProperties(Constructor.prototype, protoProps); if (staticProps) render_defineProperties(Constructor, staticProps); return Constructor; }
+/***/ "./src/render.js":
+/*!***********************!*\
+  !*** ./src/render.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var Render = /*#__PURE__*/function () {
   function Render(config) {
-    render_classCallCheck(this, Render);
+    _classCallCheck(this, Render);
 
     var canvas = document.createElement("canvas");
     this.width = canvas.width = config.width;
@@ -198,7 +227,7 @@ var Render = /*#__PURE__*/function () {
     this.backgroundColor = config.backgroundColor;
   }
 
-  render_createClass(Render, [{
+  _createClass(Render, [{
     key: "render",
     value: function render(scene, debugObj) {
       var clear = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
@@ -287,15 +316,28 @@ var Render = /*#__PURE__*/function () {
   return Render;
 }();
 
-/* harmony default export */ var render = (Render);
-// CONCATENATED MODULE: ./src/scene.js
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Render);
+
+/***/ }),
+
+/***/ "./src/scene.js":
+/*!**********************!*\
+  !*** ./src/scene.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _game_object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game.object.js */ "./src/game.object.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function scene_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function scene_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function scene_createClass(Constructor, protoProps, staticProps) { if (protoProps) scene_defineProperties(Constructor.prototype, protoProps); if (staticProps) scene_defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -325,7 +367,7 @@ var Scene = /*#__PURE__*/function (_GameObject) {
     var size = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
     var active = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
 
-    scene_classCallCheck(this, Scene);
+    _classCallCheck(this, Scene);
 
     _this = _super.call(this, "", pos, size, active, active);
     _this.sleep = !active;
@@ -333,7 +375,7 @@ var Scene = /*#__PURE__*/function (_GameObject) {
     return _this;
   }
 
-  scene_createClass(Scene, [{
+  _createClass(Scene, [{
     key: "setSleep",
     value: function setSleep(v) {
       this.sleep = v;
@@ -341,114 +383,78 @@ var Scene = /*#__PURE__*/function (_GameObject) {
   }]);
 
   return Scene;
-}(game_object);
+}(_game_object_js__WEBPACK_IMPORTED_MODULE_0__.default);
 
-/* harmony default export */ var scene = (Scene);
-// CONCATENATED MODULE: ./src/constants.js
-var STEP = 1 / 60;
-var MAX_FRAME = STEP * 5;
-// CONCATENATED MODULE: ./src/game.js
-function game_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Scene);
 
-function game_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+/***/ }),
 
-function game_createClass(Constructor, protoProps, staticProps) { if (protoProps) game_defineProperties(Constructor.prototype, protoProps); if (staticProps) game_defineProperties(Constructor, staticProps); return Constructor; }
+/***/ "./src/sprite.js":
+/*!***********************!*\
+  !*** ./src/sprite.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils.js */ "./src/utils.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 
 
+var Sprite = function Sprite(texture, pos) {
+  var color = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : RGBA(255, 0, 0, 1);
 
+  _classCallCheck(this, Sprite);
 
-var game_Game = /*#__PURE__*/function () {
-  function Game(config) {
-    game_classCallCheck(this, Game);
+  this.texture = texture;
+  this.pos = pos;
+  this.scale = new _utils_js__WEBPACK_IMPORTED_MODULE_0__.default.Vector2(1, 1);
+  this.pivot = new _utils_js__WEBPACK_IMPORTED_MODULE_0__.default.Vector2(0, 0);
+  this.rotation = 0;
+};
 
-    this.width = config.width;
-    this.height = config.height;
-    this.debug = config.debug;
-    this.render = new render({
-      width: this.width,
-      height: this.height,
-      backgroundColor: config.backgroundColor
-    });
-    config.parent = config.parent || "game";
-    var el = document.querySelector(config.parent);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Sprite);
 
-    if (!el) {
-      document.body.innerHTML = '<div id="' + config.parent + '"' + '></div>';
-    }
+/***/ }),
 
-    document.getElementById(config.parent).appendChild(this.render.view);
-    this.scenes = [];
-    this.scene;
-  }
+/***/ "./src/text.js":
+/*!*********************!*\
+  !*** ./src/text.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-  game_createClass(Game, [{
-    key: "addScene",
-    value: function addScene(scene) {
-      this.scenes.push(scene);
-      this.scene = scene;
-      return scene;
-    }
-  }, {
-    key: "run",
-    value: function run() {
-      var _this = this;
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _game_object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game.object.js */ "./src/game.object.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-      var dt = 0;
-      var last = 0;
-      var fps = 0;
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-      var mainloop = function mainloop(ms) {
-        requestAnimationFrame(mainloop); //create delta
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
-        var t = ms / 1000;
-        dt = Math.min(t - last, MAX_FRAME);
-        last = t;
-        fps = Math.round(1 / dt); //
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-        _this.scenes.forEach(function (scene) {
-          scene.update(dt, t);
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-          _this.render.render(scene, {
-            debug: _this.debug,
-            fps: fps
-          });
-        });
-      };
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-      requestAnimationFrame(mainloop);
-    }
-  }]);
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-  return Game;
-}();
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
-/* harmony default export */ var game = (game_Game);
-// CONCATENATED MODULE: ./src/text.js
-function text_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { text_typeof = function _typeof(obj) { return typeof obj; }; } else { text_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return text_typeof(obj); }
-
-function text_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function text_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) text_setPrototypeOf(subClass, superClass); }
-
-function text_setPrototypeOf(o, p) { text_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return text_setPrototypeOf(o, p); }
-
-function text_createSuper(Derived) { var hasNativeReflectConstruct = text_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = text_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = text_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return text_possibleConstructorReturn(this, result); }; }
-
-function text_possibleConstructorReturn(self, call) { if (call && (text_typeof(call) === "object" || typeof call === "function")) { return call; } return text_assertThisInitialized(self); }
-
-function text_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function text_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function text_getPrototypeOf(o) { text_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return text_getPrototypeOf(o); }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
 var Text = /*#__PURE__*/function (_GameObject) {
-  text_inherits(Text, _GameObject);
+  _inherits(Text, _GameObject);
 
-  var _super = text_createSuper(Text);
+  var _super = _createSuper(Text);
 
   function Text() {
     var _this;
@@ -461,7 +467,7 @@ var Text = /*#__PURE__*/function (_GameObject) {
     var style = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
     var active = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
 
-    text_classCallCheck(this, Text);
+    _classCallCheck(this, Text);
 
     _this = _super.call(this, "", pos, null, active, active);
     _this.text = text;
@@ -470,28 +476,99 @@ var Text = /*#__PURE__*/function (_GameObject) {
   }
 
   return Text;
-}(game_object);
+}(_game_object_js__WEBPACK_IMPORTED_MODULE_0__.default);
 
-/* harmony default export */ var src_text = (Text);
-// CONCATENATED MODULE: ./src/utils.js
-function utils_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Text);
 
-function utils_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+/***/ }),
 
-function utils_createClass(Constructor, protoProps, staticProps) { if (protoProps) utils_defineProperties(Constructor.prototype, protoProps); if (staticProps) utils_defineProperties(Constructor, staticProps); return Constructor; }
+/***/ "./src/tile.map.js":
+/*!*************************!*\
+  !*** ./src/tile.map.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _game_object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game.object.js */ "./src/game.object.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var TileMap = /*#__PURE__*/function (_GameObject) {
+  _inherits(TileMap, _GameObject);
+
+  var _super = _createSuper(TileMap);
+
+  function TileMap(type, mapW, mapH, tileW, tileH, level) {
+    var _this;
+
+    _classCallCheck(this, TileMap);
+
+    _this = _super.call(this);
+    _this.mapW = mapW;
+    _this.mapH = mapH;
+    _this.tileW = tileW;
+    _this.tileH = tileH;
+    _this.w = mapW * tileW;
+    _this.h = mapH * tileH;
+    _this.type = type;
+    return _this;
+  }
+
+  return TileMap;
+}(_game_object_js__WEBPACK_IMPORTED_MODULE_0__.default);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TileMap);
+
+/***/ }),
+
+/***/ "./src/utils.js":
+/*!**********************!*\
+  !*** ./src/utils.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var Vector2 = /*#__PURE__*/function () {
   function Vector2() {
     var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
     var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
-    utils_classCallCheck(this, Vector2);
+    _classCallCheck(this, Vector2);
 
     this.x = x;
     this.y = y;
   }
 
-  utils_createClass(Vector2, [{
+  _createClass(Vector2, [{
     key: "add",
     value: function add(v) {
       v instanceof Vector2 ? (this.x += v.x, this.y += v.y) : (this.x += v, this.y += v);
@@ -526,7 +603,7 @@ var Vector2 = /*#__PURE__*/function () {
   return Vector2;
 }();
 
-var utils_RGBA = function RGBA() {
+var RGBA = function RGBA() {
   var r = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
   var g = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
   var b = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
@@ -538,76 +615,39 @@ function rand(min, max) {
   return Math.floor(randf(min, max));
 }
 
-/* harmony default export */ var utils = ({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   Vector2: Vector2,
-  RGBA: utils_RGBA,
+  RGBA: RGBA,
   rand: rand
 });
-// CONCATENATED MODULE: ./src/sprite.js
-function sprite_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/***/ }),
 
+/***/ "./src/vx-one.js":
+/*!***********************!*\
+  !*** ./src/vx-one.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-var sprite_Sprite = function Sprite(texture, pos) {
-  var color = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : RGBA(255, 0, 0, 1);
-
-  sprite_classCallCheck(this, Sprite);
-
-  this.texture = texture;
-  this.pos = pos;
-  this.scale = new utils.Vector2(1, 1);
-  this.pivot = new utils.Vector2(0, 0);
-  this.rotation = 0;
-};
-
-/* harmony default export */ var sprite = (sprite_Sprite);
-// CONCATENATED MODULE: ./src/tile.map.js
-function tile_map_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { tile_map_typeof = function _typeof(obj) { return typeof obj; }; } else { tile_map_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return tile_map_typeof(obj); }
-
-function tile_map_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function tile_map_inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) tile_map_setPrototypeOf(subClass, superClass); }
-
-function tile_map_setPrototypeOf(o, p) { tile_map_setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return tile_map_setPrototypeOf(o, p); }
-
-function tile_map_createSuper(Derived) { var hasNativeReflectConstruct = tile_map_isNativeReflectConstruct(); return function _createSuperInternal() { var Super = tile_map_getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = tile_map_getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return tile_map_possibleConstructorReturn(this, result); }; }
-
-function tile_map_possibleConstructorReturn(self, call) { if (call && (tile_map_typeof(call) === "object" || typeof call === "function")) { return call; } return tile_map_assertThisInitialized(self); }
-
-function tile_map_assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function tile_map_isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function tile_map_getPrototypeOf(o) { tile_map_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return tile_map_getPrototypeOf(o); }
-
-
-
-var TileMap = /*#__PURE__*/function (_GameObject) {
-  tile_map_inherits(TileMap, _GameObject);
-
-  var _super = tile_map_createSuper(TileMap);
-
-  function TileMap(type, mapW, mapH, tileW, tileH, level) {
-    var _this;
-
-    tile_map_classCallCheck(this, TileMap);
-
-    _this = _super.call(this);
-    _this.mapW = mapW;
-    _this.mapH = mapH;
-    _this.tileW = tileW;
-    _this.tileH = tileH;
-    _this.w = mapW * tileW;
-    _this.h = mapH * tileH;
-    _this.type = type;
-    return _this;
-  }
-
-  return TileMap;
-}(game_object);
-
-/* harmony default export */ var tile_map = (TileMap);
-// CONCATENATED MODULE: ./src/vx-one.js
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "GameObject": () => /* reexport safe */ _game_object_js__WEBPACK_IMPORTED_MODULE_0__.default,
+/* harmony export */   "Render": () => /* reexport safe */ _render_js__WEBPACK_IMPORTED_MODULE_1__.default,
+/* harmony export */   "Scene": () => /* reexport safe */ _scene_js__WEBPACK_IMPORTED_MODULE_2__.default,
+/* harmony export */   "TileMap": () => /* reexport safe */ _tile_map_js__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "Game": () => /* reexport safe */ _game_js__WEBPACK_IMPORTED_MODULE_3__.default,
+/* harmony export */   "Text": () => /* reexport safe */ _text_js__WEBPACK_IMPORTED_MODULE_4__.default,
+/* harmony export */   "Sprite": () => /* reexport safe */ _sprite_js__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "math": () => /* reexport safe */ _utils_js__WEBPACK_IMPORTED_MODULE_7__.default
+/* harmony export */ });
+/* harmony import */ var _game_object_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./game.object.js */ "./src/game.object.js");
+/* harmony import */ var _render_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./render.js */ "./src/render.js");
+/* harmony import */ var _scene_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scene.js */ "./src/scene.js");
+/* harmony import */ var _game_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./game.js */ "./src/game.js");
+/* harmony import */ var _text_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./text.js */ "./src/text.js");
+/* harmony import */ var _sprite_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sprite.js */ "./src/sprite.js");
+/* harmony import */ var _tile_map_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./tile.map.js */ "./src/tile.map.js");
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./utils.js */ "./src/utils.js");
 
 
 
@@ -619,5 +659,67 @@ var TileMap = /*#__PURE__*/function (_GameObject) {
 
 
 /***/ })
-/******/ ]);
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		if(__webpack_module_cache__[moduleId]) {
+/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	// module exports must be returned from runtime so entry inlining is disabled
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__("./src/vx-one.js");
+/******/ })()
+;
 });
+//# sourceMappingURL=vx-one.js.map

@@ -1,21 +1,23 @@
 {
   "name": "vx-one-engine",
   "version": "0.0.2",
-  "description": "Voxels based Html5 2D Game Engine",
+  "description": "Html5 2D Game Engine",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --display-modules"
+    "start": "webpack --mode development --env=development",
+    "build": "webpack --mode production --env=production",
+    "nmodules": "webpack --display-modules"
   },
   "keywords": [],
   "author": "shimozurdo",
   "license": "MIT",
-  "devDependencies": {
-    "@babel/core": "^7.11.6",
-    "@babel/preset-env": "^7.11.5",
-    "babel-loader": "^8.1.0",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12",
-    "serialize-javascript": "^5.0.1"
+  "dependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/preset-env": "^7.12.10",
+    "babel-loader": "^8.2.2",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.2.0",
+    "webpack-dev-server": "^3.11.0"
   }
 }
