@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack --mode development --env=development",
-    "build": "webpack --mode production --env=production",
-    "nmodules": "webpack --display-modules"
+    "build": "webpack --mode production --env=production"
   },
   "keywords": [],
   "author": "shimozurdo",

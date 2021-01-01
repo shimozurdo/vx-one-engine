@@ -4,16 +4,17 @@
 <head>
     <title>Smash Dungeon</title>
     <style>
-        body {
-            background: #ccc;
-            overflow: hidden;
+        * {
             margin: 0;
-            text-align: center;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        canvas {
-            image-rendering: -moz-crisp-edges;
-            image-rendering: pixelated;
+        body {
+            background: #000;
+            overflow: hidden;
+            padding-top: 20px;
+            text-align: center;
         }
     </style>
 </head>
@@ -23,9 +24,11 @@
     <script>
 
         var game = new vx.Game({
+            parent: 'game',
+            pixel: true,
             width: 800,
             height: 600,
-            backgroundColor: "#43BB43",
+            backgroundColor: '#43BB43',
             debug: true
         });
 

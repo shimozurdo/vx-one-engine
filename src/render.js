@@ -1,6 +1,9 @@
 class Render {
     constructor(config) {
         const canvas = document.createElement("canvas");
+        if (config.pixel) {
+            canvas.style.imageRendering = 'pixelated';
+        }
         this.width = canvas.width = config.width;
         this.height = canvas.height = config.height;
         this.view = canvas;
@@ -25,7 +28,7 @@ class Render {
             scene.children.forEach(child => {
                 if (child.visible == false) {
                     return;
-                }                
+                }
 
                 // Handle transforms
                 if (child.pos) {

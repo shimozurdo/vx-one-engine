@@ -7,7 +7,7 @@ class Game {
     this.width = config.width;
     this.height = config.height;
     this.debug = config.debug;
-    this.render = new Render({ width: this.width, height: this.height, backgroundColor: config.backgroundColor });
+    this.render = new Render(config);
     config.parent = config.parent || "game";
     let el = document.querySelector(config.parent)
     if (!el) {
