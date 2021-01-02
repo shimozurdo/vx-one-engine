@@ -1,26 +1,27 @@
 class Render {
     constructor(config) {
         const canvas = document.createElement("canvas");
-        if (config.pixel) {
-            canvas.style.imageRendering = 'pixelated';
-        }
-        this.width = canvas.width = config.width;
-        this.height = canvas.height = config.height;
         this.view = canvas;
         this.ctx = canvas.getContext("2d");
+        if (config.pixel) {
+            canvas.style.imageRendering = 'pixelated';
+            this.ctx.imageSmoothingEnabled = false;
+        }
+
+        this.width = canvas.width = config.width;
+        this.height = canvas.height = config.height;
         this.ctx.imageSmoothingEnabled = false;
         this.ctx.textBaseline = "top";
-        this.backgroundColor = config.backgroundColor;
+        this.backgroundColor = config.backgroundColor || "white";
     }
 
     render(scene, debugObj, clear = true) {
         if (scene.active == false) {
             return;
         }
+
         const { ctx, width, height, backgroundColor } = this;
-        ctx.save();
-        ctx.fillStyle = backgroundColor || "black";
-        ctx.fillRect(0, 0, width, height);
+
 
         function renderRec(scene) {
             // Render the container children
@@ -29,22 +30,16 @@ class Render {
                 if (child.visible == false) {
                     return;
                 }
+                ctx.save();
+
+                ctx.fillStyle = backgroundColor;
+                ctx.fillRect(0, 0, width, height);
 
                 // Handle transforms
                 if (child.pos) {
                     ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y));
                 }
-                if (child.anchor)
-                    ctx.translate(child.anchor.x, child.anchor.y);
-                if (child.scale)
-                    ctx.scale(child.scale.x, child.scale.y);
-                if (child.rotation) {
-                    const px = child.pivot ? child.pivot.x : 0;
-                    const py = child.pivot ? child.pivot.y : 0;
-                    ctx.translate(px, py);
-                    ctx.rotate(child.rotation);
-                    ctx.translate(-px, -py);
-                }
+
 
                 if (debugObj.debug) {
                     // Debug mode    
@@ -62,23 +57,7 @@ class Render {
                     if (align) ctx.textAlign = align;
                     ctx.fillText(child.text, 0, 0);
                 } else if (child.texture) {
-                    const img = child.texture.img;
-                    if (child.tileW) {
-                        ctx.drawImage(
-                            img,
-                            child.frame.x * child.tileW,
-                            child.frame.y * child.tileH,
-                            child.tileW,
-                            child.tileH,
-                            0,
-                            0,
-                            child.tileW,
-                            child.tileH
-                        );
-                    }
-                } else if (child.tileW) {
-                    ctx.fillStyle = "red";
-                    ctx.fillRect(child.pos.x * child.tileW * child.tileH, child.pos.y, child.tileW, child.tileH);
+                    ctx.drawImage(child.texture.img, 0, 0);
                 }
 
                 // Render any child sub-nodes

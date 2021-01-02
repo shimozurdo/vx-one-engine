@@ -1,5 +1,5 @@
 import Render from "./render.js";
-import Scene from "./scene.js";
+import { KeyControls } from "./input.js";
 import { MAX_FRAME } from './constants.js'
 
 class Game {
@@ -7,15 +7,16 @@ class Game {
     this.width = config.width;
     this.height = config.height;
     this.debug = config.debug;
-    this.render = new Render(config);
+    this.renderer = new Render(config);
     config.parent = config.parent || "game";
     let el = document.querySelector(config.parent)
     if (!el) {
       document.body.innerHTML = '<div id="' + config.parent + '"' + '></div>';
     }
-    document.getElementById(config.parent).appendChild(this.render.view);
+    document.getElementById(config.parent).appendChild(this.renderer.view);
     this.scenes = [];
     this.scene;
+    const controls = new KeyControls();
   }
 
   addScene(scene) {
@@ -31,7 +32,7 @@ class Game {
 
     const mainloop = ms => {
       requestAnimationFrame(mainloop);
-      //create delta
+      // create delta
       const t = ms / 1000;
       dt = Math.min(t - last, MAX_FRAME);
       last = t;
@@ -39,8 +40,9 @@ class Game {
       //
       this.scenes.forEach(scene => {
         scene.update(dt, t);
-        this.render.render(scene, { debug: this.debug, fps });
+        this.renderer.render(scene, { debug: this.debug, fps });
       });
+
     };
     requestAnimationFrame(mainloop);
   }

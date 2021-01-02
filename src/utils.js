@@ -27,7 +27,7 @@ function rand(min, max) {
     return Math.floor(randf(min, max));
 }
 
-export default {
+export {
     Vector2,
     RGBA,
     rand

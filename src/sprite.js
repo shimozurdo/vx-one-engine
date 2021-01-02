@@ -1,13 +1,18 @@
-import math from "./utils.js"
+import { Vector2 } from "./utils.js"
 
-class Sprite {
-    constructor(texture, pos, color = RGBA(255, 0, 0, 1)) {
+export class Sprite {
+    constructor(texture, pos) {
         this.texture = texture;
         this.pos = pos;
-        this.scale = new math.Vector2(1, 1);
-        this.pivot = new math.Vector2(0, 0);
+        this.scale = new Vector2(1, 1);
+        this.pivot = new Vector2(0, 0);
         this.rotation = 0;
     }
 }
 
-export default Sprite;
+export class Texture {
+    constructor(url) {
+        this.img = new Image();
+        this.img.src = url;
+    }
+}

@@ -11,6 +11,7 @@ class GameObject {
     this.children = [];
     this.visible = visible;
     this.active = active;
+    this.zIndex = 1;
   }
 
   add(child) {
@@ -25,7 +26,7 @@ class GameObject {
 
   map(f) {
     return this.children.map(f);
-  }  
+  }
 
   update(dt, t) {
     this.children = this.children.filter(child => {
