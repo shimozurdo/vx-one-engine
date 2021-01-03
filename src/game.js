@@ -25,7 +25,7 @@ class Game {
     return scene
   }
 
-  run() {
+  run(gameUpdate = () => { }) {
     let dt = 0
     let last = 0
     let fps = 0
@@ -39,6 +39,7 @@ class Game {
       fps = Math.round(1 / dt)
       //
       this.scene.update(dt, t)
+      gameUpdate(dt, t)
       this.renderer.render(this.scene, { debug: this.debug, fps })
 
     }
