@@ -1,15 +1,11 @@
-import GameObject from "./game.object.js";
+import SceneObject from "./scene.object.js"
 
-class Scene extends GameObject {
-  constructor(key, pos = null, size = null, active = true) {
-    super("", pos, size, active, active);
-    this.sleep = !active;
-    this.key = key;
+class Scene extends SceneObject {
+  constructor(key, active = true) {
+    super(key, active)
+
   }
 
-  setSleep(v) {
-    this.sleep = v;
-  }
 }
 
-export default Scene;
+export default Scene

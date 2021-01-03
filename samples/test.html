@@ -3,63 +3,63 @@
     <meta charset="utf-8" />  
     <script type="application/javascript">  
         function init() {  
-            var canvas = document.getElementById("canvas");  
+            var canvas = document.getElementById("canvas")  
             if (canvas.getContext) {  
-                var ctx = canvas.getContext("2d");  
+                var ctx = canvas.getContext("2d")  
    
                 //This is attribute set 1  
-                ctx.font = "25px verdana";  
-                ctx.fillStyle = "yellow";  
-                ctx.shadowOffsetX = 3;  
-                ctx.shadowOffsetY = 3;  
-                ctx.shadowBlur = 2;  
-                ctx.shadowColor = "grey";  
+                ctx.font = "25px verdana"  
+                ctx.fillStyle = "yellow"  
+                ctx.shadowOffsetX = 3  
+                ctx.shadowOffsetY = 3  
+                ctx.shadowBlur = 2  
+                ctx.shadowColor = "grey"  
    
                 //Let's push the attributes into the stack. Since this set of attributes is the first one into the stack, it will be the last one out  
-                ctx.save();  
+                ctx.save()  
    
                 //This is attribute set 2  
-                var fillColor = ctx.createLinearGradient(100, 10, 200, 10);  
-                fillColor.addColorStop(0.4, "red");  
-                fillColor.addColorStop(0.6, "green");  
-                ctx.fillStyle = fillColor;  
-                ctx.shadowOffsetX = 3;  
-                ctx.shadowOffsetY = 3;  
-                ctx.shadowBlur = 2;  
-                ctx.shadowColor = "pink";  
+                var fillColor = ctx.createLinearGradient(100, 10, 200, 10)  
+                fillColor.addColorStop(0.4, "red")  
+                fillColor.addColorStop(0.6, "green")  
+                ctx.fillStyle = fillColor  
+                ctx.shadowOffsetX = 3  
+                ctx.shadowOffsetY = 3  
+                ctx.shadowBlur = 2  
+                ctx.shadowColor = "pink"  
    
                 // Push attribute set 2 into the stack. This will be the second set to be restored.  
-                ctx.save();  
+                ctx.save()  
    
    
                 //This is attribute set 3  
-                ctx.fillStyle = "rgba(0,0,255,0.5)";  
-                ctx.shadowOffsetX = 3;  
-                ctx.shadowOffsetY = 3;  
-                ctx.shadowBlur = 2;  
-                ctx.shadowColor = "#c8ffc8";  
+                ctx.fillStyle = "rgba(0,0,255,0.5)"  
+                ctx.shadowOffsetX = 3  
+                ctx.shadowOffsetY = 3  
+                ctx.shadowBlur = 2  
+                ctx.shadowColor = "#c8ffc8"  
    
                 //Push attribute set 3 into the stack. This is the last set we are pushing inside. So it will be the first one to be restored.  
-                ctx.save();  
+                ctx.save()  
    
                 // Start popping the stack. Restore attribute set 3  
-                ctx.restore();  
-                ctx.fillText("Noida", 5, 20);  
+                ctx.restore()  
+                ctx.fillText("Noida", 5, 20)  
    
                 // Restore attribute set 2  
-                ctx.restore();  
-                ctx.fillText("Noida", 100, 20);  
+                ctx.restore()  
+                ctx.fillText("Noida", 100, 20)  
    
                 //Restore attribute set 1  
-                ctx.restore();  
-                ctx.fillText("Noida", 200, 20);  
+                ctx.restore()  
+                ctx.fillText("Noida", 200, 20)  
    
             }  
         }  
     </script>  
     <title>Save and restore Method</title>  
 </head>  
-<body onload="init();">  
+<body onload="init()">  
     <canvas id="canvas" width="600" height="300"></canvas>  
     <br>  
 </body>  

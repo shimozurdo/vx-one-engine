@@ -23,24 +23,33 @@
     <script src="../dist/vx-one.js"></script>
     <script>
 
-        var game = new vx.Game({
+        const game = new vx.Game({
             parent: 'game',
+            mode: vx.Scale.RESIZE,
             pixel: true,
             width: 800,
             height: 600,
             backgroundColor: '#43BB43',
             debug: true
-        });
+        })
 
-        var introScene = new vx.Scene("titleScene");
+        // Load game textures
+        const textures = {
+            player: new vx.Texture("p.png")
+        }
 
-        var sayHelloTxt = new vx.Text("Hello Gamers!", { x: game.width / 2, y: game.height / 2 }, { font: "30px Arial", fill: "white", align: "center" });
+        const player = new vx.Sprite(textures.player, { x: 400, y: 300 })
 
-        introScene.add(sayHelloTxt);
+        const introScene = new vx.Scene('titleScene')
 
-        game.addScene(introScene);
+        const sayHelloTxt = new vx.Text('Hello Gamers!', { x: game.width / 2, y: 20 }, { font: '30px Arial', fill: 'white', align: 'center' })
 
-        game.run();
+        introScene.add(sayHelloTxt)
+        introScene.add(player)
+
+        game.addScene(introScene)
+
+        game.run()
 
     </script>
 </body>

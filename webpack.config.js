@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path')
 
 module.exports = (env) => {
     // TO DO: improve this    
@@ -31,4 +31,4 @@ module.exports = (env) => {
         devtool: env.production ? 'hidden-source-map' : 'source-map'
     }
 
-};
+}

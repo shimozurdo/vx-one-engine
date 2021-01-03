@@ -2,3 +2,4 @@ node_modules
 /.vscode
 /samples/dev.html
 /samples/dev.js
+/debug.log

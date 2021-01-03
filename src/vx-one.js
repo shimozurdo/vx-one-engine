@@ -3,9 +3,11 @@ import Render from "./render.js"
 import Scene from "./scene.js"
 import Game from "./game.js"
 import Text from "./text.js"
-import { Sprite, Texture } from "./sprite.js"
+import Sprite from "./sprite.js"
+import Texture from "./texture.js"
 import TileMap from "./tile.map.js"
 import { Vector2 } from "./utils.js"
+import { Scale } from "./constants.js"
 
 export {
     Game,
@@ -16,5 +18,6 @@ export {
     Text,
     Sprite,
     Texture,
-    Vector2
+    Vector2,
+    Scale
 }
