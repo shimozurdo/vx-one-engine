@@ -3,18 +3,14 @@ class Render {
         const canvas = document.createElement("canvas")
         this.view = canvas
         this.ctx = canvas.getContext("2d")
+        this.ctx.textBaseline = "top"
+        this.width = canvas.width = config.width
+        this.height = canvas.height = config.height
+        this.backgroundColor = config.backgroundColor || "white"
         if (config.pixel) {
             canvas.style.imageRendering = 'pixelated'
             this.ctx.imageSmoothingEnabled = false
         }
-
-        this.width = canvas.width = config.width
-        this.height = canvas.height = config.height
-        this.ctx.imageSmoothingEnabled = false
-        this.ctx.textBaseline = "top"
-
-        this.backgroundColor = config.backgroundColor || "white"
-
     }
 
     render(scene, debugObj, clear = true) {

@@ -1,10 +1,10 @@
-import GameObject from "./game.object.js"
+import GameObject from "./GameObject.js"
 
-class Text  {
-  constructor(text = "", pos = { x: 0, y: 0 }, style = {}, active = true) {
-    this.pos = pos;
+class Text extends GameObject {
+  constructor(text = "") {
+    super()
     this.text = text
-    this.style = style
+    this.style
   }
 }
 
