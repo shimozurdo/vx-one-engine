@@ -33,23 +33,31 @@
             debug: true
         })
 
-        // Load game textures
         const textures = {
-            player: new vx.Texture("p.png")
+            playerSheet: new vx.Texture("player.png")
         }
-
-        const player = new vx.Sprite(textures.player, { x: 400, y: 300 })
 
         const introScene = new vx.Scene('titleScene')
 
-        const sayHelloTxt = new vx.Text('Hello Gamers!', { x: game.width / 2, y: 20 }, { font: '30px Arial', fill: 'white', align: 'center' })
+        // Load game textures
 
-        introScene.add(sayHelloTxt)
-        introScene.add(player)
+        const player2 = new vx.TileSprite();
+        player2.scale.x = 2
+        player2.scale.y = 2
+        player2.pos = { x: 200, y: 200 };
+        player2.tileW = 16
+        player2.tileH = 16
+        player2.texture = textures.playerSheet
+        introScene.add(player2)
 
         game.addScene(introScene)
 
-        game.run()
+        game.run(() => {
+            // Randomly change x frame:
+
+            player2.frame.x = vx.math.rand(0, 3);
+
+        })
 
     </script>
 </body>

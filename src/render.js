@@ -13,7 +13,7 @@ class Render {
         }
     }
 
-    render(scene, debugObj, clear = true) {
+    render(scene, clear = true) {
         if (scene.active == false) {
             return
         }
@@ -51,14 +51,6 @@ class Render {
                     ctx.translate(-px, -py);
                 }
 
-                if (debugObj.debug) {
-                    // Debug mode    
-                    ctx.textAlign = "left"
-                    // ctx.translate(100, 100)
-                    ctx.fillStyle = 'red'
-                    ctx.fillText("FPS: " + debugObj.fps, -width / 2, -height / 2)
-                }
-
                 // Draw the leaf nodes
                 if (child.text) {
                     const { font, fill, align } = child.style
@@ -83,6 +75,8 @@ class Render {
                     } else {
                         ctx.drawImage(img, 0, 0);
                     }
+                } else if (child.lines) {
+                    ctx.clearRect(0, 0, width, height)
                 }
 
                 // Render any child sub-nodes

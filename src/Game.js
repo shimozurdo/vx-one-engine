@@ -16,16 +16,23 @@ class Game {
     document.getElementById(config.parent).appendChild(this.renderer.view)
     this.scenes = []
     this.scene
-    const controls = new KeyControls()
+    this.controls = new KeyControls()
   }
 
   addScene(scene) {
     this.scenes.push(scene)
     this.scene = scene
+    if (this.debug) {
+      let fpsTxt = new Text('fps: ')
+      fpsTxt.name = 'fps'
+      fpsTxt.pos = { x: 5, y: 15 }
+      fpsTxt.style = { font: '16px Arial', fill: 'red', align: 'left' }
+      this.scene.add(fpsTxt)
+    }
     return scene
   }
 
-  init(assets){
+  init(assets) {
 
   }
 
@@ -41,10 +48,12 @@ class Game {
       dt = Math.min(t - last, MAX_FRAME)
       last = t
       fps = Math.round(1 / dt)
+      if (this.debug)
+        this.scene.children.find(c => c.name === 'fps').text = 'fps: ' + fps
       //
       this.scene.update(dt, t)
-      gameUpdate(dt, t)
-      this.renderer.render(this.scene, { debug: this.debug, fps })
+      gameUpdate(dt, t, this.controls)
+      this.renderer.render(this.scene)
 
     }
     requestAnimationFrame(mainloop)

@@ -7,6 +7,7 @@ import Texture from "./texture.js"
 import TileSprite from "./TileSprite.js"
 import math from "./utils.js"
 import { Scale } from "./constants.js"
+import Container from "./Container.js"
 
 export {
     Game,
@@ -17,5 +18,6 @@ export {
     Sprite,
     Texture,
     math,
-    Scale
+    Scale,
+    Container
 }
