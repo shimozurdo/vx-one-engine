@@ -1,5 +1,4 @@
 class Anim {
-  
   constructor(frames, rate) {
     this.frames = frames;
     this.rate = rate;
@@ -20,7 +19,7 @@ class Anim {
       this.curTime -= rate;
     }
   }
-
+  
 }
 
 class AnimManager {

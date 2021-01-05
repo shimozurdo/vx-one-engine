@@ -32,10 +32,6 @@ class Game {
     return scene
   }
 
-  init(assets) {
-
-  }
-
   run(gameUpdate = () => { }) {
     let dt = 0
     let last = 0

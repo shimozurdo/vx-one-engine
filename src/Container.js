@@ -4,6 +4,15 @@ class Container {
     this.children = []
   }
 
+  update(dt, t) {
+    this.children = this.children.filter(child => {
+      if (child.update) {
+        child.update(dt, t, this)
+      }
+      return child.dead ? false : true
+    })
+  }
+
   add(child) {
     this.children.push(child)
     return child
@@ -14,13 +23,8 @@ class Container {
     return child
   }
 
-  update(dt, t) {
-    this.children = this.children.filter(child => {
-      if (child.update) {
-        child.update(dt, t, this)
-      }
-      return child.dead ? false : true
-    })
+  map(f) {
+    return this.children.map(f)
   }
 
 }
