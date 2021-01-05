@@ -4,14 +4,13 @@ import {
     Text,
     Sprite,
     Texture,
-    Scale,
     math,
-    GameObject
+    Container,
+    TileMap
 } from '../src/vx-one.js'
 
 const game = new Game({
     parent: 'game',
-    mode: Scale.RESIZE,
     pixel: true,
     width: 800,
     height: 600,
@@ -22,41 +21,78 @@ const game = new Game({
 // Load game textures
 const textures = {
     bullet: new Texture("b.png"),
-    player: new Texture("player.png")
+    player: new Texture("player.png"),
+    cave: new Texture("cave.png")
 }
 
 const introScene = new Scene('titleScene')
 
-class Player extends Sprite {
-    constructor() {
-        super()
-        this.speed = math.randf(0.9, 1.2)
+const tileSize = 32;
+const mapW = Math.floor(800 / tileSize);
+const mapH = Math.floor(600 / tileSize);
 
-        // Set up the different animations
-        const { anims } = this;
-        anims.add("walk", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.07 * this.speed)
-        anims.add(
-            "idle",
-            [{ x: 0, y: 0 }, { x: 4, y: 0 }, { x: 4, y: 1 }, { x: 4, y: 0 }],
-            0.15 * this.speed
-        );
-
-        // Play one of them!
-        anims.play("walk")
-    }
-    update(dt) {
-        super.update(dt)
-    }
+// Make a random level of tile indexes
+const level = [];
+for (let y = 0; y < mapH; y++) {
+  for (let x = 0; x < mapW; x++) {
+    level.push({
+      x: math.rand(5),
+      y: math.rand(2)
+    });
+  }
 }
 
-// Load game textures
-const player = new Player();
+const map = new TileMap(level, mapW, mapH, tileSize, tileSize, textures.cave);
+
+// class Player extends Sprite {
+
+//     constructor() {
+
+//         super()
+//         this.speed = math.randf(0.9, 1.2)
+
+//         // Set up the different animations
+//         const { anims } = this;
+//         anims.add("walk", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.07 * this.speed)
+//         anims.add(
+//             "idle",
+//             [{ x: 0, y: 0 }],
+//             0.15 * this.speed
+//         );
+
+//         // Play one of them!
+//         anims.play("walk")
+
+//     }
+
+//     update(dt) {
+//         super.update(dt)
+//     }
+
+// }
+
+// // Load game textures
+// const player = new Player()
+// player.scale.x = 2
+// player.scale.y = 2
+// player.pos = { x: 100, y: 100 }
+// player.tileW = 16
+// player.tileH = 16
+// player.texture = textures.player
+
+const player = new Sprite()
 player.scale.x = 2
 player.scale.y = 2
 player.pos = { x: 100, y: 100 }
 player.tileW = 16
 player.tileH = 16
 player.texture = textures.player
+player.speed = math.randf(0.9, 1.2)
+player.anims.add("walk", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.07 * player.speed)
+player.anims.add("idle", [{ x: 0, y: 0 }], 0.15 * player.speed)
+player.anims.play("idle")
+
+
 
 const sayHelloTxt = new Text('fps: ')
 sayHelloTxt.pos = { x: 5, y: 15 }
@@ -64,7 +100,8 @@ sayHelloTxt.anchor.x = 0
 sayHelloTxt.anchor.y = 0
 sayHelloTxt.style = { font: '16px Arial', fill: 'red', align: 'left' }
 
-const bullets = new GameObject()
+const bullets = new Container()
+
 function fireBullet(x, y) {
     const bullet = new Sprite()
     bullet.scale.x = 3
@@ -79,7 +116,7 @@ function fireBullet(x, y) {
 
 // Game state variables
 let lastShot = 0
-
+introScene.add(map)
 introScene.add(sayHelloTxt)
 introScene.add(player)
 introScene.add(bullets)
@@ -94,8 +131,9 @@ game.run((dt, t, controls) => {
     if (controls.x) {
         player.anims.play("walk")
         // Flip to correct direction
-        player.scale.x = Math.sign(controls.x)
-        player.anchor.x = player.scale.x > 0 ? -24 : 24
+        player.scale.x = Math.sign(controls.x) * 2
+        console.log(player.scale.x)
+        player.anchor.x = player.scale.x > 0 ? -16 : 16
     } else {
         player.anims.play("idle")
     }

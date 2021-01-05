@@ -6,7 +6,7 @@ class Scene extends Container {
     this.children = []
     this.active = active
     this.controls
-  }  
+  }
 }
 
 export default Scene

@@ -1,7 +1,6 @@
 import Container from "./Container.js"
-class GameObject extends Container {
+class GameObject {
   constructor(name = null) {
-    super()
     this.name = name
     this.pos = { x: 0, y: 0 }
     this.scale = { x: 1, y: 1 }

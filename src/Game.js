@@ -1,4 +1,4 @@
-import Render from "./render.js"
+import Renderer from "./Renderer.js"
 import { KeyControls } from "./input.js"
 import { MAX_FRAME } from './constants.js'
 
@@ -7,7 +7,7 @@ class Game {
     this.width = config.width
     this.height = config.height
     this.debug = config.debug
-    this.renderer = new Render(config)
+    this.renderer = new Renderer(config)
     config.parent = config.parent || "game"
     let el = document.querySelector(config.parent)
     if (!el) {
@@ -22,6 +22,7 @@ class Game {
   addScene(scene) {
     this.scenes.push(scene)
     this.scene = scene
+    this.scene.controls = this.controls;
     if (this.debug) {
       let fpsTxt = new Text('fps: ')
       fpsTxt.name = 'fps'

@@ -1,23 +1,19 @@
-import Render from "./render.js"
-import Scene from "./scene.js"
+import Scene from "./Scene.js"
 import Game from "./Game.js"
-import Text from "./text.js"
-import Sprite from "./sprite.js"
-import Texture from "./texture.js"
+import Text from "./Text.js"
+import Sprite from "./Sprite.js"
+import Texture from "./Texture.js"
 import math from "./utils.js"
-import { Scale } from "./constants.js"
 import Container from "./Container.js"
-import GameObject from "./GameObject.js"
+import TileMap from "./TileMap.js"
 
 export {
     Game,
-    Render,
     Scene,
     Text,
     Sprite,
     Texture,
     math,
-    Scale,
     Container,
-    GameObject
+    TileMap
 }
