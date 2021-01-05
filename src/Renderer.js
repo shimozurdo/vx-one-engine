@@ -1,3 +1,4 @@
+import Sprite from "./Sprite.js"
 class Render {
     constructor(config) {
         const canvas = document.createElement("canvas")
@@ -58,7 +59,7 @@ class Render {
                     if (fill) ctx.fillStyle = fill
                     if (align) ctx.textAlign = align
                     ctx.fillText(child.text, 0, 0)
-                } else if (child.texture) {
+                } else if (child.texture && child instanceof Sprite) {
                     const img = child.texture.img;
                     if (child.tileW) {
                         ctx.drawImage(

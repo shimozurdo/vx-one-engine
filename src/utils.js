@@ -34,10 +34,14 @@ function randf(min, max) {
 function rand(min, max) {
     return Math.floor(randf(min, max))
 }
+function clamp(x, min, max) {
+    return Math.max(min, Math.min(x, max));
+}
 
 export default {
     Vector2,
     RGBA,
     rand,
-    randf
+    randf,
+    clamp
 }

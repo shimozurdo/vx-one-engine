@@ -27,58 +27,60 @@ const textures = {
 
 const introScene = new Scene('titleScene')
 
-const tileSize = 32;
-const mapW = Math.floor(800 / tileSize);
-const mapH = Math.floor(600 / tileSize);
+// const tileSize = 32;
+// const mapW = Math.floor(800 / tileSize);
+// const mapH = Math.floor(600 / tileSize);
 
-// Make a random level of tile indexes
-const level = [];
-for (let y = 0; y < mapH; y++) {
-  for (let x = 0; x < mapW; x++) {
-    level.push({
-      x: math.rand(5),
-      y: math.rand(2)
-    });
-  }
-}
-
-const map = new TileMap(level, mapW, mapH, tileSize, tileSize, textures.cave);
-
-// class Player extends Sprite {
-
-//     constructor() {
-
-//         super()
-//         this.speed = math.randf(0.9, 1.2)
-
-//         // Set up the different animations
-//         const { anims } = this;
-//         anims.add("walk", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.07 * this.speed)
-//         anims.add(
-//             "idle",
-//             [{ x: 0, y: 0 }],
-//             0.15 * this.speed
-//         );
-
-//         // Play one of them!
-//         anims.play("walk")
-
-//     }
-
-//     update(dt) {
-//         super.update(dt)
-//     }
-
+// // Make a random level of tile indexes
+// const level = [];
+// for (let y = 0; y < mapH; y++) {
+//   for (let x = 0; x < mapW; x++) {
+//     level.push({
+//       x: math.rand(9),
+//       y: math.rand(9)
+//     });
+//   }
 // }
 
-// // Load game textures
-// const player = new Player()
-// player.scale.x = 2
-// player.scale.y = 2
-// player.pos = { x: 100, y: 100 }
-// player.tileW = 16
-// player.tileH = 16
-// player.texture = textures.player
+// const map = new TileMap(level, mapW, mapH, tileSize, tileSize, textures.cave);
+
+const map = new TileMap(textures.cave);
+
+map.tileSize = 32;
+map.mapW = Math.ceil(800 / map.tileSize);
+map.mapH = Math.ceil(600 / map.tileSize);
+map.tileW = map.tileSize
+map.tileH = map.tileSize
+
+const level = [];
+for (let i = 0; i < map.mapW * map.mapH; i++) {
+    const isTopOrBottom = i < map.mapW || Math.floor(i / map.mapW) === map.mapH - 1;
+    const isLeft = i % map.mapW === 0;
+    const isRight = i % map.mapW === map.mapW - 1;
+    const isSecondRow = ((i / map.mapW) | 0) === 1;
+
+    if (isTopOrBottom) {
+        level.push({ x: 2, y: 1 });
+    } else if (isLeft) {
+        level.push({ x: 1, y: 1 });
+    } else if (isRight) {
+        level.push({ x: 3, y: 1 });
+    } else if (isSecondRow) {
+        level.push({ x: 4, y: 1 });
+    } else {
+        // Random ground tile
+        level.push({ x: math.rand(0, 9), y: math.rand(0, 9) });
+    }
+}
+
+map.addTiles(level);
+
+const bounds = {
+    left: map.tileSize,
+    right: 800 - map.tileSize * 2,
+    top: map.tileSize * 2,
+    bottom: 600 - map.tileSize * 2
+};
 
 const player = new Sprite()
 player.scale.x = 2
@@ -149,5 +151,9 @@ game.run((dt, t, controls) => {
             bullet.dead = true
         }
     })
+
+    const { top, bottom, left, right } = bounds;
+    player.pos.x = math.clamp(player.pos.x, left, right);
+    player.pos.y = math.clamp(player.pos.y, top, bottom);
 
 })
