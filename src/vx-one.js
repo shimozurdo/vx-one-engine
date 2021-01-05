@@ -6,6 +6,7 @@ import Texture from "./Texture.js"
 import math from "./utils.js"
 import Container from "./Container.js"
 import TileMap from "./TileMap.js"
+import Camera from "./Camera.js"
 
 export {
     Game,
@@ -15,5 +16,6 @@ export {
     Texture,
     math,
     Container,
-    TileMap
+    TileMap,
+    Camera
 }

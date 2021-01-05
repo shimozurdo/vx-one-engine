@@ -1,6 +1,6 @@
 import Renderer from "./Renderer.js"
-import { KeyControls } from "./input.js"
-import { MAX_FRAME } from './constants.js'
+import { KeyControls } from "./Inputs.js"
+import { MAX_FRAME } from './Constants.js'
 
 class Game {
   constructor(config) {

@@ -6,7 +6,8 @@ import {
     Texture,
     math,
     Container,
-    TileMap
+    TileMap,
+    Camera
 } from '../src/vx-one.js'
 
 const game = new Game({
@@ -27,27 +28,11 @@ const textures = {
 
 const introScene = new Scene('titleScene')
 
-// const tileSize = 32;
-// const mapW = Math.floor(800 / tileSize);
-// const mapH = Math.floor(600 / tileSize);
-
-// // Make a random level of tile indexes
-// const level = [];
-// for (let y = 0; y < mapH; y++) {
-//   for (let x = 0; x < mapW; x++) {
-//     level.push({
-//       x: math.rand(9),
-//       y: math.rand(9)
-//     });
-//   }
-// }
-
-// const map = new TileMap(level, mapW, mapH, tileSize, tileSize, textures.cave);
 
 const map = new TileMap(textures.cave);
 
 map.tileSize = 32;
-map.mapW = Math.ceil(800 / map.tileSize);
+map.mapW = Math.ceil(1600 / map.tileSize);
 map.mapH = Math.ceil(600 / map.tileSize);
 map.tileW = map.tileSize
 map.tileH = map.tileSize
@@ -77,7 +62,7 @@ map.addTiles(level);
 
 const bounds = {
     left: map.tileSize,
-    right: 800 - map.tileSize * 2,
+    right: 1600 - map.tileSize * 2,
     top: map.tileSize * 2,
     bottom: 600 - map.tileSize * 2
 };
@@ -94,7 +79,7 @@ player.anims.add("walk", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.07 * player.spe
 player.anims.add("idle", [{ x: 0, y: 0 }], 0.15 * player.speed)
 player.anims.play("idle")
 
-
+const camera = new Camera(player, { w: 800, h: 600 }, { w: 1600, h: 600 });
 
 const sayHelloTxt = new Text('fps: ')
 sayHelloTxt.pos = { x: 5, y: 15 }
@@ -118,12 +103,17 @@ function fireBullet(x, y) {
 
 // Game state variables
 let lastShot = 0
-introScene.add(map)
+// introScene.add(map)
 introScene.add(sayHelloTxt)
-introScene.add(player)
+// introScene.add(player)
 introScene.add(bullets)
 
 game.addScene(introScene)
+
+camera.add(map);
+camera.add(player);
+introScene.add(camera);
+
 
 game.run((dt, t, controls) => {
     // Randomly change x frame:
