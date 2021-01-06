@@ -60,7 +60,7 @@ class Render {
                     if (align) ctx.textAlign = align
                     ctx.fillText(child.text, 0, 0)
                 } else if (child.texture && child instanceof Sprite) {
-                    const img = child.texture.img;
+                    const img = child.texture
                     if (child.tileW) {
                         ctx.drawImage(
                             img,

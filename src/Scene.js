@@ -1,10 +1,13 @@
 import Container from "./Container.js"
+import { State } from './Constants.js'
+
 class Scene extends Container {
-  constructor(key, active = true) {
+  constructor(key, isActive = false) {
     super()
     this.key = key
     this.children = []
-    this.active = active
+    this.active = isActive
+    this.state = State.NONE
     this.controls
   }
 }
