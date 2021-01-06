@@ -4,7 +4,7 @@ import Text from "./Text.js"
 class Debug extends Container {
     constructor() {
         super()
-        this.active = false;
+        this.active = false
         const fpsTxt = new Text('fps: ')
         fpsTxt.name = 'fps'
         fpsTxt.pos = { x: 5, y: 15 }
