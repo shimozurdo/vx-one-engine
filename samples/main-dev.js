@@ -10,13 +10,14 @@ import {
     Camera
 } from '../src/vx-one.js'
 
+// initial config
 const game = new Game({
     parent: 'game',
     pixel: true,
     width: 800,
     height: 600,
     backgroundColor: '#43BB43',
-    debug: true
+    debugMode: true
 })
 
 // Load game textures
@@ -32,8 +33,8 @@ const introScene = new Scene('titleScene')
 const map = new TileMap(textures.cave);
 
 map.tileSize = 32;
-map.mapW = Math.ceil(1600 / map.tileSize);
-map.mapH = Math.ceil(600 / map.tileSize);
+map.mapW = Math.ceil(1600 / map.tileSize)
+map.mapH = Math.ceil(600 / map.tileSize)
 map.tileW = map.tileSize
 map.tileH = map.tileSize
 
@@ -104,15 +105,19 @@ function fireBullet(x, y) {
 // Game state variables
 let lastShot = 0
 // introScene.add(map)
-introScene.add(sayHelloTxt)
+
 // introScene.add(player)
-introScene.add(bullets)
+// introScene.add(bullets)
 
 game.addScene(introScene)
 
-camera.add(map);
-camera.add(player);
-introScene.add(camera);
+camera.add(map)
+camera.add(player)
+camera.add(bullets)
+
+// camera.add(sayHelloTxt)
+introScene.add(camera)
+// introScene.add(sayHelloTxt)
 
 
 game.run((dt, t, controls) => {

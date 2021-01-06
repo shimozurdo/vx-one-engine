@@ -1,5 +1,6 @@
 import Sprite from "./Sprite.js"
 class Render {
+
     constructor(config) {
         const canvas = document.createElement("canvas")
         this.view = canvas
@@ -20,7 +21,6 @@ class Render {
         }
 
         const { ctx, width, height, backgroundColor } = this
-
 
         function renderRec(scene) {
             // Render the container children
