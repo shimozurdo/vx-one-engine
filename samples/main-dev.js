@@ -27,8 +27,8 @@ const textures = {
     cave: new Texture("cave.png")
 }
 
-const introScene = new Scene('titleScene')
-
+const scene = new Scene('titleScene')
+game.addScene(scene)
 
 const map = new TileMap(textures.cave);
 
@@ -104,24 +104,16 @@ function fireBullet(x, y) {
 
 // Game state variables
 let lastShot = 0
-// introScene.add(map)
-
-// introScene.add(player)
-// introScene.add(bullets)
-
-game.addScene(introScene)
 
 camera.add(map)
 camera.add(player)
 camera.add(bullets)
 
-// camera.add(sayHelloTxt)
-introScene.add(camera)
-// introScene.add(sayHelloTxt)
-
+scene.add(camera)
 
 game.run((dt, t, controls) => {
-    // Randomly change x frame:
+    // Testing the game
+
     player.pos.x += controls.x * dt * 200
     player.pos.y += controls.y * dt * 200
 
@@ -129,20 +121,20 @@ game.run((dt, t, controls) => {
         player.anims.play("walk")
         // Flip to correct direction
         player.scale.x = Math.sign(controls.x) * 2
-        console.log(player.scale.x)
+       
         player.anchor.x = player.scale.x > 0 ? -16 : 16
     } else {
         player.anims.play("idle")
     }
 
-    if (controls.action && t - lastShot > 0.15) {
+    if (controls.action && t - lastShot > 0.30) {
         lastShot = t
         fireBullet(player.pos.x + 24, player.pos.y)
     }
 
     // Destroy bullets when they go out of the screen
     bullets.children.forEach(bullet => {
-        if (bullet.pos.x > game.width + 20) {
+        if (bullet.pos.x > 1600) {
             bullet.dead = true
         }
     })
