@@ -7,26 +7,27 @@ class Game {
   constructor(config) {
     this.width = config.width
     this.height = config.height
-    this.renderer = this.createRenderer(config);
+    this.renderer = this.createRenderer(config)
     this.scenes = []
     this.scene
     this.controls = new KeyControls()
-    this.debug = new Debug();
-    this.debug.active = config.debugMode;
+    this.debug = new Debug()
+    this.debug.active = config.debugMode
   }
 
   addScene(scene) {
+    if (this.debug.active)
+      scene.add(this.debug)
     this.scenes.push(scene)
-    this.scene = scene
-    this.scene.controls = this.controls;
-    return scene
+    if (!this.scene)
+      this.scene = scene
+  }
+
+  launchScene(sceneName) {
+    this.scene = this.scenes.find(s => s.key === sceneName)
   }
 
   run(gameUpdate = () => { }) {
-
-    if (this.debug.active) {
-      this.scene.add(this.debug)
-    }
 
     let dt = 0
     let last = 0
@@ -39,6 +40,10 @@ class Game {
       dt = Math.min(t - last, MAX_FRAME)
       last = t
       fps = Math.round(1 / dt)
+
+      if (!this.scene && this.debug.active)
+        return
+
       if (this.debug.active)
         this.scene.children.find(child => child instanceof Debug).children.find(c => c.name === "fps").text = 'fps: ' + fps
 

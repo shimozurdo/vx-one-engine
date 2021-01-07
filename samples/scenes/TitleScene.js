@@ -22,7 +22,7 @@ class TitleScene extends Scene {
         textures.load((imgs) => {
             this.logo = new Sprite(imgs.logo)
             this.logo.pos = { x: game.width / 2, y: game.height / 2 }
-            this.logo.anchor = { x: -128, y: -32 }
+            // this.logo.anchor = { x: -128, y: -32 }
             this.add(this.logo)
             this.active = true
         })
@@ -32,12 +32,9 @@ class TitleScene extends Scene {
         super.update(dt, t)
         this.life -= dt
 
-        const { logo, life } = this
-        if (life < 0) {
-            this.game.launchScene('TitleScene');
-        }
+        
     }
 
 }
 
-export default LogoScene
+export default TitleScene

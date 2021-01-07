@@ -1,5 +1,6 @@
 import { Game, Scene, Text, Sprite, math, Container, TileMap, Camera } from '../src/vx-one.js'
 import LogoScene from "../samples/scenes/LogoScene.js"
+import TitleScene from "../samples/scenes/TitleScene.js"
 
 // initial config
 const game = new Game({
@@ -10,9 +11,9 @@ const game = new Game({
     backgroundColor: '#43BB43',
     debugMode: true
 })
-
-const scene = new LogoScene(game) 
-game.addScene(scene)
+ 
+game.addScene(new LogoScene(game)) // initial scene
+game.addScene(new TitleScene(game))
 game.run()
 
 // // Load game textures
