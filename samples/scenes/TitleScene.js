@@ -1,13 +1,19 @@
 import {
+    Game,
     Scene,
+    Text,
     Sprite,
+    math,
+    Container,
+    TileMap,
+    Camera,
     TextureManager
 } from '../../src/vx-one.js'
 
-class LogoScene extends Scene {
+class TitleScene extends Scene {
 
     constructor(game) {
-        super('LogoScene')
+        super('TitleScene')
         this.life = 2
         this.game = game
         const urls = [['logo', "logo.png"], ['player', 'player.png'], ['cave', 'cave.png']]
@@ -26,10 +32,9 @@ class LogoScene extends Scene {
         super.update(dt, t)
         this.life -= dt
 
-        const { game, life } = this
+        const { logo, life } = this
         if (life < 0) {
-            this.active = false
-            game.launchScene('TitleScene')
+            this.game.launchScene('TitleScene');
         }
     }
 

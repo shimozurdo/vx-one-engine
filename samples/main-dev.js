@@ -11,7 +11,7 @@ const game = new Game({
     debugMode: true
 })
 
-const scene = new LogoScene('titleScene') 
+const scene = new LogoScene(game) 
 game.addScene(scene)
 game.run()
 
