@@ -1,6 +1,7 @@
 import { Game } from '../src/vx-one.js'
 import LogoScene from "../samples/scenes/LogoScene.js"
 import TitleScene from "../samples/scenes/TitleScene.js"
+import GameScene from "../samples/scenes/GameScene.js"
 
 // initial config
 const game = new Game({
@@ -13,6 +14,7 @@ const game = new Game({
  
 game.addScene(new LogoScene(game)) // initial scene
 game.addScene(new TitleScene(game))
+game.addScene(new GameScene(game))
 game.run()
 
 // // Load game textures

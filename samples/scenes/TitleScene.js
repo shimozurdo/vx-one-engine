@@ -10,11 +10,6 @@ class TitleScene extends Scene {
     init() {
         const { game } = this
 
-        const background = new Graphics()
-        background.type = Graph.RECT
-        background.src = { w: game.w, h: game.h, fill: 'white' }
-        // this.add(background)
-
         const titleTxt = new Text('Super Game')
         const font = `80px 'Concert One', cursive`;
         titleTxt.pos = { x: game.w / 2, y: 200 }
@@ -28,12 +23,21 @@ class TitleScene extends Scene {
         button.anchor = { x: -50, y: -25 }
         this.add(button)
 
+        const playTxt = new Text('Play')
+        const font2 = `30px 'Concert One', cursive`;
+        playTxt.pos = { x: game.w / 2, y: 410 }
+        playTxt.style = { font: font2, fill: '#000', align: 'center' }
+        this.add(playTxt)
+
         this.active = true
     }
 
     update(dt, t) {
         super.update(dt, t)
-        this.life -= dt
+        if (this.game.controls.action) {
+            this.active = false
+            this.game.launchScene('GameScene')
+        }
     }
 
 }

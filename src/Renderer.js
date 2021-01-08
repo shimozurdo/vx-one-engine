@@ -26,7 +26,6 @@ class Render {
 
         function renderRec(scene) {
             // Render the container children
-
             scene.children.forEach(child => {
                 if (child.visible == false) {
                     return
@@ -77,7 +76,8 @@ class Render {
                     }
                 } else if (child instanceof Graphics) {
                     if (child.type === Graph.ROUND_RECT) {
-                        const { x, y, w, h, r, fill } = child.src
+                        const { w, h, r, fill } = child.src
+                        const { x, y } = child.pos
                         ctx.strokeStyle = fill;
                         if (w < 2 * r) r = w / 2;
                         if (h < 2 * r) r = h / 2;
