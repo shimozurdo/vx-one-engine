@@ -1,13 +1,15 @@
 import Renderer from "./Renderer.js"
 import { KeyControls } from "./Inputs.js"
-import { MAX_FRAME } from './Constants.js'
 import Debug from "./Debug.js"
 
 class Game {
 
+  step = 1 / 60
+  MAX_FRAME = this.step * 5
+
   constructor(config) {
-    this.width = config.width
-    this.height = config.height
+    this.w = config.w
+    this.h = config.h
     this.renderer = this.createRenderer(config)
     this.scenes = []
     this.scene
@@ -20,9 +22,11 @@ class Game {
   addScene(scene) {
     if (this.debug.active)
       scene.add(this.debug)
-    this.scenes.push(scene)
+
     if (!this.scene)
       this.scene = scene
+
+    this.scenes.push(scene)
   }
 
   launchScene(sceneName) {
@@ -31,7 +35,7 @@ class Game {
   }
 
   run(gameUpdate = () => { }) {
-
+    const { MAX_FRAME } = this
     let dt = 0
     let last = 0
     let fps = 0

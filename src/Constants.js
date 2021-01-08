@@ -1,5 +1,3 @@
-const step = 1 / 60
-const MAX_FRAME = step * 5
 const Scale = {
     RESIZE: 0,
     NONE: 1
@@ -13,8 +11,13 @@ const State = {
     SLEEPING: 4
 }
 
+const Graph = {
+    ROUND_RECT: 0,
+    RECT: 1
+}
+
 export {
-    MAX_FRAME,
     Scale,
-    State
+    State,
+    Graph
 }

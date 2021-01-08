@@ -1,4 +1,4 @@
-import { Game, Scene, Text, Sprite, math, Container, TileMap, Camera } from '../src/vx-one.js'
+import { Game } from '../src/vx-one.js'
 import LogoScene from "../samples/scenes/LogoScene.js"
 import TitleScene from "../samples/scenes/TitleScene.js"
 
@@ -6,9 +6,8 @@ import TitleScene from "../samples/scenes/TitleScene.js"
 const game = new Game({
     parent: 'game',
     pixel: false,
-    width: 800,
-    height: 600,
-    backgroundColor: '#43BB43',
+    w: 800,
+    h: 600,
     debugMode: true
 })
  

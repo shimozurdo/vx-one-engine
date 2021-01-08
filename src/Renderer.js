@@ -1,4 +1,7 @@
 import Sprite from "./Sprite.js"
+import Graphics from "./Graphics.js"
+import { Graph } from './Constants.js'
+
 class Render {
 
     constructor(config) {
@@ -6,9 +9,8 @@ class Render {
         this.view = canvas
         this.ctx = canvas.getContext("2d")
         this.ctx.textBaseline = "top"
-        this.width = canvas.width = config.width
-        this.height = canvas.height = config.height
-        this.backgroundColor = config.backgroundColor || "white"
+        this.w = canvas.width = config.w
+        this.h = canvas.height = config.h
         if (config.pixel) {
             canvas.style.imageRendering = 'pixelated'
             this.ctx.imageSmoothingEnabled = false
@@ -20,7 +22,7 @@ class Render {
             return
         }
 
-        const { ctx, width, height, backgroundColor } = this
+        const { ctx, w, h } = this
 
         function renderRec(scene) {
             // Render the container children
@@ -30,9 +32,6 @@ class Render {
                     return
                 }
                 ctx.save()
-
-                // ctx.fillStyle = backgroundColor
-                // ctx.fillRect(0, 0, width, height)
 
                 // Handle transforms
                 if (child.pos) {
@@ -76,8 +75,25 @@ class Render {
                     } else {
                         ctx.drawImage(img, 0, 0);
                     }
-                } else if (child.lines) {
-                    ctx.clearRect(0, 0, width, height)
+                } else if (child instanceof Graphics) {
+                    if (child.type === Graph.ROUND_RECT) {
+                        const { x, y, w, h, r, fill } = child.src
+                        ctx.strokeStyle = fill;
+                        if (w < 2 * r) r = w / 2;
+                        if (h < 2 * r) r = h / 2;
+                        ctx.beginPath();
+                        ctx.moveTo(x + r, y);
+                        ctx.arcTo(x + w, y, x + w, y + h, r);
+                        ctx.arcTo(x + w, y + h, x, y + h, r);
+                        ctx.arcTo(x, y + h, x, y, r);
+                        ctx.arcTo(x, y, x + w, y, r);
+                        ctx.stroke();
+                        ctx.closePath();
+                    } else if (child.type === Graph.RECT) {
+                        const { w, h, fill } = child.src
+                        ctx.fillStyle = fill;
+                        ctx.fillRect(0, 0, w, h);
+                    }
                 }
 
                 // Render any child sub-nodes
@@ -90,10 +106,11 @@ class Render {
         }
 
         if (clear) {
-            ctx.clearRect(0, 0, width, height)
+            ctx.clearRect(0, 0, w, h)
         }
         renderRec(scene)
     }
 }
 
 export default Render
+

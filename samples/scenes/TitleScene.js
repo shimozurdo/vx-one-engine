@@ -1,4 +1,4 @@
-import { Scene, Text } from '../../src/vx-one.js'
+import { Scene, Text, Graphics, Graph } from '../../src/vx-one.js'
 
 class TitleScene extends Scene {
 
@@ -9,11 +9,25 @@ class TitleScene extends Scene {
 
     init() {
         const { game } = this
+
+        const background = new Graphics()
+        background.type = Graph.RECT
+        background.src = { w: game.w, h: game.h, fill: 'white' }
+        // this.add(background)
+
         const titleTxt = new Text('Super Game')
         const font = `80px 'Concert One', cursive`;
-        titleTxt.pos = { x: game.width / 2, y: 200 }
+        titleTxt.pos = { x: game.w / 2, y: 200 }
         titleTxt.style = { font: font, fill: '#76ff03', align: 'center' }
         this.add(titleTxt)
+
+        const button = new Graphics()
+        button.type = Graph.RECT
+        button.src = { w: 100, h: 50, fill: '#76ff03' }
+        button.pos = { x: game.w / 2, y: 400 }
+        button.anchor = { x: -50, y: -25 }
+        this.add(button)
+
         this.active = true
     }
 
