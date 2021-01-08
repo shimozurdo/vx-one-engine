@@ -4,12 +4,14 @@ import { MAX_FRAME } from './Constants.js'
 import Debug from "./Debug.js"
 
 class Game {
+
   constructor(config) {
     this.width = config.width
     this.height = config.height
     this.renderer = this.createRenderer(config)
     this.scenes = []
     this.scene
+    this.textures
     this.controls = new KeyControls()
     this.debug = new Debug()
     this.debug.active = config.debugMode
@@ -25,6 +27,7 @@ class Game {
 
   launchScene(sceneName) {
     this.scene = this.scenes.find(s => s.key === sceneName)
+    this.scene.init()
   }
 
   run(gameUpdate = () => { }) {

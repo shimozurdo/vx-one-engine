@@ -1,38 +1,25 @@
-import {
-    Game,
-    Scene,
-    Text,
-    Sprite,
-    math,
-    Container,
-    TileMap,
-    Camera,
-    TextureManager
-} from '../../src/vx-one.js'
+import { Scene, Text } from '../../src/vx-one.js'
 
 class TitleScene extends Scene {
 
     constructor(game) {
         super('TitleScene')
-        this.life = 2
         this.game = game
-        const urls = [['logo', "logo.png"], ['player', 'player.png'], ['cave', 'cave.png']]
+    }
 
-        const textures = new TextureManager(urls)
-        textures.load((imgs) => {
-            this.logo = new Sprite(imgs.logo)
-            this.logo.pos = { x: game.width / 2, y: game.height / 2 }
-            // this.logo.anchor = { x: -128, y: -32 }
-            this.add(this.logo)
-            this.active = true
-        })
+    init() {
+        const { game } = this
+        const titleTxt = new Text('Super Game')
+        const font = `80px 'Concert One', cursive`;
+        titleTxt.pos = { x: game.width / 2, y: 200 }
+        titleTxt.style = { font: font, fill: '#76ff03', align: 'center' }
+        this.add(titleTxt)
+        this.active = true
     }
 
     update(dt, t) {
         super.update(dt, t)
         this.life -= dt
-
-        
     }
 
 }
