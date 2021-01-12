@@ -18,13 +18,13 @@ class TitleScene extends Scene {
 
         const button = new Graphics()
         button.type = Graph.RECT
-        button.src = { w: 100, h: 50, fill: '#76ff03' }
+        button.src = { w: 300, h: 50, fill: '#76ff03' }
         button.pos = { x: game.w / 2, y: 400 }
-        button.anchor = { x: -50, y: -25 }
+        button.anchor = { x: -150, y: -25 } // center
         this.add(button)
 
-        const playTxt = new Text('Play')
-        const font2 = `30px 'Concert One', cursive`;
+        const playTxt = new Text('Press space bar')
+        const font2 = `30px 'Concert One', cursive`
         playTxt.pos = { x: game.w / 2, y: 410 }
         playTxt.style = { font: font2, fill: '#000', align: 'center' }
         this.add(playTxt)

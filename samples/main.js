@@ -1,7 +1,7 @@
 import { Game } from '../src/vx-one.js'
-import LogoScene from "../samples/scenes/LogoScene.js"
-import TitleScene from "../samples/scenes/TitleScene.js"
-import GameScene from "../samples/scenes/GameScene.js"
+import LogoScene from "./scenes/LogoScene.js"
+import TitleScene from "./scenes/TitleScene.js"
+import GameScene from "./scenes/GameScene.js"
 
 // initial config
 const game = new Game({

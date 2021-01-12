@@ -12,11 +12,12 @@ class TileMap extends Container {
     this.children = []
   }
 
-  addTiles(tiles) {
+  addTiles(tiles, scale = 1) {
     // Add all tile sprites
     this.children = tiles.map((frame, i) => {
       const s = new Sprite()
       s.frame = frame;
+      s.scale = { x: scale, y: scale }
       s.pos.x = i % this.mapW * this.tileW;
       s.pos.y = Math.floor(i / this.mapW) * this.tileH;
       s.tileW = this.tileW

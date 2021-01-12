@@ -4,7 +4,7 @@
   "description": "Html5 2D Game Engine",
   "main": "index.js",
   "scripts": {
-    "start": "live-server --open=samples/index-dev.html",
+    "start": "live-server --open=samples/index.html",
     "build-dev": "webpack --mode development --env=development",
     "build": "webpack --mode production --env=production"
   },
