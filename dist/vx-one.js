@@ -254,14 +254,24 @@ var Camera = /*#__PURE__*/function (_Container) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "MAX_FRAME": () => /* binding */ MAX_FRAME,
-/* harmony export */   "Scale": () => /* binding */ Scale
+/* harmony export */   "Scale": () => /* binding */ Scale,
+/* harmony export */   "State": () => /* binding */ State,
+/* harmony export */   "Graph": () => /* binding */ Graph
 /* harmony export */ });
-var step = 1 / 60;
-var MAX_FRAME = step * 5;
 var Scale = {
   RESIZE: 0,
   NONE: 1
+};
+var State = {
+  NONE: 0,
+  LOADING: 1,
+  READY: 2,
+  RUNNING: 3,
+  SLEEPING: 4
+};
+var Graph = {
+  ROUND_RECT: 0,
+  RECT: 1
 };
 
 
@@ -416,14 +426,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Renderer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Renderer.js */ "./src/Renderer.js");
 /* harmony import */ var _Inputs_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Inputs.js */ "./src/Inputs.js");
-/* harmony import */ var _Constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Constants.js */ "./src/Constants.js");
-/* harmony import */ var _Debug_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Debug.js */ "./src/Debug.js");
+/* harmony import */ var _Debug_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Debug.js */ "./src/Debug.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
@@ -433,23 +443,35 @@ var Game = /*#__PURE__*/function () {
   function Game(config) {
     _classCallCheck(this, Game);
 
-    this.width = config.width;
-    this.height = config.height;
+    _defineProperty(this, "step", 1 / 60);
+
+    _defineProperty(this, "MAX_FRAME", this.step * 5);
+
+    this.w = config.w;
+    this.h = config.h;
     this.renderer = this.createRenderer(config);
     this.scenes = [];
     this.scene;
+    this.textures;
     this.controls = new _Inputs_js__WEBPACK_IMPORTED_MODULE_1__.KeyControls();
-    this.debug = new _Debug_js__WEBPACK_IMPORTED_MODULE_3__.default();
+    this.debug = new _Debug_js__WEBPACK_IMPORTED_MODULE_2__.default();
     this.debug.active = config.debugMode;
   }
 
   _createClass(Game, [{
     key: "addScene",
     value: function addScene(scene) {
+      if (this.debug.active) scene.add(this.debug);
+      if (!this.scene) this.scene = scene;
       this.scenes.push(scene);
-      this.scene = scene;
-      this.scene.controls = this.controls;
-      return scene;
+    }
+  }, {
+    key: "launchScene",
+    value: function launchScene(sceneName) {
+      this.scene = this.scenes.find(function (s) {
+        return s.key === sceneName;
+      });
+      this.scene.init();
     }
   }, {
     key: "run",
@@ -457,11 +479,7 @@ var Game = /*#__PURE__*/function () {
       var _this = this;
 
       var gameUpdate = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
-
-      if (this.debug.active) {
-        this.scene.add(this.debug);
-      }
-
+      var MAX_FRAME = this.MAX_FRAME;
       var dt = 0;
       var last = 0;
       var fps = 0;
@@ -470,11 +488,12 @@ var Game = /*#__PURE__*/function () {
         requestAnimationFrame(mainloop); // create delta
 
         var t = ms / 1000;
-        dt = Math.min(t - last, _Constants_js__WEBPACK_IMPORTED_MODULE_2__.MAX_FRAME);
+        dt = Math.min(t - last, MAX_FRAME);
         last = t;
         fps = Math.round(1 / dt);
+        if (!_this.scene && _this.debug.active) return;
         if (_this.debug.active) _this.scene.children.find(function (child) {
-          return child instanceof _Debug_js__WEBPACK_IMPORTED_MODULE_3__.default;
+          return child instanceof _Debug_js__WEBPACK_IMPORTED_MODULE_2__.default;
         }).children.find(function (c) {
           return c.name === "fps";
         }).text = 'fps: ' + fps;
@@ -554,6 +573,62 @@ var GameObject = function GameObject() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (GameObject);
+
+/***/ }),
+
+/***/ "./src/Graphics.js":
+/*!*************************!*\
+  !*** ./src/Graphics.js ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* harmony import */ var _GameObject_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./GameObject.js */ "./src/GameObject.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var Graphics = /*#__PURE__*/function (_GameObject) {
+  _inherits(Graphics, _GameObject);
+
+  var _super = _createSuper(Graphics);
+
+  function Graphics() {
+    var _this;
+
+    var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+    _classCallCheck(this, Graphics);
+
+    _this = _super.call(this);
+    _this.type = type;
+    _this.src = {};
+    return _this;
+  }
+
+  return Graphics;
+}(_GameObject_js__WEBPACK_IMPORTED_MODULE_0__.default);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Graphics);
 
 /***/ }),
 
@@ -734,11 +809,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _Sprite_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Sprite.js */ "./src/Sprite.js");
+/* harmony import */ var _Graphics_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Graphics.js */ "./src/Graphics.js");
+/* harmony import */ var _Constants_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Constants.js */ "./src/Constants.js");
+function _readOnlyError(name) { throw new TypeError("\"" + name + "\" is read-only"); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
 
 
 
@@ -750,9 +831,8 @@ var Render = /*#__PURE__*/function () {
     this.view = canvas;
     this.ctx = canvas.getContext("2d");
     this.ctx.textBaseline = "top";
-    this.width = canvas.width = config.width;
-    this.height = canvas.height = config.height;
-    this.backgroundColor = config.backgroundColor || "white";
+    this.w = canvas.width = config.w;
+    this.h = canvas.height = config.h;
 
     if (config.pixel) {
       canvas.style.imageRendering = 'pixelated';
@@ -770,9 +850,8 @@ var Render = /*#__PURE__*/function () {
       }
 
       var ctx = this.ctx,
-          width = this.width,
-          height = this.height,
-          backgroundColor = this.backgroundColor;
+          w = this.w,
+          h = this.h;
 
       function renderRec(scene) {
         // Render the container children
@@ -781,9 +860,7 @@ var Render = /*#__PURE__*/function () {
             return;
           }
 
-          ctx.save(); // ctx.fillStyle = backgroundColor
-          // ctx.fillRect(0, 0, width, height)
-          // Handle transforms
+          ctx.save(); // Handle transforms
 
           if (child.pos) {
             ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y));
@@ -815,16 +892,43 @@ var Render = /*#__PURE__*/function () {
             if (fill) ctx.fillStyle = fill;
             if (align) ctx.textAlign = align;
             ctx.fillText(child.text, 0, 0);
-          } else if (child.texture && child instanceof _Sprite_js__WEBPACK_IMPORTED_MODULE_0__.default) {
-            var img = child.texture.img;
+          } else if (child instanceof _Sprite_js__WEBPACK_IMPORTED_MODULE_0__.default && child.texture) {
+            var img = child.texture;
 
             if (child.tileW) {
               ctx.drawImage(img, child.frame.x * child.tileW, child.frame.y * child.tileH, child.tileW, child.tileH, 0, 0, child.tileW, child.tileH);
             } else {
               ctx.drawImage(img, 0, 0);
             }
-          } else if (child.lines) {
-            ctx.clearRect(0, 0, width, height);
+          } else if (child instanceof _Graphics_js__WEBPACK_IMPORTED_MODULE_1__.default) {
+            if (child.type === _Constants_js__WEBPACK_IMPORTED_MODULE_2__.Graph.ROUND_RECT) {
+              var _child$src = child.src,
+                  _w = _child$src.w,
+                  _h = _child$src.h,
+                  r = _child$src.r,
+                  _fill = _child$src.fill;
+              var _child$pos = child.pos,
+                  x = _child$pos.x,
+                  y = _child$pos.y;
+              ctx.strokeStyle = _fill;
+              if (_w < 2 * r) r = (_readOnlyError("r"), _w / 2);
+              if (_h < 2 * r) r = (_readOnlyError("r"), _h / 2);
+              ctx.beginPath();
+              ctx.moveTo(x + r, y);
+              ctx.arcTo(x + _w, y, x + _w, y + _h, r);
+              ctx.arcTo(x + _w, y + _h, x, y + _h, r);
+              ctx.arcTo(x, y + _h, x, y, r);
+              ctx.arcTo(x, y, x + _w, y, r);
+              ctx.stroke();
+              ctx.closePath();
+            } else if (child.type === _Constants_js__WEBPACK_IMPORTED_MODULE_2__.Graph.RECT) {
+              var _child$src2 = child.src,
+                  _w2 = _child$src2.w,
+                  _h2 = _child$src2.h,
+                  _fill2 = _child$src2.fill;
+              ctx.fillStyle = _fill2;
+              ctx.fillRect(0, 0, _w2, _h2);
+            }
           } // Render any child sub-nodes
 
 
@@ -837,7 +941,7 @@ var Render = /*#__PURE__*/function () {
       }
 
       if (clear) {
-        ctx.clearRect(0, 0, width, height);
+        ctx.clearRect(0, 0, w, h);
       }
 
       renderRec(scene);
@@ -862,6 +966,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 /* harmony import */ var _Container_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Container.js */ "./src/Container.js");
+/* harmony import */ var _Constants_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Constants.js */ "./src/Constants.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -882,6 +987,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Scene = /*#__PURE__*/function (_Container) {
   _inherits(Scene, _Container);
 
@@ -890,14 +996,14 @@ var Scene = /*#__PURE__*/function (_Container) {
   function Scene(key) {
     var _this;
 
-    var active = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var isActive = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
     _classCallCheck(this, Scene);
 
     _this = _super.call(this);
     _this.key = key;
-    _this.children = [];
-    _this.active = active;
+    _this.active = isActive;
+    _this.state = _Constants_js__WEBPACK_IMPORTED_MODULE_1__.State.NONE;
     _this.controls;
     return _this;
   }
@@ -1052,26 +1158,82 @@ var Text = /*#__PURE__*/function (_GameObject) {
 
 /***/ }),
 
-/***/ "./src/Texture.js":
-/*!************************!*\
-  !*** ./src/Texture.js ***!
-  \************************/
+/***/ "./src/TextureManager.js":
+/*!*******************************!*\
+  !*** ./src/TextureManager.js ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Texture = function Texture(url) {
-  _classCallCheck(this, Texture);
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-  this.img = new Image();
-  this.img.src = url;
-};
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Texture);
+var TextureManager = /*#__PURE__*/function () {
+  function TextureManager(urls) {
+    _classCallCheck(this, TextureManager);
+
+    this.urls = urls;
+    this.imgs = {};
+  }
+
+  _createClass(TextureManager, [{
+    key: "load",
+    value: function load(callback) {
+      var _this = this;
+
+      var p = this.urls.map(function (i) {
+        return _this.loadImage(i);
+      });
+      Promise.all(p).then(function (res) {
+        var o = _this.imgs = Object.assign.apply(Object, _toConsumableArray(res));
+        return callback(o);
+      })["catch"](function (err) {
+        return callback(err);
+      });
+    }
+  }, {
+    key: "loadImage",
+    value: function loadImage(i) {
+      return new Promise(function (resolve, reject) {
+        var img = new Image();
+        img.addEventListener('load', function () {
+          var o = _defineProperty({}, i[0], img);
+
+          resolve(o);
+        });
+        img.addEventListener('error', function () {
+          console.error('Error when loading an image');
+          reject();
+        });
+        img.src = i[1];
+      });
+    }
+  }]);
+
+  return TextureManager;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (TextureManager);
 
 /***/ }),
 
@@ -1139,10 +1301,15 @@ var TileMap = /*#__PURE__*/function (_Container) {
     value: function addTiles(tiles) {
       var _this2 = this;
 
+      var scale = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
       // Add all tile sprites
       this.children = tiles.map(function (frame, i) {
         var s = new _Sprite_js__WEBPACK_IMPORTED_MODULE_1__.default();
         s.frame = frame;
+        s.scale = {
+          x: scale,
+          y: scale
+        };
         s.pos.x = i % _this2.mapW * _this2.tileW;
         s.pos.y = Math.floor(i / _this2.mapW) * _this2.tileH;
         s.tileW = _this2.tileW;
@@ -1269,21 +1436,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Scene": () => /* reexport safe */ _Scene_js__WEBPACK_IMPORTED_MODULE_0__.default,
 /* harmony export */   "Text": () => /* reexport safe */ _Text_js__WEBPACK_IMPORTED_MODULE_2__.default,
 /* harmony export */   "Sprite": () => /* reexport safe */ _Sprite_js__WEBPACK_IMPORTED_MODULE_3__.default,
-/* harmony export */   "Texture": () => /* reexport safe */ _Texture_js__WEBPACK_IMPORTED_MODULE_4__.default,
-/* harmony export */   "math": () => /* reexport safe */ _utils_js__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "Container": () => /* reexport safe */ _Container_js__WEBPACK_IMPORTED_MODULE_6__.default,
-/* harmony export */   "TileMap": () => /* reexport safe */ _TileMap_js__WEBPACK_IMPORTED_MODULE_7__.default,
-/* harmony export */   "Camera": () => /* reexport safe */ _Camera_js__WEBPACK_IMPORTED_MODULE_8__.default
+/* harmony export */   "TextureManager": () => /* reexport safe */ _TextureManager_js__WEBPACK_IMPORTED_MODULE_4__.default,
+/* harmony export */   "Container": () => /* reexport safe */ _Container_js__WEBPACK_IMPORTED_MODULE_5__.default,
+/* harmony export */   "TileMap": () => /* reexport safe */ _TileMap_js__WEBPACK_IMPORTED_MODULE_6__.default,
+/* harmony export */   "Camera": () => /* reexport safe */ _Camera_js__WEBPACK_IMPORTED_MODULE_7__.default,
+/* harmony export */   "Graphics": () => /* reexport safe */ _Graphics_js__WEBPACK_IMPORTED_MODULE_8__.default,
+/* harmony export */   "Scale": () => /* reexport safe */ _Constants_js__WEBPACK_IMPORTED_MODULE_9__.Scale,
+/* harmony export */   "State": () => /* reexport safe */ _Constants_js__WEBPACK_IMPORTED_MODULE_9__.State,
+/* harmony export */   "Graph": () => /* reexport safe */ _Constants_js__WEBPACK_IMPORTED_MODULE_9__.Graph,
+/* harmony export */   "math": () => /* reexport safe */ _utils_js__WEBPACK_IMPORTED_MODULE_10__.default
 /* harmony export */ });
 /* harmony import */ var _Scene_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Scene.js */ "./src/Scene.js");
 /* harmony import */ var _Game_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Game.js */ "./src/Game.js");
 /* harmony import */ var _Text_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Text.js */ "./src/Text.js");
 /* harmony import */ var _Sprite_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Sprite.js */ "./src/Sprite.js");
-/* harmony import */ var _Texture_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Texture.js */ "./src/Texture.js");
-/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils.js */ "./src/utils.js");
-/* harmony import */ var _Container_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Container.js */ "./src/Container.js");
-/* harmony import */ var _TileMap_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TileMap.js */ "./src/TileMap.js");
-/* harmony import */ var _Camera_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Camera.js */ "./src/Camera.js");
+/* harmony import */ var _TextureManager_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TextureManager.js */ "./src/TextureManager.js");
+/* harmony import */ var _Container_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Container.js */ "./src/Container.js");
+/* harmony import */ var _TileMap_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TileMap.js */ "./src/TileMap.js");
+/* harmony import */ var _Camera_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Camera.js */ "./src/Camera.js");
+/* harmony import */ var _Graphics_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Graphics.js */ "./src/Graphics.js");
+/* harmony import */ var _Constants_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Constants.js */ "./src/Constants.js");
+/* harmony import */ var _utils_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./utils.js */ "./src/utils.js");
+
+
 
 
 

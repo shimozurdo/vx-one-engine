@@ -1,8 +1,4 @@
-import {
-    Scene,
-    Sprite,
-    TextureManager
-} from '../../src/vx-one.js'
+import { Scene, Sprite, TextureManager } from '../../src/vx-one.js'
 
 class LogoScene extends Scene {
 
