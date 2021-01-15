@@ -11,7 +11,6 @@ class GameScene extends Scene {
         let { game } = this
 
         const tileMap = new TileMap(game.textures.imgs.tiles)
-
         tileMap.tileSize = 32;
         tileMap.mapW = Math.ceil(1600 / tileMap.tileSize)
         tileMap.mapH = Math.ceil(600 / tileMap.tileSize)
@@ -48,14 +47,13 @@ class GameScene extends Scene {
             bottom: 600 - tileMap.tileSize * 2
         }
 
-        const player = new Sprite()
+        const player = new Sprite(game.textures.imgs.player)
         player.name = "pan"
         player.scale = { x: 2, y: 2 }
         player.anchor = { x: -16, y: -16 }
         player.pos = { x: 100, y: 100 }
         player.tileW = 16
         player.tileH = 16
-        player.texture = game.textures.imgs.player
         player.speed = math.randf(0.9, 1.2)
         player.anims.add("walk", [0, 1, 2].map(x => ({ x, y: 0 })).concat([{ x: 1, y: 0 }]), 0.07 * player.speed)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15 * player.speed)
@@ -66,12 +64,12 @@ class GameScene extends Scene {
         const bullets = new Container()
 
         function fireBullet(x, y, direction) {
-            const bullet = new Sprite()
+            const bullet = new Sprite(game.textures.imgs.bullet, false)
             bullet.scale.x = 2
+            bullet.name = 'bull'
             bullet.scale.y = 2
             bullet.pos = { x: x, y: y }
             bullet.anchor = { x: -16, y: -16 }
-            bullet.texture = game.textures.imgs.bullet
             bullet.update = function (dt) {
                 if (direction > 0) {
                     this.pos.x -= 300 * dt

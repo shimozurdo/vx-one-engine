@@ -2,17 +2,20 @@ import GameObject from "./GameObject.js"
 import AnimManager from "./AnimManager.js"
 
 class Sprite extends GameObject {
-    constructor(texture = null, w = 0, h = 0) {
+    constructor(texture = null, isAnim = true) {
         super()
         this.texture = texture
-        this.tileW = w
-        this.tileH = h
-        this.frame = { x: 0, y: 0 }
-        this.anims = new AnimManager(this)
+        if (isAnim) {
+            this.tileW = 0
+            this.tileH = 0
+            this.frame = { x: 0, y: 0 }
+            this.anims = new AnimManager(this)
+        }
     }
 
     update(dt) {
-        this.anims.update(dt)
+        if (this.anims)
+            this.anims.update(dt)
     }
 
     get w() {
