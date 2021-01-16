@@ -58,6 +58,11 @@ class GameScene extends Scene {
         player.anims.add("walk", [0, 1, 2].map(x => ({ x, y: 0 })).concat([{ x: 1, y: 0 }]), 0.07 * player.speed)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15 * player.speed)
         player.anims.play("idle")
+        player.h = 16
+        player.w = 16
+
+        //entity.addDebug(player);
+        game.debug.addDebug(player)
 
         const camera = new Camera(player, { w: 800, h: 600 }, { w: 1600, h: 600 });
 

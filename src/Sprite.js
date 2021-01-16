@@ -5,9 +5,9 @@ class Sprite extends GameObject {
     constructor(texture = null, isAnim = true) {
         super()
         this.texture = texture
-        if (isAnim) {
-            this.tileW = 0
-            this.tileH = 0
+        this.tileW 
+        this.tileH 
+        if (isAnim) {            
             this.frame = { x: 0, y: 0 }
             this.anims = new AnimManager(this)
         }
@@ -18,13 +18,13 @@ class Sprite extends GameObject {
             this.anims.update(dt)
     }
 
-    get w() {
-        return this.tileW * Math.abs(this.scale.x)
-    }
+    // get w() {
+    //     return this.tileW * Math.abs(this.scale.x)
+    // }
 
-    get h() {
-        return this.tileH * Math.abs(this.scale.y)
-    }
+    // get h() {
+    //     return this.tileH * Math.abs(this.scale.y)
+    // }
 }
 
 export default Sprite

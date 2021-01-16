@@ -1,6 +1,7 @@
 import Sprite from "./Sprite.js"
 import Graphics from "./Graphics.js"
 import { Graph } from './Constants.js'
+import Container from "./Container.js"
 
 class Render {
 
@@ -34,6 +35,8 @@ class Render {
 
                 // Handle transforms
                 if (child.pos) {
+                    // if(child.name === 'test')
+                    //     debugger
                     ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y))
                 }
                 if (child.anchor) {
@@ -43,11 +46,11 @@ class Render {
                     ctx.scale(child.scale.x, child.scale.y)
                 }
                 if (child.rotation) {
-                    const px = child.pivot ? child.pivot.x : 0;
-                    const py = child.pivot ? child.pivot.y : 0;
-                    ctx.translate(px, py);
-                    ctx.rotate(child.rotation);
-                    ctx.translate(-px, -py);
+                    const px = child.pivot ? child.pivot.x : 0
+                    const py = child.pivot ? child.pivot.y : 0
+                    ctx.translate(px, py)
+                    ctx.rotate(child.rotation)
+                    ctx.translate(-px, -py)
                 }
 
                 // Draw the leaf nodes
@@ -93,7 +96,15 @@ class Render {
                         const { w, h, fill } = child.src
                         ctx.fillStyle = fill;
                         ctx.fillRect(0, 0, w, h);
+                    } else if (child.type === Graph.RECT_OUTLINE) {
+                        const { pos, w, h, fill, lineWidth } = child.src
+                        ctx.strokeStyle = fill;
+                        ctx.lineWidth = lineWidth
+                        ctx.strokeRect(0, 0, w, h);
                     }
+                } else if (child.style && child.w && child.h) {
+                    ctx.fillStyle = child.style.fill;
+                    ctx.fillRect(0, 0, child.w, child.h);
                 }
 
                 // Render any child sub-nodes

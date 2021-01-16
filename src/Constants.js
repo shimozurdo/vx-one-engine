@@ -13,7 +13,8 @@ const State = {
 
 const Graph = {
     ROUND_RECT: 0,
-    RECT: 1
+    RECT: 1,
+    RECT_OUTLINE: 2
 }
 
 export {

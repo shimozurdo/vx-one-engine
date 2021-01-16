@@ -6,7 +6,7 @@ import GameScene from "./scenes/GameScene.js"
 // initial config
 const game = new Game({
     parent: 'game',
-    pixel: false,
+    pixel: true,
     w: 800,
     h: 600,
     debugMode: true
