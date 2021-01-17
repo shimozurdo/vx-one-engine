@@ -1,6 +1,6 @@
 import Container from "./Container.js"
 import Text from "./Text.js"
-import  Rect  from "./Rect.js"
+import Rect from "./Rect.js"
 import { Graph } from "./Constants.js"
 
 class Debug extends Container {
@@ -22,6 +22,15 @@ class Debug extends Container {
         i.h = e.tileH
         i.style = { fill: 'cyan', lineWidth: 1 }
         e.children.push(i)
+        if (e.hitBox) {
+            const { x, y, w, h } = e.hitBox;
+            const hb = new Rect(Graph.RECT_OUTLINE)
+            hb.style = { fill: 'rgba(255, 0, 0, 0.5)' }
+            hb.w = w
+            hb.h = h
+            hb.pos = { x, y }
+            e.children.push(hb);
+        }
     }
 }
 

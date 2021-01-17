@@ -55,12 +55,34 @@ class GameScene extends Scene {
         player.tileW = 16
         player.tileH = 16
         player.speed = math.randf(0.9, 1.2)
-        player.anims.add("walk", [0, 1, 2].map(x => ({ x, y: 0 })).concat([{ x: 1, y: 0 }]), 0.07 * player.speed)
+        player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07 * player.speed)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15 * player.speed)
         player.anims.play("idle")
-        
+        player.hitBox = {
+            x: 3,
+            y: 0,
+            w: 10,
+            h: 16
+        };
 
         game.debug.addDebug(player)
+
+        const coin = new Sprite(game.textures.imgs.coins)
+        coin.anchor = { x: -8, y: -8 }
+        coin.pos = { x: 600, y: 100 }
+        coin.tileW = 16
+        coin.tileH = 16
+        coin.speed = math.randf(0.9, 1.2)
+        coin.anims.add("spin", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.2)
+        coin.anims.play("spin")
+        coin.hitBox = {
+            x: 4,
+            y: 4,
+            w: 8,
+            h: 8
+        };
+
+        game.debug.addDebug(coin)
 
         const camera = new Camera(player, { w: 800, h: 600 }, { w: 1600, h: 600 });
 
@@ -89,10 +111,12 @@ class GameScene extends Scene {
         camera.add(tileMap)
         camera.add(player)
         camera.add(bullets)
+        camera.add(coin)
         this.add(camera)
 
         // Keep references to things we need in "update"
         this.player = player
+        this.coin = coin
         this.tileMap = tileMap
         this.bounds = bounds
         this.camera = camera
@@ -105,7 +129,7 @@ class GameScene extends Scene {
 
     update(dt, t) {
         super.update(dt, t)
-        let { game, player, bounds, fireBullet } = this
+        let { game, coin, player, bounds, fireBullet } = this
 
         player.pos.x += game.controls.x * dt * 200
         player.pos.y += game.controls.y * dt * 200
@@ -128,6 +152,10 @@ class GameScene extends Scene {
         const { top, bottom, left, right } = bounds;
         player.pos.x = math.clamp(player.pos.x, left, right);
         player.pos.y = math.clamp(player.pos.y, top, bottom);
+
+        if (this.hit(player, coin)) {
+            fireBullet(player.pos.x, player.pos.y, player.anchor.x)
+        }
     }
 }
 

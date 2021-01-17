@@ -10,7 +10,13 @@ class LogoScene extends Scene {
     }
 
     init() {
-        const urls = [['logo', "logo.png"], ['player', 'player.png'], ['tiles', 'tiles.png'], ['bullet', 'bullet.png']]
+        const urls = [
+            ['logo', "logo.png"],
+            ['player', 'player.png'],
+            ['tiles', 'tiles.png'],
+            ['bullet', 'bullet.png'],
+            ['coins', 'coins.png']
+        ]
         const { game } = this
         const textures = new TextureManager(urls)
         textures.load((imgs) => {
