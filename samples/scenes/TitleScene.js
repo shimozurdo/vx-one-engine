@@ -1,4 +1,4 @@
-import { Scene, Text, Graphics, Graph } from '../../src/vx-one.js'
+import { Scene, Text, Rect } from '../../src/vx-one.js'
 
 class TitleScene extends Scene {
 
@@ -16,9 +16,10 @@ class TitleScene extends Scene {
         titleTxt.style = { font: font, fill: '#76ff03', align: 'center' }
         this.add(titleTxt)
 
-        const button = new Graphics()
-        button.type = Graph.RECT
-        button.src = { w: 300, h: 50, fill: '#76ff03' }
+        const button = new Rect()
+        button.style = { fill: '#76ff03' }
+        button.w = 300
+        button.h = 50
         button.pos = { x: game.w / 2, y: 400 }
         button.anchor = { x: -150, y: -25 } // center
         this.add(button)

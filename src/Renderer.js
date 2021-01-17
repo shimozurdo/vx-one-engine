@@ -1,7 +1,6 @@
 import Sprite from "./Sprite.js"
-import Graphics from "./Graphics.js"
 import { Graph } from './Constants.js'
-import Container from "./Container.js"
+import Rect from "./Rect.js"
 
 class Render {
 
@@ -77,34 +76,17 @@ class Render {
                     } else {
                         ctx.drawImage(img, 0, 0);
                     }
-                } else if (child instanceof Graphics) {
-                    if (child.type === Graph.ROUND_RECT) {
-                        const { w, h, r, fill } = child.src
-                        const { x, y } = child.pos
-                        ctx.strokeStyle = fill;
-                        if (w < 2 * r) r = w / 2;
-                        if (h < 2 * r) r = h / 2;
-                        ctx.beginPath();
-                        ctx.moveTo(x + r, y);
-                        ctx.arcTo(x + w, y, x + w, y + h, r);
-                        ctx.arcTo(x + w, y + h, x, y + h, r);
-                        ctx.arcTo(x, y + h, x, y, r);
-                        ctx.arcTo(x, y, x + w, y, r);
-                        ctx.stroke();
-                        ctx.closePath();
-                    } else if (child.type === Graph.RECT) {
-                        const { w, h, fill } = child.src
+                } else if (child instanceof Rect) {
+                    if (child.type === Graph.RECT) {
+                        const { fill } = child.style
                         ctx.fillStyle = fill;
-                        ctx.fillRect(0, 0, w, h);
+                        ctx.fillRect(0, 0, child.w, child.h);
                     } else if (child.type === Graph.RECT_OUTLINE) {
-                        const { pos, w, h, fill, lineWidth } = child.src
+                        const { fill, lineWidth } = child.style
                         ctx.strokeStyle = fill;
                         ctx.lineWidth = lineWidth
-                        ctx.strokeRect(0, 0, w, h);
+                        ctx.strokeRect(0, 0, child.w, child.h);
                     }
-                } else if (child.style && child.w && child.h) {
-                    ctx.fillStyle = child.style.fill;
-                    ctx.fillRect(0, 0, child.w, child.h);
                 }
 
                 // Render any child sub-nodes

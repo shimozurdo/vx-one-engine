@@ -6,7 +6,7 @@ import TextureManager from "./TextureManager.js"
 import Container from "./Container.js"
 import TileMap from "./TileMap.js"
 import Camera from "./Camera.js"
-import Graphics from "./Graphics.js"
+import  Rect  from "./Rect.js"
 import { Scale, State, Graph } from "./Constants.js"
 import math from "./utils.js"
 
@@ -19,7 +19,7 @@ export {
     Container,
     TileMap,
     Camera,
-    Graphics,
+    Rect,
     Scale,
     State,
     Graph,

@@ -1,6 +1,6 @@
 import Container from "./Container.js"
 import Text from "./Text.js"
-import Graphics from "./Graphics.js"
+import  Rect  from "./Rect.js"
 import { Graph } from "./Constants.js"
 
 class Debug extends Container {
@@ -15,17 +15,13 @@ class Debug extends Container {
     }
 
     addDebug(e) {
-        e.children = e.children || [];
-        const i = new Graphics()
-        i.type = Graph.RECT_OUTLINE
-        // i.scale = { x: 1, y: 1 }
-        // i.anchor = { x: -16, y: -16 }
-        // i.tileW = 16
-        // i.tileH = 16
-        i.src = { w: e.tileW, h: e.tileH, fill: 'cyan', lineWidth: 1 }
-        // i.pos = { x: e.pos.x, y: e.pos.y }
-        i.name = "test"
-        e.children.push(i);
+        e.children = e.children || []
+        const i = new Rect(Graph.RECT_OUTLINE)
+        i.style = { fill: '#76ff03' }
+        i.w = e.tileW
+        i.h = e.tileH
+        i.style = { fill: 'cyan', lineWidth: 1 }
+        e.children.push(i)
     }
 }
 
