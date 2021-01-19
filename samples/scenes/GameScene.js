@@ -69,7 +69,7 @@ class GameScene extends Scene {
 
         const coin = new Sprite(game.textures.imgs.coins)
         coin.anchor = { x: -8, y: -8 }
-        coin.pos = { x: 600, y: 100 }
+        coin.pos = { x: 200, y: 100 }
         coin.tileW = 16
         coin.tileH = 16
         coin.speed = math.randf(0.9, 1.2)
@@ -131,8 +131,8 @@ class GameScene extends Scene {
         super.update(dt, t)
         let { game, coin, player, bounds, fireBullet } = this
 
-        player.pos.x += game.controls.x * dt * 200
-        player.pos.y += game.controls.y * dt * 200
+        player.pos.x += game.controls.x * dt * 50
+        player.pos.y += game.controls.y * dt * 50
 
         if (game.controls.x) {
             player.anims.play("walk")
@@ -153,8 +153,8 @@ class GameScene extends Scene {
         player.pos.x = math.clamp(player.pos.x, left, right);
         player.pos.y = math.clamp(player.pos.y, top, bottom);
 
-        if (this.hit(player, coin)) {
-            fireBullet(player.pos.x, player.pos.y, player.anchor.x)
+        if (this.hit(coin, player)) {
+            console.log("collision!");
         }
     }
 }
