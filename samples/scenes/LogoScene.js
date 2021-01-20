@@ -1,4 +1,4 @@
-import { Scene, Sprite, TextureManager } from '../../src/vx-one.js'
+import { Scene, Sprite, TextureManager, Graph, Rect } from '../../src/vx-one.js'
 
 class LogoScene extends Scene {
 
@@ -10,6 +10,12 @@ class LogoScene extends Scene {
     }
 
     init() {
+        const i = new Rect(Graph.RECT)
+        i.style = { fill: '#000' }
+        i.w = 800
+        i.h = 600
+        this.add(i)
+
         const urls = [
             ['logo', "logo.png"],
             ['player', 'player.png'],

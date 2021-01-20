@@ -1,4 +1,4 @@
-import { Scene, Text, Rect } from '../../src/vx-one.js'
+import { Scene, Text, Rect, Graph } from '../../src/vx-one.js'
 
 class TitleScene extends Scene {
 
@@ -9,6 +9,18 @@ class TitleScene extends Scene {
 
     init() {
         const { game } = this
+
+        let i = new Rect(Graph.RECT)
+        i.style = { fill: '#000' }
+        i.w = 800
+        i.h = 600
+        this.add(i)
+
+        i = new Rect(Graph.RECT_OUTLINE)
+        i.style = { fill: 'red', lineWidth: 10 }
+        i.w = 800
+        i.h = 600
+        this.add(i)
 
         const titleTxt = new Text('Super Game')
         const font = `80px 'Concert One', cursive`;

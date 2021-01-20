@@ -1,6 +1,6 @@
 const Scale = {
-    RESIZE: 0,
-    NONE: 1
+    NONE: 0,
+    RESIZE: 1
 }
 
 const State = {

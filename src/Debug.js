@@ -17,7 +17,6 @@ class Debug extends Container {
     addDebug(e) {
         e.children = e.children || []
         const i = new Rect(Graph.RECT_OUTLINE)
-        i.style = { fill: '#76ff03' }
         i.w = e.tileW
         i.h = e.tileH
         i.style = { fill: 'cyan', lineWidth: 1 }

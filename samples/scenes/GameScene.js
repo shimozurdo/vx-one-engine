@@ -1,4 +1,4 @@
-import { Scene, TileMap, Sprite, Camera, math, Container } from '../../src/vx-one.js'
+import { Scene, TileMap, Sprite, Camera, math, Container, Rect, Graph } from '../../src/vx-one.js'
 
 class GameScene extends Scene {
 
@@ -9,6 +9,12 @@ class GameScene extends Scene {
 
     init() {
         let { game } = this
+        
+        const i = new Rect(Graph.RECT)
+        i.style = { fill: '#000' }
+        i.w = 800
+        i.h = 600
+        this.add(i)
 
         const tileMap = new TileMap(game.textures.imgs.tiles)
         tileMap.tileSize = 32;
@@ -131,8 +137,8 @@ class GameScene extends Scene {
         super.update(dt, t)
         let { game, coin, player, bounds, fireBullet } = this
 
-        player.pos.x += game.controls.x * dt * 50
-        player.pos.y += game.controls.y * dt * 50
+        player.pos.x += game.controls.x * dt * 300
+        player.pos.y += game.controls.y * dt * 300
 
         if (game.controls.x) {
             player.anims.play("walk")
