@@ -10,28 +10,17 @@ class Render {
         this.ctx = canvas.getContext("2d")
         this.ctx.textBaseline = "top"
         this.mode = config.mode
+        this.w = this.view.width = config.w
+        this.h = this.view.height = config.h
         if (this.mode === Scale.RESIZE) {
-            // this.view.width = window.innerWidth
-            // this.view.height = window.innerHeight
-            // this.w = config.w
-            // this.h = config.h
-            this.w = this.view.width = config.w
-            this.h = this.view.height = config.h
-            this.resizeScreen()
-            this.resizeCanvas()
-        } else {
-            this.w = this.view.width = config.w
-            this.h = this.view.height = config.h
+            const resizeCanvas = this.resizeCanvas.bind(this)
+            resizeCanvas()
+            window.addEventListener('resize', resizeCanvas, false)
         }
         if (config.pixel) {
             canvas.style.imageRendering = 'pixelated'
             this.ctx.imageSmoothingEnabled = false
         }
-    }
-
-    resizeScreen() {
-        const resizeCanvas = this.resizeCanvas.bind(this)
-        window.addEventListener('resize', resizeCanvas, false)
     }
 
     render(scene, clear = true) {
@@ -41,7 +30,7 @@ class Render {
 
         const { ctx, w, h, mode } = this
 
-        function renderRec(scene) {
+        function renderRec(scene, firstLevel = true) {
             // Render the container children
             scene.children.forEach(child => {
                 if (child.visible == false) {
@@ -49,11 +38,17 @@ class Render {
                 }
                 ctx.save()
 
+                // Handle resize
+                if (mode === Scale.RESIZE && firstLevel) {
+                    ctx.translate(Math.round(scene.pos.x), Math.round(scene.pos.y))
+                    if (w > window.innerWidth) {
+                        ctx.scale((window.innerWidth * 100 / w) * .01, (window.innerWidth * 100 / w) * .01)
+                    } else if (h > window.innerHeight) {
+                        ctx.scale((window.innerHeight * 100 / h) * .01, (window.innerHeight * 100 / h) * .01)
+                    }
+                }
                 // Handle transforms
                 if (child.pos) {
-                    // if (mode === Scale.RESIZE) {
-                    //     ctx.translate((window.innerWidth - w) / 2, (window.innerHeight - h) / 2)
-                    // }
                     ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y))
                 }
                 if (child.anchor) {
@@ -109,7 +104,7 @@ class Render {
 
                 // Render any child sub-nodes
                 if (child.children) {
-                    renderRec(child)
+                    renderRec(child, false)
                 }
 
                 ctx.restore()
@@ -123,68 +118,8 @@ class Render {
     }
 
     resizeCanvas() {
-
-        //Get the image dimensions:
-        const image = {
-            width: this.view.width,
-            height: this.view.height
-        }
-
-        //Get the page dimensions:
-        const page = {
-            width: window.innerWidth,
-            height: window.innerHeight
-        }
-
-        //Get the image ratio, this is what we want to preserve:
-        let imageRatio = image.width / image.height
-
-        //Get the page ratio, this is what we use to decide which dimension to fix:
-        let pageRatio = page.width / page.height
-
-        //Do we fix the height? (if not, we fix the width)
-        let fixHeight = (imageRatio > pageRatio)
-
-        //Create a place to store the new image dimensions:
-        let newImage = {
-            left: 0,
-            top: 0,
-            width: 0,
-            height: 0
-        }
-
-        //Do the calculations:
-        if (fixHeight) {
-            newImage.height = page.height
-            newImage.width = page.height * imageRatio
-            if (newImage.width > window.innerWidth) {
-                newImage.width = window.innerWidth
-                newImage.height = window.innerWidth / imageRatio
-                newImage.top = -(newImage.height - page.height) / 2
-            }
-            
-            //The height matches the page height, so we need to center
-            //the width.
-            // newImage.left = -(newImage.width - page.width) / 2
-        } else {
-            newImage.height = page.width / imageRatio;
-            newImage.width = page.width;
-            if (newImage.height > window.innerHeight) {
-                newImage.height = window.innerHeight
-                newImage.width = window.innerHeight * imageRatio
-                newImage.left = -(newImage.width - page.width) / 2
-            }
-            // newImage.top = -(newImage.height - page.height) / 2
-        }
-
-        //Now we set the image's new dimensions:
-        this.view.style.position = 'absolute'
-        this.view.style.top = `${newImage.top}px`
-        this.view.style.left = `${newImage.left}px`
-        this.view.style.width = `${newImage.width}px`
-        this.view.style.height = `${newImage.height}px`
-
-        console.log(fixHeight, image, page)
+        this.view.width = window.innerWidth
+        this.view.height = window.innerHeight
     }
 }
 

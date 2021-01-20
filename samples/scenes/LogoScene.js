@@ -24,6 +24,12 @@ class LogoScene extends Scene {
             ['coins', 'coins.png']
         ]
         const { game } = this
+
+        // this.pos = {
+        //     x: (window.innerWidth - game.w) / 2, 
+        //     y: 0
+        // }
+
         const textures = new TextureManager(urls)
         textures.load((imgs) => {
             this.logo = new Sprite(imgs.logo)

@@ -9,6 +9,10 @@ class GameScene extends Scene {
 
     init() {
         let { game } = this
+        // this.pos = {
+        //     x: (window.innerWidth - game.w) / 2, 
+        //     y: 0
+        // }
         
         const i = new Rect(Graph.RECT)
         i.style = { fill: '#000' }
@@ -137,8 +141,8 @@ class GameScene extends Scene {
         super.update(dt, t)
         let { game, coin, player, bounds, fireBullet } = this
 
-        player.pos.x += game.controls.x * dt * 300
-        player.pos.y += game.controls.y * dt * 300
+        player.pos.x += game.controls.x * dt * 100
+        player.pos.y += game.controls.y * dt * 100
 
         if (game.controls.x) {
             player.anims.play("walk")
@@ -155,9 +159,9 @@ class GameScene extends Scene {
             fireBullet(player.pos.x, player.pos.y, player.anchor.x)
         }
 
-        const { top, bottom, left, right } = bounds;
-        player.pos.x = math.clamp(player.pos.x, left, right);
-        player.pos.y = math.clamp(player.pos.y, top, bottom);
+        // const { top, bottom, left, right } = bounds;
+        // player.pos.x = math.clamp(player.pos.x, left, right);
+        // player.pos.y = math.clamp(player.pos.y, top, bottom);
 
         if (this.hit(coin, player)) {
             console.log("collision!");

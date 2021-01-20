@@ -9,6 +9,10 @@ class TitleScene extends Scene {
 
     init() {
         const { game } = this
+        // this.pos = {
+        //     x: (window.innerWidth - game.w) / 2, 
+        //     y: 0
+        // }
 
         let i = new Rect(Graph.RECT)
         i.style = { fill: '#000' }
