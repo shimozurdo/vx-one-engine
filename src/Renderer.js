@@ -157,6 +157,12 @@ class Render {
         if (fixHeight) {
             newImage.height = page.height
             newImage.width = page.height * imageRatio
+            if (newImage.width > window.innerWidth) {
+                newImage.width = window.innerWidth
+                newImage.height = window.innerWidth / imageRatio
+                newImage.top = -(newImage.height - page.height) / 2
+            }
+            
             //The height matches the page height, so we need to center
             //the width.
             // newImage.left = -(newImage.width - page.width) / 2
