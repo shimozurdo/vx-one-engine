@@ -1,4 +1,4 @@
-import { Scene, TileMap, Sprite, Camera, math, Container, Rect, Graph } from '../../src/vx-one.js'
+import { Scene, TileMap, Sprite, Camera, math, Container, Rect, Graph, wallslide } from '../../src/vx-one.js'
 
 class GameScene extends Scene {
 
@@ -21,34 +21,78 @@ class GameScene extends Scene {
         this.add(i)
 
         const tileMap = new TileMap(game.textures.imgs.tiles)
-        tileMap.tileSize = 32;
+        tileMap.tileSize = 32
         tileMap.mapW = Math.ceil(1600 / tileMap.tileSize)
         tileMap.mapH = Math.ceil(600 / tileMap.tileSize)
         tileMap.tileW = tileMap.tileSize
         tileMap.tileH = tileMap.tileSize
 
-        const level = []
-        for (let i = 0; i < tileMap.mapW * tileMap.mapH; i++) {
-            const isTopOrBottom = i < tileMap.mapW || Math.floor(i / tileMap.mapW) === tileMap.mapH - 1
-            const isLeft = i % tileMap.mapW === 0
-            const isRight = i % tileMap.mapW === tileMap.mapW - 1
-            const isSecondRow = ((i / tileMap.mapW) | 0) === 1
+        const tileIndexes = [
+            { id: "empty", x: 1, y: 1, walkable: true },
+            { id: "wall", x: 2, y: 2 },
+            { id: "wall_end", x: 3, y: 2 }
+        ];
+        const getTile = id => tileIndexes.find(t => t.id == id);
+        const getIdx = id => tileIndexes.indexOf(getTile(id))
 
-            if (isTopOrBottom) {
-                level.push({ x: 2, y: 1 })
-            } else if (isLeft) {
-                level.push({ x: 1, y: 1 })
-            } else if (isRight) {
-                level.push({ x: 3, y: 1 })
-            } else if (isSecondRow) {
-                level.push({ x: 4, y: 1 })
-            } else {
-                // Random ground tiles
-                level.push({ x: math.rand(0, 9), y: math.rand(0, 9) })
+        const level = Array(tileMap.mapW * tileMap.mapH).fill(getIdx("empty"));
+        for (let y = 0; y < tileMap.mapH; y++) {
+            for (let x = 0; x < tileMap.mapW; x++) {
+                // Map borders
+                if (y === 0 || x === 0 || y === tileMap.mapH - 1 || x === tileMap.mapW - 1) {
+                    level[y * tileMap.mapW + x] = getIdx("wall");
+                    continue;
+                }
+                // Grid points - randomly skip some to make "rooms"
+                if (y % 2 || x % 2 || math.randOneIn(4)) {
+                    continue;
+                }
+                level[y * tileMap.mapW + x] = 1;
+                // Side walls - pick a random direction
+                const [xo, yo] = math.randOneFrom([[0, -1], [0, 1], [1, 0], [-1, 0]]);
+                level[(y + yo) * tileMap.mapW + (x + xo)] = getIdx("wall");
             }
         }
 
-        tileMap.addTiles(level, 2);
+        for (let y = 0; y < tileMap.mapH - 1; y++) {
+            for (let x = 0; x < tileMap.mapW; x++) {
+                const below = level[(y + 1) * tileMap.mapW + x];
+                const me = level[y * tileMap.mapW + x];
+                if (me === getIdx("wall") && below !== getIdx("wall")) {
+                    level[y * tileMap.mapW + x] = getIdx("wall_end");
+                }
+            }
+        }
+
+        // const tileMap = new TileMap(game.textures.imgs.tiles)
+        // tileMap.tileSize = 32;
+        // tileMap.mapW = Math.ceil(1600 / tileMap.tileSize)
+        // tileMap.mapH = Math.ceil(600 / tileMap.tileSize)
+        // tileMap.tileW = tileMap.tileSize
+        // tileMap.tileH = tileMap.tileSize
+
+        // const level = []
+        // for (let i = 0; i < tileMap.mapW * tileMap.mapH; i++) {
+        //     const isTopOrBottom = i < tileMap.mapW || Math.floor(i / tileMap.mapW) === tileMap.mapH - 1
+        //     const isLeft = i % tileMap.mapW === 0
+        //     const isRight = i % tileMap.mapW === tileMap.mapW - 1
+        //     const isSecondRow = ((i / tileMap.mapW) | 0) === 1
+
+        //     if (isTopOrBottom) {
+        //         level.push({ x: 2, y: 1 })
+        //     } else if (isLeft) {
+        //         level.push({ x: 1, y: 1 })
+        //     } else if (isRight) {
+        //         level.push({ x: 3, y: 1 })
+        //     } else if (isSecondRow) {
+        //         level.push({ x: 4, y: 1 })
+        //     } else {
+        //         // Random ground tiles
+        //         level.push({ x: math.rand(0, 9), y: math.rand(0, 9) })
+        //     }
+        // }
+
+        tileMap.addTiles(level.map(i => tileIndexes[i]), 2);
 
         const bounds = {
             left: tileMap.tileSize,
@@ -71,12 +115,15 @@ class GameScene extends Scene {
         player.pos = { x: 100, y: 100 }
         player.tileW = 16
         player.tileH = 16
+        player.w = 16
+        player.h = 16
         player.speed = math.randf(0.9, 1.2)
         player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07 * player.speed)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15 * player.speed)
         player.anims.play("idle")
         player.hitBox = {
             x: player.anchor.x,
+            y: player.anchor.y,
             y: player.anchor.y,
             w: player.tileW * player.scale.x,
             h: player.tileH * player.scale.y
@@ -146,10 +193,21 @@ class GameScene extends Scene {
 
     update(dt, t) {
         super.update(dt, t)
-        let { game, coin, player, bounds, fireBullet } = this
+        let { game, coin, player, bounds, fireBullet, tileMap } = this
 
-        player.pos.x += game.controls.x * dt * 70
-        player.pos.y += game.controls.y * dt * 70
+        let { x, y } = game.controls
+
+        const xo = x * dt * 100
+        const yo = y * dt * 100
+
+        const r = wallslide(player, tileMap, xo, yo);
+        //console.log(r)
+        if (r.x !== 0 && r.y !== 0) {
+            r.x /= Math.sqrt(2);
+            r.y /= Math.sqrt(2);
+        }
+        player.pos.x += r.x;
+        player.pos.y += r.y;
 
         if (game.controls.x) {
             player.anims.play("walk")

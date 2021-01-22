@@ -38,10 +38,20 @@ function clamp(x, min, max) {
     return Math.max(min, Math.min(x, max));
 }
 
+function randOneFrom(items) {
+    return items[rand(items.length)];
+  }
+  
+  function randOneIn(max = 2) {
+    return rand(0, max) === 0;
+  }
+
 export default {
     Vector2,
     RGBA,
     rand,
     randf,
-    clamp
+    clamp,
+    randOneFrom,
+    randOneIn
 }

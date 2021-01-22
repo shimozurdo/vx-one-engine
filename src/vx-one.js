@@ -9,6 +9,7 @@ import Camera from "./Camera.js"
 import  Rect  from "./Rect.js"
 import { Scale, State, Graph } from "./Constants.js"
 import math from "./utils.js"
+import wallslide  from "./wallslide.js"
 
 export {
     Game,
@@ -24,4 +25,5 @@ export {
     State,
     Graph,
     math,
+    wallslide
 }
