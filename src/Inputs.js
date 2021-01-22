@@ -59,17 +59,17 @@ class KeyControls {
 
 class MouseControls {
     constructor(container) {
-        this.el = container || document.body
+        this.el = container || document.body;
 
-        this.pos = { x: 0, y: 0 }
-        this.isDown = false
-        this.pressed = false
-        this.released = false
+        this.pos = { x: 0, y: 0 };
+        this.isDown = false;
+        this.pressed = false;
+        this.released = false;
 
         // Handlers
-        document.addEventListener("mousedown", e => this.down(e), false)
-        document.addEventListener("mouseup", e => this.up(e), false)
-        document.addEventListener("mousemove", e => this.move(e), false)
+        document.addEventListener("mousedown", e => this.down(e), false);
+        document.addEventListener("mouseup", e => this.up(e), false);
+        document.addEventListener("mousemove", e => this.move(e), false);
     }
 
     mousePosFromEvent({ clientX, clientY }) {

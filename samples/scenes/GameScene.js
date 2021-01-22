@@ -75,7 +75,7 @@ class GameScene extends Scene {
             h: 16
         };
 
-        game.debug.addDebug(player)
+        // game.debug.addDebug(player)
 
         const coin = new Sprite(game.textures.imgs.coins)
         coin.anchor = { x: -8, y: -8 }
@@ -92,7 +92,7 @@ class GameScene extends Scene {
             h: 8
         };
 
-        game.debug.addDebug(coin)
+        // game.debug.addDebug(coin)
 
         const camera = new Camera(player, { w: 800, h: 600 }, { w: 1600, h: 600 });
 

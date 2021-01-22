@@ -10,7 +10,7 @@ const game = new Game({
     pixel: true,
     w: 800,
     h: 600,
-    debugMode: true
+    debugMode: false
 })
 
 game.addScene(new LogoScene(game)) // initial scene

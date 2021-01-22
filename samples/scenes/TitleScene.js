@@ -51,7 +51,8 @@ class TitleScene extends Scene {
 
     update(dt, t) {
         super.update(dt, t)
-        if (this.game.controls.action) {
+        console.log(this.game.mouse.isDown)
+        if (this.game.mouse.isDown) {
             this.active = false
             this.game.launchScene('GameScene')
         }

@@ -1,5 +1,5 @@
 import Renderer from "./Renderer.js"
-import { KeyControls } from "./Inputs.js"
+import { KeyControls, MouseControls } from "./Inputs.js"
 import Debug from "./Debug.js"
 
 class Game {
@@ -15,6 +15,7 @@ class Game {
     this.scene
     this.textures
     this.controls = new KeyControls()
+    this.mouse = new MouseControls(this.renderer.view)
     this.debug = new Debug()
     this.debug.active = config.debugMode
   }

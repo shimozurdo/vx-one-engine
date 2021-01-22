@@ -12,14 +12,11 @@ class Render {
         this.mode = config.mode
         this.w = this.view.width = config.w
         this.h = this.view.height = config.h
+        this.pixel = config.pixel
         if (this.mode === Scale.RESIZE) {
             const resizeCanvas = this.resizeCanvas.bind(this)
             resizeCanvas()
             window.addEventListener('resize', resizeCanvas, false)
-        }
-        if (config.pixel) {
-            canvas.style.imageRendering = 'pixelated'
-            this.ctx.imageSmoothingEnabled = false
         }
     }
 
@@ -46,7 +43,7 @@ class Render {
                         ctx.scale((window.innerWidth * 100 / w) / 100, (window.innerWidth * 100 / w) / 100)
                     } else if (h > window.innerHeight && w < window.innerWidth) {
                         ctx.scale((window.innerHeight * 100 / h) / 100, (window.innerHeight * 100 / h) / 100)
-                    } else if (w > window.innerWidth && h > window.innerHeight) {                        
+                    } else if (w > window.innerWidth && h > window.innerHeight) {
                         if (window.innerWidth > window.innerHeight)
                             ctx.scale((window.innerHeight * 100 / h) / 100, (window.innerHeight * 100 / h) / 100)
                         else
@@ -129,6 +126,13 @@ class Render {
     resizeCanvas() {
         this.view.width = window.innerWidth
         this.view.height = window.innerHeight
+        // fix pixel perfect render
+        if (this.pixel) {
+            this.view.style.imageRendering = 'pixelated'
+            this.ctx.webkitImageSmoothingEnabled = false
+            this.ctx.mozImageSmoothingEnabled = false
+            this.ctx.imageSmoothingEnabled = false
+        }
     }
 }
 
