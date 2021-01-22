@@ -30,7 +30,7 @@ class Render {
 
         const { ctx, w, h, mode } = this
 
-        function renderRec(scene, firstLevel = true) {
+        function renderRec(scene, firstNode = true) {
             // Render the container children
             scene.children.forEach(child => {
                 if (child.visible == false) {
@@ -39,14 +39,23 @@ class Render {
                 ctx.save()
 
                 // Handle resize
-                if (mode === Scale.RESIZE && firstLevel) {
+                if (mode === Scale.RESIZE && firstNode) {
+                    // TO DO: Improve this
                     ctx.translate(Math.round(scene.pos.x), Math.round(scene.pos.y))
-                    if (w > window.innerWidth) {
-                        ctx.scale((window.innerWidth * 100 / w) * .01, (window.innerWidth * 100 / w) * .01)
-                    } else if (h > window.innerHeight) {
-                        ctx.scale((window.innerHeight * 100 / h) * .01, (window.innerHeight * 100 / h) * .01)
+                    if (w > window.innerWidth && h < window.innerHeight) {
+                        ctx.scale((window.innerWidth * 100 / w) / 100, (window.innerWidth * 100 / w) / 100)
+                    } else if (h > window.innerHeight && w < window.innerWidth) {
+                        ctx.scale((window.innerHeight * 100 / h) / 100, (window.innerHeight * 100 / h) / 100)
+                    } else if (w > window.innerWidth && h > window.innerHeight) {                        
+                        if (window.innerWidth > window.innerHeight)
+                            ctx.scale((window.innerHeight * 100 / h) / 100, (window.innerHeight * 100 / h) / 100)
+                        else
+                            ctx.scale((window.innerWidth * 100 / w) / 100, (window.innerWidth * 100 / w) / 100)
+                    } else if (window.innerHeight > h) {
+                        ctx.scale((window.innerHeight * 100 / h) / 100, (window.innerHeight * 100 / h) / 100)
                     }
                 }
+
                 // Handle transforms
                 if (child.pos) {
                     ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y))

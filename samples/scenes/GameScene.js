@@ -16,7 +16,7 @@ class GameScene extends Scene {
         
         const i = new Rect(Graph.RECT)
         i.style = { fill: '#000' }
-        i.w = 800
+        i.w = 1600
         i.h = 600
         this.add(i)
 
