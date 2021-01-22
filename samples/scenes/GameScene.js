@@ -13,8 +13,8 @@ class GameScene extends Scene {
         //     x: (window.innerWidth - game.w) / 2, 
         //     y: 0
         // }
-        
-        const i = new Rect(Graph.RECT)
+
+        let i = new Rect(Graph.RECT)
         i.style = { fill: '#000' }
         i.w = 1600
         i.h = 600
@@ -57,6 +57,13 @@ class GameScene extends Scene {
             bottom: 600 - tileMap.tileSize * 2
         }
 
+        i = new Rect(Graph.RECT)
+        i.style = { fill: 'pink' }
+        i.w = 32
+        i.h = 32
+        i.pos = { x: 100, y: 100 }
+        this.add(i)
+
         const player = new Sprite(game.textures.imgs.player)
         player.name = "pan"
         player.scale = { x: 2, y: 2 }
@@ -69,16 +76,16 @@ class GameScene extends Scene {
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15 * player.speed)
         player.anims.play("idle")
         player.hitBox = {
-            x: 3,
-            y: 0,
-            w: 10,
-            h: 16
-        };
+            x: player.anchor.x,
+            y: player.anchor.y,
+            w: player.tileW * player.scale.x,
+            h: player.tileH * player.scale.y
+        }
 
-        // game.debug.addDebug(player)
+        game.debug.addDebug(player)
 
         const coin = new Sprite(game.textures.imgs.coins)
-        coin.anchor = { x: -8, y: -8 }
+        // coin.anchor = { x: -8, y: -8 }
         coin.pos = { x: 200, y: 100 }
         coin.tileW = 16
         coin.tileH = 16
@@ -86,13 +93,13 @@ class GameScene extends Scene {
         coin.anims.add("spin", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.2)
         coin.anims.play("spin")
         coin.hitBox = {
-            x: 4,
-            y: 4,
-            w: 8,
-            h: 8
+            x: 0,
+            y: 0,
+            w: 16,
+            h: 16
         };
 
-        // game.debug.addDebug(coin)
+        game.debug.addDebug(coin)
 
         const camera = new Camera(player, { w: 800, h: 600 }, { w: 1600, h: 600 });
 
@@ -141,8 +148,8 @@ class GameScene extends Scene {
         super.update(dt, t)
         let { game, coin, player, bounds, fireBullet } = this
 
-        player.pos.x += game.controls.x * dt * 100
-        player.pos.y += game.controls.y * dt * 100
+        player.pos.x += game.controls.x * dt * 70
+        player.pos.y += game.controls.y * dt * 70
 
         if (game.controls.x) {
             player.anims.play("walk")
@@ -163,7 +170,8 @@ class GameScene extends Scene {
         // player.pos.x = math.clamp(player.pos.x, left, right);
         // player.pos.y = math.clamp(player.pos.y, top, bottom);
 
-        if (this.hit(coin, player)) {
+        if (this.hit(player, coin)) {
+
             console.log("collision!");
         }
     }

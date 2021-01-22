@@ -22,12 +22,12 @@ class Debug extends Container {
         i.style = { fill: 'cyan', lineWidth: 1 }
         e.children.push(i)
         if (e.hitBox) {
-            const { x, y, w, h } = e.hitBox;
+            const { x, y } = e.hitBox;
             const hb = new Rect(Graph.RECT_OUTLINE)
             hb.style = { fill: 'rgba(255, 0, 0, 0.5)' }
-            hb.w = w
-            hb.h = h
-            hb.pos = { x, y }
+            hb.name = "hb"
+            hb.w = i.w
+            hb.h = i.h
             e.children.push(hb);
         }
     }

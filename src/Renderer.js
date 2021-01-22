@@ -52,7 +52,8 @@ class Render {
                         ctx.scale((window.innerHeight * 100 / h) / 100, (window.innerHeight * 100 / h) / 100)
                     }
                 }
-
+                // if(child.name === "hb")
+                // debugger
                 // Handle transforms
                 if (child.pos) {
                     ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y))
@@ -61,6 +62,7 @@ class Render {
                     ctx.translate(child.anchor.x, child.anchor.y);
                 }
                 if (child.scale) {
+
                     ctx.scale(child.scale.x, child.scale.y)
                 }
                 if (child.rotation) {
