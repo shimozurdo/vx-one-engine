@@ -35,8 +35,8 @@ class LogoScene extends Scene {
             this.logo = new Sprite(imgs.logo)
             this.logo.pos = { x: game.w / 2, y: game.h / 2 }
             this.logo.anchor = { x: -128, y: -32 }
-            this.add(this.logo)
             this.game.textures = textures
+            this.add(this.logo)
             this.active = true
         })
     }

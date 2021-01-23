@@ -16,19 +16,22 @@ class TileMap extends Container {
     // Add all tile sprites
     this.children = tiles.map((frame, i) => {
       const s = new Sprite(this.texture, isAnim)
-      s.frame = frame;
+      s.frame =
+      {
+        ...frame,
+        w: this.tileW,
+        h: this.tileH
+      }
       s.scale = { x: scale, y: scale }
-      s.pos.x = i % this.mapW * this.tileW;
-      s.pos.y = Math.floor(i / this.mapW) * this.tileH;
-      s.tileW = this.tileW
-      s.tileH = this.tileH
+      s.pos.x = i % this.mapW * this.tileW
+      s.pos.y = Math.floor(i / this.mapW) * this.tileH
 
       return s;
     });
   }
 
   pixelToMapPos(pos) {
-    const { tileW, tileH } = this;
+    const { tileW, tileH } = this
     return {
       x: Math.floor(pos.x / tileW),
       y: Math.floor(pos.y / tileH)

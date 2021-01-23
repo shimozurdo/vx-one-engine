@@ -80,19 +80,19 @@ class Render {
                     if (fill) ctx.fillStyle = fill
                     if (align) ctx.textAlign = align
                     ctx.fillText(child.text, 0, 0)
-                } else if (child instanceof Sprite && child.texture) {
+                } else if (child instanceof Sprite) {
                     const img = child.texture
-                    if (child.tileW) {
+                    if (child.frame.w) {
                         ctx.drawImage(
                             img,
-                            child.frame.x * child.tileW,
-                            child.frame.y * child.tileH,
-                            child.tileW,
-                            child.tileH,
+                            child.frame.x * child.frame.w,
+                            child.frame.y * child.frame.h,
+                            child.frame.w,
+                            child.frame.h,
                             0,
                             0,
-                            child.tileW,
-                            child.tileH
+                            child.frame.w,
+                            child.frame.h
                         );
                     } else {
                         ctx.drawImage(img, 0, 0);

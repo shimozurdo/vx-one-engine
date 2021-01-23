@@ -18,13 +18,12 @@ function wallslide(ent, map, x = 0, y = 0) {
 
   // Check vertical movement
   if (y !== 0) {
-    console.log(bounds)
     tiles = map.tilesAtCorners(bounds, 0, yo);
     const [tl, tr, bl, br] = tiles.map(t => t && t.frame.walkable);
 
     // Hit your head
     if (y < 0 && !(tl && tr)) {
-      tileEdge = tiles[0].pos.y + tiles[0].tileH;
+      tileEdge = tiles[0].pos.y + tiles[0].frame.h;
       yo = tileEdge - bounds.y;
     }
     // Hit your feet
@@ -41,7 +40,7 @@ function wallslide(ent, map, x = 0, y = 0) {
 
     // Hit left edge
     if (x < 0 && !(tl && bl)) {
-      tileEdge = tiles[0].pos.x + tiles[0].tileW;
+      tileEdge = tiles[0].pos.x + tiles[0].frame.w;
       xo = tileEdge - bounds.x;
     }
     // Hit right edge

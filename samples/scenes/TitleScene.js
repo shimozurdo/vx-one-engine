@@ -40,7 +40,7 @@ class TitleScene extends Scene {
         button.anchor = { x: -150, y: -25 } // center
         this.add(button)
 
-        const playTxt = new Text('Press space bar')
+        const playTxt = new Text('Start')
         const font2 = `30px 'Concert One', cursive`
         playTxt.pos = { x: game.w / 2, y: 410 }
         playTxt.style = { font: font2, fill: '#000', align: 'center' }

@@ -64,34 +64,6 @@ class GameScene extends Scene {
             }
         }
 
-        // const tileMap = new TileMap(game.textures.imgs.tiles)
-        // tileMap.tileSize = 32;
-        // tileMap.mapW = Math.ceil(1600 / tileMap.tileSize)
-        // tileMap.mapH = Math.ceil(600 / tileMap.tileSize)
-        // tileMap.tileW = tileMap.tileSize
-        // tileMap.tileH = tileMap.tileSize
-
-        // const level = []
-        // for (let i = 0; i < tileMap.mapW * tileMap.mapH; i++) {
-        //     const isTopOrBottom = i < tileMap.mapW || Math.floor(i / tileMap.mapW) === tileMap.mapH - 1
-        //     const isLeft = i % tileMap.mapW === 0
-        //     const isRight = i % tileMap.mapW === tileMap.mapW - 1
-        //     const isSecondRow = ((i / tileMap.mapW) | 0) === 1
-
-        //     if (isTopOrBottom) {
-        //         level.push({ x: 2, y: 1 })
-        //     } else if (isLeft) {
-        //         level.push({ x: 1, y: 1 })
-        //     } else if (isRight) {
-        //         level.push({ x: 3, y: 1 })
-        //     } else if (isSecondRow) {
-        //         level.push({ x: 4, y: 1 })
-        //     } else {
-        //         // Random ground tiles
-        //         level.push({ x: math.rand(0, 9), y: math.rand(0, 9) })
-        //     }
-        // }
-
         tileMap.addTiles(level.map(i => tileIndexes[i]), 2);
 
         const bounds = {
@@ -112,11 +84,9 @@ class GameScene extends Scene {
         player.name = "pan"
         player.scale = { x: 2, y: 2 }
         player.anchor = { x: -16, y: -16 }
-        player.pos = { x: 100, y: 100 }
-        player.tileW = 16
-        player.tileH = 16
-        player.w = 16
-        player.h = 16
+        player.pos = { x: 100, y: 100 }        
+        player.frame.w = 16
+        player.frame.h = 16
         player.speed = math.randf(0.9, 1.2)
         player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07 * player.speed)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15 * player.speed)
@@ -125,8 +95,8 @@ class GameScene extends Scene {
             x: player.anchor.x,
             y: player.anchor.y,
             y: player.anchor.y,
-            w: player.tileW * player.scale.x,
-            h: player.tileH * player.scale.y
+            w: player.frame.w * player.scale.x,
+            h: player.frame.h * player.scale.y
         }
 
         game.debug.addDebug(player)
@@ -134,8 +104,8 @@ class GameScene extends Scene {
         const coin = new Sprite(game.textures.imgs.coins)
         // coin.anchor = { x: -8, y: -8 }
         coin.pos = { x: 200, y: 100 }
-        coin.tileW = 16
-        coin.tileH = 16
+        coin.frame.w = 16
+        coin.frame.h = 16
         coin.speed = math.randf(0.9, 1.2)
         coin.anims.add("spin", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.2)
         coin.anims.play("spin")

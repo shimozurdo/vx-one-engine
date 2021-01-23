@@ -17,8 +17,8 @@ class Debug extends Container {
     addDebug(e) {
         e.children = e.children || []
         const i = new Rect(Graph.RECT_OUTLINE)
-        i.w = e.tileW
-        i.h = e.tileH
+        i.w = e.frame.w
+        i.h = e.frame.h
         i.style = { fill: 'cyan', lineWidth: 1 }
         e.children.push(i)
         if (e.hitBox) {
