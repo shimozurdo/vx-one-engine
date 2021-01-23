@@ -90,7 +90,7 @@ class GameScene extends Scene {
         player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15)
         player.anims.play("idle")
-        // player.setOrigin(0.5)
+        player.setOrigin(0.5)
         // player.setScale(2, 2)
         player.hitBox = { x: 4, y: 0, w: 8, h: 16 }
 

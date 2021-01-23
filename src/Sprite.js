@@ -17,22 +17,34 @@ class Sprite extends GameObject {
     }
 
     get hitBox() {
-        const { anchor, body, scale } = this
+        const { anchor, body, scale, origin } = this
+        let x, y
+        if (anchor.x != 0)
+            x = (body.w * scale.x) * origin.x * Math.sign(anchor.x)
+        else
+            x = body.x * scale.x
+        if (anchor.y != 0)
+            y = (body.h * scale.y) * origin.y * Math.sign(anchor.y)
+        else
+            y = body.y * scale.y
         return {
-            x: body.x + anchor.x,
-            y: body.y + anchor.y,
+            x: x,
+            y: y,
             w: body.w * scale.x,
             h: body.h * scale.y
         }
     }
 
     setOrigin(x, y) {
-        const { anchor, frame, scale, origin } = this
-        origin.x = x
-        origin.y = y
+        const { anchor, frame, scale } = this
         if (x == 0.5 && !y) {
             anchor.x = -(frame.w / 2)
             anchor.y = -(frame.h / 2)
+            this.origin = { x, y: x }
+        } else if (x == 0 && y === 0) {
+            anchor.x = 0
+            anchor.y = 0
+            this.origin = { x, y }
         }
         anchor.x = anchor.x * scale.x
         anchor.y = anchor.y * scale.y
