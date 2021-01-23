@@ -40,13 +40,13 @@ class Debug extends Container {
         i.style = { fill: 'cyan', lineWidth: 1 }
         e.children.push(i)
         if (e.body) {
-            const { hitbox, w, h } = e.body;
+            const { x, y, w, h } = e.body
             const hb = new Rect(Graph.RECT_OUTLINE)
             hb.style = { fill: 'rgba(255, 0, 0, 0.5)' }
             hb.name = "hb"
-            hb.w = e.hitBox.w
-            hb.h = e.hitBox.h
-            hb.pos = { x: e.hitBox.x, y: e.hitBox.y }
+            hb.w = w
+            hb.h = h
+            hb.pos = { x, y }
             e.children.push(hb);
         }
     }

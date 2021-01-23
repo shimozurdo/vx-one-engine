@@ -2,8 +2,8 @@ function wallslide(ent, map, x = 0, y = 0) {
   let tiles
   let tileEdge
 
-  const { body, pos,  } = ent
-  const hit = body
+  const { hitBox, pos } = ent
+  const hit = hitBox
 
   const bounds = {
     x: hit.x + pos.x,

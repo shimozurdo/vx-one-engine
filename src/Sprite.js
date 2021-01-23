@@ -12,21 +12,38 @@ class Sprite extends GameObject {
         }
     }
 
-    setCollisionBox(x, y, w, h) {
-        this.hitBox = { x, y, w, h }
-        this.body = {
-            x: x + this.anchor.x,
-            y: y + this.anchor.y,
-            w: w * this.scale.x,
-            h: h * this.scale.y
+    set hitBox({ x, y, w, h }) {
+        this.body = { x, y, w, h }
+    }
+
+    get hitBox() {
+        const { anchor, body, scale } = this
+        return {
+            x: body.x + anchor.x,
+            y: body.y + anchor.y,
+            w: body.w * scale.x,
+            h: body.h * scale.y
         }
     }
 
     setOrigin(x, y) {
-        if (!y && x === 0) {
-            this.anchor.x = -(this.frame.w / 2)
-            this.anchor.y = -(this.frame.h / 2)
+        const { anchor, frame, scale, origin } = this
+        origin.x = x
+        origin.y = y
+        if (x == 0.5 && !y) {
+            anchor.x = -(frame.w / 2)
+            anchor.y = -(frame.h / 2)
         }
+        anchor.x = anchor.x * scale.x
+        anchor.y = anchor.y * scale.y
+    }
+
+    setScale(x, y) {
+        const { scale, origin } = this
+        scale.x = x
+        scale.y = y
+        //fix anchor
+        this.setOrigin(origin.x, origin.y)
     }
 
     update(dt) {

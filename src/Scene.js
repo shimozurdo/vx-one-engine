@@ -11,10 +11,9 @@ class Scene extends Container {
   }
 
   getBounds(entity) {
-    const { body, pos } = entity
-    const hit = body
-    // const { w, h, pos, hitBox } = entity
-    // const hit = hitBox || { x: 0, y: 0, w, h }
+    const { hitBox, pos } = entity
+    const hit = hitBox
+    
     return {
       x: hit.x + pos.x,
       y: hit.y + pos.y,

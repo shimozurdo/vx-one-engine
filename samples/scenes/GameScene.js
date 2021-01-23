@@ -86,13 +86,13 @@ class GameScene extends Scene {
         player.pos = { x: 100, y: 100 }
         player.frame.w = 16
         player.frame.h = 16
-        player.speed = math.randf(0.9, 1.2)
-        player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07 * player.speed)
-        player.anims.add("idle", [{ x: 5, y: 0 }], 0.15 * player.speed)
+        player.speed = 200
+        player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07)
+        player.anims.add("idle", [{ x: 5, y: 0 }], 0.15)
         player.anims.play("idle")
-        player.setOrigin(0)
-        player.scale = { x: 2, y: 2 }
-        player.setCollisionBox(3, 0, 10, 16)
+        // player.setOrigin(0.5)
+        // player.setScale(2, 2)
+        player.hitBox = { x: 4, y: 0, w: 8, h: 16 }
 
         game.debug.addDebug(player)
 
@@ -104,7 +104,7 @@ class GameScene extends Scene {
         coin.speed = math.randf(0.9, 1.2)
         coin.anims.add("spin", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.2)
         coin.anims.play("spin")
-        coin.setCollisionBox(0, 0, 16, 16)
+        coin.hitBox = { x: 0, y: 0, w: 16, h: 16 }
         game.debug.addDebug(coin)
 
         const camera = new Camera(player, { w: 800, h: 600 }, { w: 1600, h: 600 });
@@ -171,9 +171,9 @@ class GameScene extends Scene {
         if (game.controls.x) {
             player.anims.play("walk")
             // Flip to correct direction
-            player.scale.x = Math.sign(game.controls.x) * 2
+            // player.scale.x = Math.sign(game.controls.x) * 2
 
-            player.anchor.x = player.scale.x > 0 ? -16 : 16
+            // player.anchor.x = player.scale.x > 0 ? -16 : 16
         } else {
             player.anims.play("idle")
         }
@@ -190,6 +190,11 @@ class GameScene extends Scene {
         if (this.hit(player, coin)) {
 
             console.log("collision!");
+        }
+
+        if (this.game.mouse.isDown) {
+            player.pos.x = this.game.mouse.pos.x
+            player.pos.y = this.game.mouse.pos.y
         }
     }
 }
