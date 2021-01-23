@@ -82,7 +82,7 @@ class Render {
                     ctx.fillText(child.text, 0, 0)
                 } else if (child instanceof Sprite) {
                     const img = child.texture
-                    if (child.frame.w) {
+                    if (child.frame) {
                         ctx.drawImage(
                             img,
                             child.frame.x * child.frame.w,

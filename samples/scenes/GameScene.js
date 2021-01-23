@@ -29,8 +29,8 @@ class GameScene extends Scene {
 
         const tileIndexes = [
             { id: "empty", x: 1, y: 1, walkable: true },
-            { id: "wall", x: 2, y: 2 },
-            { id: "wall_end", x: 3, y: 2 }
+            { id: "wall", x: 2, y: 2, walkable: true },
+            { id: "wall_end", x: 3, y: 2, walkable: true }
         ];
         const getTile = id => tileIndexes.find(t => t.id == id);
         const getIdx = id => tileIndexes.indexOf(getTile(id))
@@ -80,24 +80,19 @@ class GameScene extends Scene {
         i.pos = { x: 100, y: 100 }
         this.add(i)
 
+
         const player = new Sprite(game.textures.imgs.player)
         player.name = "pan"
-        player.scale = { x: 2, y: 2 }
-        player.anchor = { x: -16, y: -16 }
-        player.pos = { x: 100, y: 100 }        
+        player.pos = { x: 100, y: 100 }
         player.frame.w = 16
         player.frame.h = 16
         player.speed = math.randf(0.9, 1.2)
         player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07 * player.speed)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15 * player.speed)
         player.anims.play("idle")
-        player.hitBox = {
-            x: player.anchor.x,
-            y: player.anchor.y,
-            y: player.anchor.y,
-            w: player.frame.w * player.scale.x,
-            h: player.frame.h * player.scale.y
-        }
+        player.setOrigin(0)
+        player.scale = { x: 2, y: 2 }
+        player.setCollisionBox(3, 0, 10, 16)
 
         game.debug.addDebug(player)
 
@@ -109,13 +104,7 @@ class GameScene extends Scene {
         coin.speed = math.randf(0.9, 1.2)
         coin.anims.add("spin", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.2)
         coin.anims.play("spin")
-        coin.hitBox = {
-            x: 0,
-            y: 0,
-            w: 16,
-            h: 16
-        };
-
+        coin.setCollisionBox(0, 0, 16, 16)
         game.debug.addDebug(coin)
 
         const camera = new Camera(player, { w: 800, h: 600 }, { w: 1600, h: 600 });
@@ -142,7 +131,7 @@ class GameScene extends Scene {
         }
 
         // Game state variables
-        camera.add(tileMap)
+        // camera.add(tileMap)
         camera.add(player)
         camera.add(bullets)
         camera.add(coin)

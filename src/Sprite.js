@@ -12,6 +12,23 @@ class Sprite extends GameObject {
         }
     }
 
+    setCollisionBox(x, y, w, h) {
+        this.hitBox = { x, y, w, h }
+        this.body = {
+            x: x + this.anchor.x,
+            y: y + this.anchor.y,
+            w: w * this.scale.x,
+            h: h * this.scale.y
+        }
+    }
+
+    setOrigin(x, y) {
+        if (!y && x === 0) {
+            this.anchor.x = -(this.frame.w / 2)
+            this.anchor.y = -(this.frame.h / 2)
+        }
+    }
+
     update(dt) {
         if (this.anims)
             this.anims.update(dt)
