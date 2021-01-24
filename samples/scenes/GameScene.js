@@ -91,8 +91,10 @@ class GameScene extends Scene {
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15)
         player.anims.play("idle")
         player.setOrigin(0.5)
-        // player.setScale(2, 2)
+        player.setScale(2, 2)
         player.hitBox = { x: 4, y: 0, w: 8, h: 16 }
+        player.flip(true)
+
 
         game.debug.addDebug(player)
 
@@ -171,9 +173,15 @@ class GameScene extends Scene {
         if (game.controls.x) {
             player.anims.play("walk")
             // Flip to correct direction
-            // player.scale.x = Math.sign(game.controls.x) * 2
+            if (game.controls.x > 0)
+                player.flipped.x = false
+            else
+                player.flipped.x = true
+            player.scale.x = Math.sign(game.controls.x) * 2
 
-            // player.anchor.x = player.scale.x > 0 ? -16 : 16
+            player.anchor.x = player.scale.x > 0 ? -16 : 16
+
+            //player.flipX(Math.sign(game.controls.x))
         } else {
             player.anims.play("idle")
         }
@@ -188,14 +196,13 @@ class GameScene extends Scene {
         // player.pos.y = math.clamp(player.pos.y, top, bottom);
 
         if (this.hit(player, coin)) {
-
             console.log("collision!");
         }
 
-        if (this.game.mouse.isDown) {
-            player.pos.x = this.game.mouse.pos.x
-            player.pos.y = this.game.mouse.pos.y
-        }
+        // if (this.game.mouse.isDown) {
+        //     player.pos.x = this.game.mouse.pos.x
+        //     player.pos.y = this.game.mouse.pos.y
+        // }
     }
 }
 
