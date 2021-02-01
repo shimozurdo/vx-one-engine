@@ -6,8 +6,9 @@ class Sprite extends GameObject {
         super()
         this.texture = texture
         this.flipped = { x: false, y: false }
+        this.body = {}
         if (hasAnim) {
-            this.frame = { x: 0, y: 0, w: 0, h: 0 }
+            this.frame = { x: 0, y: 0, w: texture.width, h: texture.height }
             this.anims = new AnimManager(this)
         }
     }
@@ -17,20 +18,17 @@ class Sprite extends GameObject {
     }
 
     get hitBox() {
-        const { anchor, body, scale, origin, flipped } = this
+        const { anchor, body, scale, flipped } = this
         let x, y
-        if (anchor.x != 0) {
-            x = Math.abs(body.w * scale.x) * origin.x * Math.sign(anchor.x)
-            if (flipped.x)
-                x *= -1
-        } else
-            x = body.x * scale.x
-        if (anchor.y != 0) {
-            y = Math.abs(body.h * scale.y) * origin.y * Math.sign(anchor.y)
-            if (flipped.y)
-            y *= -1
-        } else
-            y = body.y * scale.y
+        x = body.x * scale.x * (flipped.x ? -1 : 1)
+        y = body.y * scale.y * (flipped.y ? -1 : 1)
+
+        if (anchor.x !== 0)
+            x = x + anchor.x
+
+        if (anchor.x !== 0)
+            y = y + anchor.y
+
         return {
             x: x,
             y: y,
@@ -41,19 +39,10 @@ class Sprite extends GameObject {
 
     setOrigin(x, y) {
         const { anchor, frame } = this
-        if (x == 0.5 && !y) {
-            anchor.x = -(frame.w / 2)
-            anchor.y = -(frame.h / 2)
-            this.origin = { x, y: x }
-        } else if (x == 0 && y === 0) {
-            anchor.x = 0
-            anchor.y = 0
-            this.origin = { x, y }
-        } else if (x == 1 && y === 1) {
-            anchor.x = -(frame.w)
-            anchor.y = -(frame.w)
-            this.origin = { x, y }
-        }
+        const _y = y || x
+        anchor.x = -(frame.w * x)
+        anchor.y = -(frame.h * _y)
+        this.origin = { x: x, y: _y }
     }
 
     setScale(x, y) {
@@ -66,18 +55,14 @@ class Sprite extends GameObject {
     }
 
     flip(fx, fy) {
-        this.flipped.x = fx
+        this.flipped.x = fx > 0 ? false : true
         const { scale, anchor } = this
-        scale.x = fx ? -1 * scale.x : 1 * scale.x
-        if (scale.x > 0)
-            anchor.x = Math.abs(anchor.x)
-        else if (scale.x < 0)
-            anchor.x *= -1
-        if (fy) {
-            this.flipped.y = fy
-            scale.y = fy ? -1 * scale.y : 1 * scale.y
-            anchor.y *= Math.sign(scale.y)
-        }
+        scale.x = Math.sign(fx) * Math.abs(scale.x)
+        if (anchor.x === 0)
+            anchor.x = -16 //repair
+        else
+            anchor.x = scale.x > 0 ? -Math.abs(anchor.x) : Math.abs(anchor.x)
+
     }
 
     update(dt) {

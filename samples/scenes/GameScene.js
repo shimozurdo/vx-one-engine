@@ -1,4 +1,4 @@
-import { Scene, TileMap, Sprite, Camera, math, Container, Rect, Graph, wallslide } from '../../src/vx-one.js'
+import { Scene, TileMap, Sprite, Camera, math, Container, Rect, Graph, wallslide, Text } from '../../src/vx-one.js'
 
 class GameScene extends Scene {
 
@@ -90,9 +90,9 @@ class GameScene extends Scene {
         player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15)
         player.anims.play("idle")
-        player.setOrigin(0.5)
+        player.setOrigin(0)
         player.setScale(2, 2)
-        player.hitBox = { x: 4, y: 0, w: 8, h: 16 }
+        player.hitBox = { x: 4, y: 4, w: 8, h: 8 }
         player.flip(true)
 
 
@@ -132,6 +132,13 @@ class GameScene extends Scene {
             bullets.add(bullet)
         }
 
+        this.textDebug = new Text()
+        this.textDebug.name = 'test'
+        this.textDebug.pos = { x: 400, y: 50 }
+        this.textDebug.style = { font: '16px Arial', fill: 'red', align: 'center' }
+        this.player = player
+        camera.add(this.textDebug)
+
         // Game state variables
         // camera.add(tileMap)
         camera.add(player)
@@ -140,7 +147,7 @@ class GameScene extends Scene {
         this.add(camera)
 
         // Keep references to things we need in "update"
-        this.player = player
+
         this.coin = coin
         this.tileMap = tileMap
         this.bounds = bounds
@@ -173,15 +180,15 @@ class GameScene extends Scene {
         if (game.controls.x) {
             player.anims.play("walk")
             // Flip to correct direction
-            if (game.controls.x > 0)
-                player.flipped.x = false
-            else
-                player.flipped.x = true
-            player.scale.x = Math.sign(game.controls.x) * 2
+            // if (game.controls.x > 0)
+            //     player.flipped.x = false
+            // else
+            //     player.flipped.x = true
+            // player.scale.x = Math.sign(game.controls.x) * 2
+            // player.anchor.x = player.scale.x > 0 ? -16 : 16
 
-            player.anchor.x = player.scale.x > 0 ? -16 : 16
-
-            //player.flipX(Math.sign(game.controls.x))
+            player.flip(game.controls.x)
+            // console.log(game.controls.x)
         } else {
             player.anims.play("idle")
         }
@@ -195,14 +202,16 @@ class GameScene extends Scene {
         // player.pos.x = math.clamp(player.pos.x, left, right);
         // player.pos.y = math.clamp(player.pos.y, top, bottom);
 
-        if (this.hit(player, coin)) {
+        if (this.isOvelapping(player, coin)) {
             console.log("collision!");
-        }
+            this.textDebug.text = 'hit!'
+        } else
+            this.textDebug.text = ''
 
-        // if (this.game.mouse.isDown) {
-        //     player.pos.x = this.game.mouse.pos.x
-        //     player.pos.y = this.game.mouse.pos.y
-        // }
+        if (this.game.mouse.isDown) {
+            player.pos.x = this.game.mouse.pos.x
+            player.pos.y = this.game.mouse.pos.y
+        }
     }
 }
 

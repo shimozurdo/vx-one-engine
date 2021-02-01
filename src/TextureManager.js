@@ -9,7 +9,7 @@ class TextureManager {
         Promise.all(p)
             .then(res => {
                 let o = this.imgs = Object.assign(...res)
-                return callback(o)
+                return callback(null, o)
             })
             .catch(err => {
                 return callback(err)

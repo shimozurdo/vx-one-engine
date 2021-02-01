@@ -31,7 +31,7 @@ class LogoScene extends Scene {
         // }
 
         const textures = new TextureManager(urls)
-        textures.load((imgs) => {
+        textures.load((err, imgs) => {
             this.logo = new Sprite(imgs.logo)
             this.logo.pos = { x: game.w / 2, y: game.h / 2 }
             this.logo.anchor = { x: -128, y: -32 }

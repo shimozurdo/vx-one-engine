@@ -27,7 +27,7 @@ class Render {
 
         const { ctx, w, h, mode } = this
 
-        function renderRec(scene, firstNode = true) {
+        function renderRec(scene, isFirstNode = true) {
             // Render the container children
             scene.children.forEach(child => {
                 if (child.visible == false) {
@@ -36,7 +36,7 @@ class Render {
                 ctx.save()
 
                 // Handle resize
-                if (mode === Scale.RESIZE && firstNode) {
+                if (mode === Scale.RESIZE && isFirstNode) {
                     // TO DO: Improve this
                     ctx.translate(Math.round(scene.pos.x), Math.round(scene.pos.y))
                     if (w > window.innerWidth && h < window.innerHeight) {
@@ -62,7 +62,6 @@ class Render {
                     ctx.translate(child.anchor.x, child.anchor.y);
                 }
                 if (child.scale) {
-
                     ctx.scale(child.scale.x, child.scale.y)
                 }
                 if (child.rotation) {

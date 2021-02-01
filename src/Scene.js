@@ -22,7 +22,7 @@ class Scene extends Container {
     }
   }
 
-  hit(e1, e2) {
+  isOvelapping(e1, e2) {
     const a = this.getBounds(e1)
     const b = this.getBounds(e2)
     return (
