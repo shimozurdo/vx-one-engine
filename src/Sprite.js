@@ -1,5 +1,6 @@
 import GameObject from "./GameObject.js"
 import AnimManager from "./AnimManager.js"
+import { flipAnchor } from './utils.js'
 
 class Sprite extends GameObject {
     constructor(texture = null, hasAnim = true) {
@@ -7,6 +8,7 @@ class Sprite extends GameObject {
         this.texture = texture
         this.flipped = { x: false, y: false }
         this.body = {}
+        this.origin = { x: 0, y: 0 }
         if (hasAnim) {
             this.frame = { x: 0, y: 0, w: texture.width, h: texture.height }
             this.anims = new AnimManager(this)
@@ -18,15 +20,22 @@ class Sprite extends GameObject {
     }
 
     get hitBox() {
-        const { anchor, body, scale, flipped } = this
+        const { anchor, body, scale, frame, flipped, origin } = this
         let x, y
-        x = Math.abs(body.x * scale.x) * (flipped.x ? -1 : 1)
-        y = Math.abs(body.y * scale.y) * (flipped.y ? -1 : 1)
+        x = Math.abs(body.x * scale.x)
+        y = Math.abs(body.y * scale.y)
+        let anchorX = anchor.x
 
-        if (anchor.x !== 0)
-            x = x + anchor.x
+        if (origin.x === 0 || origin.x === 1) {
+            const scaleClone = { ...scale, x: Math.abs(scale.x) }
+            anchorX = flipAnchor(false, frame, scaleClone, origin)
+            x = x + anchorX
+        } else {
+            if (anchorX !== 0)
+                x = x + anchorX * (flipped.x ? -1 : 1)
+        }
 
-        if (anchor.x !== 0)
+        if (anchor.y !== 0)
             y = y + anchor.y
 
         return {
@@ -42,25 +51,7 @@ class Sprite extends GameObject {
         const _y = y || x
         anchor.x = -(frame.w * x)
         anchor.y = -(frame.h * _y)
-    }
-
-    get origin() {
-        const { anchor, frame, scale, flipped } = this
-        let x
-        if (flipped.x) {
-            if (anchor.x === Math.abs(frame.w * scale.x))
-                x = 0
-            else if (anchor.x === 0)
-                x = 1
-            else
-                x = Math.abs(anchor.x / (frame.w * scale.x))
-        } else
-            x = anchor.x === 0 ? 0 : Math.abs(anchor.x / (frame.w * scale.x))
-
-        return {
-            x,
-            y: anchor.y === 0 ? 0 : Math.abs(anchor.y / (frame.w * scale.x))
-        }
+        this.origin = { x: x, y: _y }
     }
 
     setScale(x, y) {
@@ -79,26 +70,21 @@ class Sprite extends GameObject {
         this.flipped.y = fy
 
         const fxNo = fx ? -1 : 1
-        console.log(origin.x)
+
         if (fx) {
             scale.x = fxNo * Math.abs(scale.x)
-            if (origin.x === 0)
-                anchor.x = frame.w * Math.abs(scale.x)
-            else if (origin.x === 1)
-                anchor.x = 0
-            console.log(anchor.x)
+            if (origin.x === 0 || origin.x === 1)
+                anchor.x = flipAnchor(true, frame, scale, origin)
         }
         else {
             scale.x = fxNo * Math.abs(scale.x)
-            if (origin.x === 0)
-                anchor.x = 0
-            else if (origin.x === 1)
-                anchor.x = -(frame.w * Math.abs(scale.x))
+            if (origin.x === 0 || origin.x === 1)
+                anchor.x = flipAnchor(false, frame, scale, origin)
         }
         if (origin.x > 0 && origin.x < 1)
             anchor.x = scale.x > 0 ? -Math.abs(anchor.x) : Math.abs(anchor.x)
-        // It need to improve, just works for x
 
+        // It needs to be improved, just works to flip x 
     }
 
     update(dt) {

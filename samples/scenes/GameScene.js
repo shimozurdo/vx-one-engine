@@ -77,24 +77,23 @@ class GameScene extends Scene {
         i.style = { fill: 'pink' }
         i.w = 32
         i.h = 32
-        i.pos = { x: 100, y: 100 }
+        i.pos = { x: 200, y: 100 }
         this.add(i)
 
 
         const player = new Sprite(game.textures.imgs.player)
         player.name = "pan"
-        player.pos = { x: 100, y: 100 }
+        player.pos = { x: 200, y: 100 }
         player.frame.w = 16
         player.frame.h = 16
         player.speed = 200
         player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15)
         player.anims.play("idle")
-        player.setOrigin(1)
+        player.setOrigin(.5)
         player.setScale(2, 2)
         player.hitBox = { x: 4, y: 4, w: 8, h: 8 }
-        //player.flip(false)
-
+        player.flip(false)
 
         game.debug.addDebug(player)
 
@@ -106,6 +105,7 @@ class GameScene extends Scene {
         coin.speed = math.randf(0.9, 1.2)
         coin.anims.add("spin", [0, 1, 2, 3].map(x => ({ x, y: 0 })), 0.2)
         coin.anims.play("spin")
+        coin.setOrigin(0.5)
         coin.hitBox = { x: 0, y: 0, w: 16, h: 16 }
         game.debug.addDebug(coin)
 
@@ -134,7 +134,7 @@ class GameScene extends Scene {
 
         this.textDebug = new Text()
         this.textDebug.name = 'test'
-        this.textDebug.pos = { x: 400, y: 50 }
+        this.textDebug.pos = { x: 250, y: 50 }
         this.textDebug.style = { font: '16px Arial', fill: 'red', align: 'center' }
         this.player = player
         camera.add(this.textDebug)
@@ -165,8 +165,8 @@ class GameScene extends Scene {
 
         let { x, y } = game.controls
 
-        const xo = x * dt * 100
-        const yo = y * dt * 100
+        const xo = x * dt * 50
+        const yo = y * dt * 50
 
         const r = wallslide(player, tileMap, xo, yo);
         //console.log(r)
@@ -188,11 +188,12 @@ class GameScene extends Scene {
             // player.anchor.x = player.scale.x > 0 ? -16 : 16
 
             //player.flip(true)
-            // console.log(game.controls.x)
+
         } else {
-            player.flip(false)
+            // player.flip(false)
             player.anims.play("idle")
         }
+
 
         if (game.controls.action && t - this.lastShot > 0.30) {
             this.lastShot = t
@@ -204,10 +205,11 @@ class GameScene extends Scene {
         // player.pos.y = math.clamp(player.pos.y, top, bottom);
 
         if (this.isOvelapping(player, coin)) {
-            console.log("collision!");
+            // console.log("collision!");
             this.textDebug.text = 'hit!'
         } else
-            this.textDebug.text = ''
+            this.textDebug.text = ""
+        // this.textDebug.text = player.flipped.x.toString()
 
         // if (this.game.mouse.isDown) {
         //     player.pos.x = this.game.mouse.pos.x

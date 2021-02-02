@@ -13,6 +13,10 @@ class Render {
         this.w = this.view.width = config.w
         this.h = this.view.height = config.h
         this.pixel = config.pixel
+        this.view.style.imageRendering = 'pixelated'
+            this.ctx.webkitImageSmoothingEnabled = false
+            this.ctx.mozImageSmoothingEnabled = false
+            this.ctx.imageSmoothingEnabled = false
         if (this.mode === Scale.RESIZE) {
             const resizeCanvas = this.resizeCanvas.bind(this)
             resizeCanvas()

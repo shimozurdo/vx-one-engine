@@ -15,16 +15,37 @@ function clamp(x, min, max) {
 
 function randOneFrom(items) {
     return items[rand(items.length)];
-  }
-  
-  function randOneIn(max = 2) {
+}
+
+function randOneIn(max = 2) {
     return rand(0, max) === 0;
-  }
+}
+
+function flipAnchor(flipped, frame, scale, origin) {
+    let anchor
+    if (flipped) {
+        if (origin.x === 0)
+            anchor = frame.w * Math.abs(scale.x)
+        else if (origin.x === 1)
+            anchor = 0
+    }
+    else {
+        if (origin.x === 0)
+            anchor = 0
+        else if (origin.x === 1)
+            anchor = -(frame.w * Math.abs(scale.x))
+    }
+    return anchor
+}
 
 export default {
     rand,
     randf,
     clamp,
     randOneFrom,
-    randOneIn
+    randOneIn,
+}
+
+export {
+    flipAnchor
 }
