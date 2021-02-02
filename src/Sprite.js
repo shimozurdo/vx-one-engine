@@ -20,8 +20,8 @@ class Sprite extends GameObject {
     get hitBox() {
         const { anchor, body, scale, flipped } = this
         let x, y
-        x = body.x * scale.x * (flipped.x ? -1 : 1)
-        y = body.y * scale.y * (flipped.y ? -1 : 1)
+        x = Math.abs(body.x * scale.x) * (flipped.x ? -1 : 1)
+        y = Math.abs(body.y * scale.y) * (flipped.y ? -1 : 1)
 
         if (anchor.x !== 0)
             x = x + anchor.x
@@ -42,26 +42,62 @@ class Sprite extends GameObject {
         const _y = y || x
         anchor.x = -(frame.w * x)
         anchor.y = -(frame.h * _y)
-        this.origin = { x: x, y: _y }
+    }
+
+    get origin() {
+        const { anchor, frame, scale, flipped } = this
+        let x
+        if (flipped.x) {
+            if (anchor.x === Math.abs(frame.w * scale.x))
+                x = 0
+            else if (anchor.x === 0)
+                x = 1
+            else
+                x = Math.abs(anchor.x / (frame.w * scale.x))
+        } else
+            x = anchor.x === 0 ? 0 : Math.abs(anchor.x / (frame.w * scale.x))
+
+        return {
+            x,
+            y: anchor.y === 0 ? 0 : Math.abs(anchor.y / (frame.w * scale.x))
+        }
     }
 
     setScale(x, y) {
         const { scale, anchor } = this
+        const _y = y || x
         scale.x = Math.abs(x)
-        scale.y = Math.abs(x)
+        scale.y = Math.abs(_y)
         //fix anchor        
         anchor.x = anchor.x * scale.x
         anchor.y = anchor.y * scale.y
     }
 
-    flip(fx, fy) {
-        this.flipped.x = fx > 0 ? false : true
-        const { scale, anchor } = this
-        scale.x = Math.sign(fx) * Math.abs(scale.x)
-        if (anchor.x === 0)
-            anchor.x = -16 //repair
-        else
+    flip(fx, fy = false) {
+        const { scale, anchor, frame, origin } = this
+        this.flipped.x = fx
+        this.flipped.y = fy
+
+        const fxNo = fx ? -1 : 1
+        console.log(origin.x)
+        if (fx) {
+            scale.x = fxNo * Math.abs(scale.x)
+            if (origin.x === 0)
+                anchor.x = frame.w * Math.abs(scale.x)
+            else if (origin.x === 1)
+                anchor.x = 0
+            console.log(anchor.x)
+        }
+        else {
+            scale.x = fxNo * Math.abs(scale.x)
+            if (origin.x === 0)
+                anchor.x = 0
+            else if (origin.x === 1)
+                anchor.x = -(frame.w * Math.abs(scale.x))
+        }
+        if (origin.x > 0 && origin.x < 1)
             anchor.x = scale.x > 0 ? -Math.abs(anchor.x) : Math.abs(anchor.x)
+        // It need to improve, just works for x
 
     }
 
