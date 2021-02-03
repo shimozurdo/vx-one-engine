@@ -8,8 +8,8 @@ function wallslide(ent, map, x = 0, y = 0) {
   const bounds = {
     x: hit.x + pos.x,
     y: hit.y + pos.y,
-    w: hit.w - 1,
-    h: hit.h - 1
+    w: hit.w,
+    h: hit.h
   }
 
   // Final amounts of movement to allow
@@ -19,12 +19,12 @@ function wallslide(ent, map, x = 0, y = 0) {
   // Check vertical movement
   if (y !== 0) {
     tiles = map.tilesAtCorners(bounds, 0, yo)
-    const [tl, tr, bl, br] = tiles.map(t => t && t.frame.walkable)
+    const [tl, tr, bl, br] = tiles.map(t => t && t.frame.rigid)
 
     // Hit your head
     if (y < 0 && !(tl && tr)) {
       tileEdge = tiles[0].pos.y + tiles[0].frame.h
-      yo = tileEdge - bounds.y
+      yo = tileEdge - bounds.y + 1
     }
     // Hit your feet
     if (y > 0 && !(bl && br)) {
@@ -36,12 +36,12 @@ function wallslide(ent, map, x = 0, y = 0) {
   // Check horizontal movement
   if (x !== 0) {
     tiles = map.tilesAtCorners(bounds, xo, yo)
-    const [tl, tr, bl, br] = tiles.map(t => t && t.frame.walkable)
+    const [tl, tr, bl, br] = tiles.map(t => t && t.frame.rigid)
 
     // Hit left edge
     if (x < 0 && !(tl && bl)) {
       tileEdge = tiles[0].pos.x + tiles[0].frame.w
-      xo = tileEdge - bounds.x
+      xo = tileEdge - bounds.x + 1
     }
     // Hit right edge
     if (x > 0 && !(tr && br)) {

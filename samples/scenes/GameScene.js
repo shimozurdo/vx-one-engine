@@ -28,9 +28,9 @@ class GameScene extends Scene {
         tileMap.tileH = tileMap.tileSize
 
         const tileIndexes = [
-            { id: "empty", x: 1, y: 1, walkable: true },
-            { id: "wall", x: 2, y: 2, walkable: true },
-            { id: "wall_end", x: 3, y: 2, walkable: true }
+            { id: "empty", x: 1, y: 1, rigid: true },
+            { id: "wall", x: 2, y: 2 },
+            { id: "wall_end", x: 3, y: 2 }
         ];
         const getTile = id => tileIndexes.find(t => t.id == id);
         const getIdx = id => tileIndexes.indexOf(getTile(id))
@@ -78,21 +78,21 @@ class GameScene extends Scene {
         i.w = 32
         i.h = 32
         i.pos = { x: 200, y: 100 }
-        this.add(i)
+        //this.add(i)
 
 
         const player = new Sprite(game.textures.imgs.player)
         player.name = "pan"
-        player.pos = { x: 200, y: 100 }
+        player.pos = { x: 40, y: 100 }
         player.frame.w = 16
         player.frame.h = 16
         player.speed = 200
         player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15)
         player.anims.play("idle")
-        player.setOrigin(.5)
-        player.setScale(2, 2)
-        player.hitBox = { x: 4, y: 4, w: 8, h: 8 }
+        player.setOrigin(0.5)
+        player.setScale(2)
+        player.hitBox = { x: 4, y: 2, w: 8, h: 12 }
         player.flip(false)
 
         game.debug.addDebug(player)
@@ -134,13 +134,13 @@ class GameScene extends Scene {
 
         this.textDebug = new Text()
         this.textDebug.name = 'test'
-        this.textDebug.pos = { x: 250, y: 50 }
-        this.textDebug.style = { font: '16px Arial', fill: 'red', align: 'center' }
+        this.textDebug.pos = { x: 50, y: 50 }
+        this.textDebug.style = { font: '20px Arial', fill: 'red', align: 'center' }
         this.player = player
         camera.add(this.textDebug)
 
         // Game state variables
-        // camera.add(tileMap)
+        camera.add(tileMap)
         camera.add(player)
         camera.add(bullets)
         camera.add(coin)
@@ -165,17 +165,20 @@ class GameScene extends Scene {
 
         let { x, y } = game.controls
 
-        const xo = x * dt * 50
-        const yo = y * dt * 50
+        const xo = x * dt * 100
+        const yo = y * dt * 100
 
         const r = wallslide(player, tileMap, xo, yo);
-        //console.log(r)
+
         if (r.x !== 0 && r.y !== 0) {
             r.x /= Math.sqrt(2);
             r.y /= Math.sqrt(2);
         }
         player.pos.x += r.x;
         player.pos.y += r.y;
+
+        //player.pos.x += xo;
+        //player.pos.y += yo;
 
         if (game.controls.x) {
             player.anims.play("walk")
@@ -184,16 +187,8 @@ class GameScene extends Scene {
                 player.flip(false)
             else
                 player.flip(true)
-            // player.scale.x = Math.sign(game.controls.x) * 2
-            // player.anchor.x = player.scale.x > 0 ? -16 : 16
-
-            //player.flip(true)
-
-        } else {
-            // player.flip(false)
+        } else
             player.anims.play("idle")
-        }
-
 
         if (game.controls.action && t - this.lastShot > 0.30) {
             this.lastShot = t
@@ -211,10 +206,10 @@ class GameScene extends Scene {
             this.textDebug.text = ""
         // this.textDebug.text = player.flipped.x.toString()
 
-        // if (this.game.mouse.isDown) {
-        //     player.pos.x = this.game.mouse.pos.x
-        //     player.pos.y = this.game.mouse.pos.y
-        // }
+        if (this.game.mouse.isDown) {
+            player.pos.x = this.game.mouse.pos.x
+            player.pos.y = this.game.mouse.pos.y
+        }
     }
 }
 

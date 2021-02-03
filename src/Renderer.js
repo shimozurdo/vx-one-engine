@@ -13,10 +13,7 @@ class Render {
         this.w = this.view.width = config.w
         this.h = this.view.height = config.h
         this.pixel = config.pixel
-        this.view.style.imageRendering = 'pixelated'
-            this.ctx.webkitImageSmoothingEnabled = false
-            this.ctx.mozImageSmoothingEnabled = false
-            this.ctx.imageSmoothingEnabled = false
+        this.checkIsPixelConfig()
         if (this.mode === Scale.RESIZE) {
             const resizeCanvas = this.resizeCanvas.bind(this)
             resizeCanvas()
@@ -41,8 +38,9 @@ class Render {
 
                 // Handle resize
                 if (mode === Scale.RESIZE && isFirstNode) {
-                    // TO DO: Improve this
                     ctx.translate(Math.round(scene.pos.x), Math.round(scene.pos.y))
+                    // TO DO: Improve this
+
                     if (w > window.innerWidth && h < window.innerHeight) {
                         ctx.scale((window.innerWidth * 100 / w) / 100, (window.innerWidth * 100 / w) / 100)
                     } else if (h > window.innerHeight && w < window.innerWidth) {
@@ -56,8 +54,7 @@ class Render {
                         ctx.scale((window.innerHeight * 100 / h) / 100, (window.innerHeight * 100 / h) / 100)
                     }
                 }
-                // if(child.name === "hb")
-                // debugger
+
                 // Handle transforms
                 if (child.pos) {
                     ctx.translate(Math.round(child.pos.x), Math.round(child.pos.y))
@@ -131,7 +128,11 @@ class Render {
     resizeCanvas() {
         this.view.width = window.innerWidth
         this.view.height = window.innerHeight
-        // fix pixel perfect render
+        this.checkIsPixelConfig();
+
+    }
+
+    checkIsPixelConfig() {
         if (this.pixel) {
             this.view.style.imageRendering = 'pixelated'
             this.ctx.webkitImageSmoothingEnabled = false

@@ -42,7 +42,7 @@ class Debug extends Container {
         if (e.body) {
             const { x, y, w, h } = e.body
             const hb = new Rect(Graph.RECT_OUTLINE)
-            hb.style = { fill: 'rgba(255, 0, 0, 0.5)' }
+            hb.style = { fill: 'rgba(255, 0, 0, 1)' }
             hb.name = "hb"
             hb.w = w
             hb.h = h

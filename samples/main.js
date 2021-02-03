@@ -6,11 +6,11 @@ import GameScene from "./scenes/GameScene.js"
 // initial config
 const game = new Game({
     parent: 'game',
-    mode: Scale.NONE,
+    mode: Scale.RESIZE,
     pixel: true,
     w: 800,
     h: 600,
-    debugMode: false
+    debugMode: true
 })
 
 game.addScene(new LogoScene(game)) // initial scene
