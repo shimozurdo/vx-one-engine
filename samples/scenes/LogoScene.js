@@ -48,7 +48,7 @@ class LogoScene extends Scene {
         const { game, life } = this
         if (life < 0) {
             this.active = false
-            game.launchScene('TitleScene')
+            game.launchScene('GameScene')
         }
     }
 

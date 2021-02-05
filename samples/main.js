@@ -7,13 +7,13 @@ import GameScene from "./scenes/GameScene.js"
 const game = new Game({
     parent: 'game',
     mode: Scale.RESIZE,
-    pixel: true,
+    pixel: false,
     w: 800,
     h: 600,
     debugMode: true
 })
 
 game.addScene(new LogoScene(game)) // initial scene
-game.addScene(new TitleScene(game))
+// game.addScene(new TitleScene(game))
 game.addScene(new GameScene(game))
 game.run()

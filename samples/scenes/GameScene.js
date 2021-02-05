@@ -22,16 +22,17 @@ class GameScene extends Scene {
 
         const tileMap = new TileMap(game.textures.imgs.tiles)
         tileMap.tileSize = 32
-        tileMap.mapW = Math.ceil(1600 / tileMap.tileSize)
-        tileMap.mapH = Math.ceil(600 / tileMap.tileSize)
+        tileMap.mapW = Math.ceil(400 / tileMap.tileSize)
+        tileMap.mapH = Math.ceil(300 / tileMap.tileSize)
         tileMap.tileW = tileMap.tileSize
         tileMap.tileH = tileMap.tileSize
 
         const tileIndexes = [
-            { id: "empty", x: 1, y: 1, rigid: true },
+            { id: "empty", x: 1, y: 1 },
             { id: "wall", x: 2, y: 2 },
             { id: "wall_end", x: 3, y: 2 }
         ];
+        
         const getTile = id => tileIndexes.find(t => t.id == id);
         const getIdx = id => tileIndexes.indexOf(getTile(id))
 
@@ -95,7 +96,7 @@ class GameScene extends Scene {
         player.hitBox = { x: 4, y: 2, w: 8, h: 12 }
         player.flip(false)
 
-        game.debug.addDebug(player)
+        // game.debug.addDebug(player)
 
         const coin = new Sprite(game.textures.imgs.coins)
         // coin.anchor = { x: -8, y: -8 }
@@ -139,12 +140,21 @@ class GameScene extends Scene {
         this.player = player
         camera.add(this.textDebug)
 
+        this.player.update(()=>{
+            let a = 1
+        })
+
         // Game state variables
         camera.add(tileMap)
         camera.add(player)
         camera.add(bullets)
         camera.add(coin)
         this.add(camera)
+
+        // this.add(tileMap)
+        // this.add(player)
+        // this.add(bullets)
+        // this.add(coin)
 
         // Keep references to things we need in "update"
 
@@ -165,51 +175,51 @@ class GameScene extends Scene {
 
         let { x, y } = game.controls
 
-        const xo = x * dt * 100
-        const yo = y * dt * 100
+        const xo = x * dt * 350
+        const yo = y * dt * 350
 
-        const r = wallslide(player, tileMap, xo, yo);
+        // const r = wallslide(player, tileMap, xo, yo);
 
-        if (r.x !== 0 && r.y !== 0) {
-            r.x /= Math.sqrt(2);
-            r.y /= Math.sqrt(2);
-        }
-        player.pos.x += r.x;
-        player.pos.y += r.y;
+        // if (r.x !== 0 && r.y !== 0) {
+        //     r.x /= Math.sqrt(2);
+        //     r.y /= Math.sqrt(2);
+        // }
+        //player.pos.x += r.x;
+        //player.pos.y += r.y;
 
-        //player.pos.x += xo;
-        //player.pos.y += yo;
+        player.pos.x += xo;
+        player.pos.y += yo;
 
-        if (game.controls.x) {
-            player.anims.play("walk")
-            // Flip to correct direction
-            if (game.controls.x > 0)
-                player.flip(false)
-            else
-                player.flip(true)
-        } else
-            player.anims.play("idle")
+        // if (game.controls.x) {
+        //     player.anims.play("walk")
+        //     // Flip to correct direction
+        //     if (game.controls.x > 0)
+        //         player.flip(false)
+        //     else
+        //         player.flip(true)
+        // } else
+        //     player.anims.play("idle")
 
-        if (game.controls.action && t - this.lastShot > 0.30) {
-            this.lastShot = t
-            fireBullet(player.pos.x, player.pos.y, player.anchor.x)
-        }
+        // if (game.controls.action && t - this.lastShot > 0.30) {
+        //     this.lastShot = t
+        //     fireBullet(player.pos.x, player.pos.y, player.anchor.x)
+        // }
 
-        // const { top, bottom, left, right } = bounds;
-        // player.pos.x = math.clamp(player.pos.x, left, right);
-        // player.pos.y = math.clamp(player.pos.y, top, bottom);
+        // // const { top, bottom, left, right } = bounds;
+        // // player.pos.x = math.clamp(player.pos.x, left, right);
+        // // player.pos.y = math.clamp(player.pos.y, top, bottom);
 
-        if (this.isOvelapping(player, coin)) {
-            // console.log("collision!");
-            this.textDebug.text = 'hit!'
-        } else
-            this.textDebug.text = ""
-        // this.textDebug.text = player.flipped.x.toString()
+        // if (this.isOvelapping(player, coin)) {
+        //     // console.log("collision!");
+        //     this.textDebug.text = 'hit!'
+        // } else
+        //     this.textDebug.text = ""
+        // // this.textDebug.text = player.flipped.x.toString()
 
-        if (this.game.mouse.isDown) {
-            player.pos.x = this.game.mouse.pos.x
-            player.pos.y = this.game.mouse.pos.y
-        }
+        // if (this.game.mouse.isDown) {
+        //     player.pos.x = this.game.mouse.pos.x
+        //     player.pos.y = this.game.mouse.pos.y
+        // }
     }
 }
 
