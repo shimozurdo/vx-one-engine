@@ -6,7 +6,7 @@ import GameScene from "./scenes/GameScene.js"
 // initial config
 const game = new Game({
     parent: 'game',
-    mode: Scale.RESIZE,
+    mode: Scale.NONE,
     pixel: false,
     w: 800,
     h: 600,

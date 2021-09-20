@@ -15,9 +15,9 @@ class Camera extends Container {
         this.offset = { x: 0, y: 0 }
 
         // Center on the entity
-        if (e && e.w) {
-            this.offset.x += e.w / 2
-            this.offset.y += e.h / 2
+        if (e && e.frame.w) {
+            this.offset.x += e.frame.w / 2
+            this.offset.y += e.frame.h / 2
         }
         if (e && e.anchor) {
             this.offset.x -= e.anchor.x
@@ -29,7 +29,7 @@ class Camera extends Container {
     focus() {
         const { pos, w, h, worldSize, subject, offset } = this
 
-        const centeredX = subject.x + offset.x - w / 2
+        const centeredX = subject.x + offset.x - (w / 2)
         const maxX = worldSize.w - w
         const x = -math.clamp(centeredX, 0, maxX)
 

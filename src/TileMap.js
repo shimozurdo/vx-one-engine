@@ -1,5 +1,5 @@
 import Container from "./Container.js";
-import Sprite from "./Sprite.js";
+import TileSprite from "./TileSprite.js";
 
 class TileMap extends Container {
   constructor(texture = null) {
@@ -12,10 +12,10 @@ class TileMap extends Container {
     this.children = []
   }
 
-  addTiles(tiles, scale = 1, isAnim = false) {
+  addTiles(tiles, scale = 1) {
     // Add all tile sprites
     this.children = tiles.map((frame, i) => {
-      const s = new Sprite(this.texture, isAnim)
+      const s = new TileSprite(this.texture)
       s.frame =
       {
         ...frame,

@@ -1,25 +1,18 @@
-import AnimManager from "./AnimManager.js";
 import GameObject from "./GameObject.js";
 
 class TileSprite extends GameObject {
   constructor(texture = null) {
-    super(texture);
-    this.frame = { x: 0, y: 0, w: texture.width, h: texture.height }
-    this.tileW = w;
-    this.tileH = h;
-    this.anims = new AnimManager(this);
-  }
-
-  update(dt) {
-    this.anims.update(dt);
+    super();
+    this.texture = texture
+    this.frame = { x: 0, y: 0, w: texture.width, h: texture.height }    
   }
 
   get w() {
-    return this.tileW * Math.abs(this.scale.x);
+    return this.frame.w * Math.abs(this.scale.x);
   }
 
   get h() {
-    return this.tileH * Math.abs(this.scale.y);
+    return this.frame.h * Math.abs(this.scale.y);
   }
 }
 

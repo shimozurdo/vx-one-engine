@@ -1,4 +1,5 @@
 import { Scene, TileMap, Sprite, Camera, math, Container, Rect, Graph, wallslide, Text } from '../../src/vx-one.js'
+import Debug from "../../src/Debug.js"
 
 class GameScene extends Scene {
 
@@ -10,20 +11,20 @@ class GameScene extends Scene {
     init() {
         let { game } = this
         // this.pos = {
-        //     x: (window.innerWidth - game.w) / 2, 
+        //     x: (window.innerWidth - game.w) / 2,
         //     y: 0
         // }
 
         let i = new Rect(Graph.RECT)
         i.style = { fill: '#000' }
-        i.w = 1600
+        i.w = 800
         i.h = 600
         this.add(i)
 
         const tileMap = new TileMap(game.textures.imgs.tiles)
         tileMap.tileSize = 32
-        tileMap.mapW = Math.ceil(400 / tileMap.tileSize)
-        tileMap.mapH = Math.ceil(300 / tileMap.tileSize)
+        tileMap.mapW = Math.ceil(800 / tileMap.tileSize)
+        tileMap.mapH = Math.ceil(600 / tileMap.tileSize)
         tileMap.tileW = tileMap.tileSize
         tileMap.tileH = tileMap.tileSize
 
@@ -32,7 +33,7 @@ class GameScene extends Scene {
             { id: "wall", x: 2, y: 2 },
             { id: "wall_end", x: 3, y: 2 }
         ];
-        
+
         const getTile = id => tileIndexes.find(t => t.id == id);
         const getIdx = id => tileIndexes.indexOf(getTile(id))
 
@@ -67,6 +68,31 @@ class GameScene extends Scene {
 
         tileMap.addTiles(level.map(i => tileIndexes[i]), 2);
 
+        // const {mapW,mapH} = tileMap
+
+        // const level = [];
+        // for (let i = 0; i < mapW * mapH; i++) {
+        //   const isTopOrBottom = i < mapW || Math.floor(i / mapW) === mapH - 1;
+        //   const isLeft = i % mapW === 0;
+        //   const isRight = i % mapW === mapW - 1;
+        //   const isSecondRow = ((i / mapW) | 0) === 1;
+
+        //   if (isTopOrBottom) {
+        //     level.push({ x: 2, y: 1 });
+        //   } else if (isLeft) {
+        //     level.push({ x: 1, y: 1 });
+        //   } else if (isRight) {
+        //     level.push({ x: 3, y: 1 });
+        //   } else if (isSecondRow) {
+        //     level.push({ x: 4, y: 1 });
+        //   } else {
+        //     // Random ground tile
+        //     level.push({ x: math.rand(1, 5), y: 0 });
+        //   }
+        // }
+
+        // tileMap.addTiles(level, 2);
+
         const bounds = {
             left: tileMap.tileSize,
             right: 1600 - tileMap.tileSize * 2,
@@ -91,8 +117,8 @@ class GameScene extends Scene {
         player.anims.add("walk", [0, 1, 2, 1].map(x => ({ x, y: 0 })), 0.07)
         player.anims.add("idle", [{ x: 5, y: 0 }], 0.15)
         player.anims.play("idle")
-        player.setOrigin(0.5)
-        player.setScale(2)
+        player.setOrigin(0)
+        // player.setScale(2)
         player.hitBox = { x: 4, y: 2, w: 8, h: 12 }
         player.flip(false)
 
@@ -140,7 +166,7 @@ class GameScene extends Scene {
         this.player = player
         camera.add(this.textDebug)
 
-        this.player.update(()=>{
+        this.player.update(() => {
             let a = 1
         })
 
@@ -149,6 +175,7 @@ class GameScene extends Scene {
         camera.add(player)
         camera.add(bullets)
         camera.add(coin)
+        camera.add(new Debug())
         this.add(camera)
 
         // this.add(tileMap)

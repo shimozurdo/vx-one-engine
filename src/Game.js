@@ -53,7 +53,7 @@ class Game {
         return
 
       if (this.debug.active)
-        this.scene.children.find(child => child instanceof Debug).children.find(c => c.name === "fps").text = 'fps: ' + fps
+        this.scene.children.find(child => child instanceof Debug).children.find(c => c.name === "fps").text = 'fps-: ' + fps
 
       this.scene.update(dt, t)
       gameUpdate(dt, t, this.controls)

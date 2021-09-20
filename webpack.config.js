@@ -1,22 +1,18 @@
 const path = require('path')
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env) => {
     // TO DO: improve this    
     return {
-
-        entry: {
-            "vx-one": './src/vx-one.js',
-            "vx-one.min": './src/vx-one.js',
-        },
-
+        entry: './src/vx-one.js',
+        devtool: env.production ? 'eval-cheap-module-source-map' : 'source-map',
         output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: '[name].js',
+            filename: env.production ? 'vx-one.min.js' : 'vx-one.js',
             library: 'vx',
             libraryTarget: 'umd',
             umdNamedDefine: true
         },
-
         module: {
             rules: [
                 {
@@ -28,7 +24,11 @@ module.exports = (env) => {
                 }
             ]
         },
-        devtool: env.production ? 'hidden-source-map' : 'source-map'
+        optimization: {
+            minimize: env.production,
+            minimizer: [
+                new TerserPlugin({ parallel: true })
+            ]
+        }
     }
-
 }

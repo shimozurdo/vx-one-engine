@@ -1,4 +1,5 @@
 import Sprite from "./Sprite.js"
+import TileSprite from "./TileSprite.js"
 import { Graph, Scale } from './Constants.js'
 import Rect from "./Rect.js"
 
@@ -80,7 +81,7 @@ class Render {
                     if (fill) ctx.fillStyle = fill
                     if (align) ctx.textAlign = align
                     ctx.fillText(child.text, 0, 0)
-                } else if (child instanceof Sprite) {
+                } else if (child instanceof Sprite || child instanceof TileSprite) {
                     const img = child.texture
                     if (child.frame) {
                         ctx.drawImage(
